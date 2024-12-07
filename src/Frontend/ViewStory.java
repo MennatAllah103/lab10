@@ -2,12 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package ContentCreationFrontend;
-import ContentCreationBackend.Story;
-import ContentCreationBackend.StoryDataBase;
-import Frontend.Newsfeed;
-import UserManagementBackend.User;
-import UserManagementBackend.UserDataBase;
+package Frontend;
+import Backend.Story;
+import Backend.StoryDataBase;
+import Backend.User;
+import Backend.UserDataBase;
 import java.awt.Image;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

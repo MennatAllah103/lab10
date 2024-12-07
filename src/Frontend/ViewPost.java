@@ -2,18 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package ContentCreationFrontend;
+package Frontend;
 
 /**
  *
  * @author yaras
  */
-import Frontend.Newsfeed;
-import ContentCreationBackend.FactoryContent;
-import ContentCreationBackend.Post;
-import ContentCreationBackend.PostDataBase;
-import UserManagementBackend.User;
-import UserManagementBackend.UserDataBase;
+
+import Backend.FactoryContent;
+import Backend.Post;
+import Backend.PostDataBase;
+import Backend.User;
+import Backend.UserDataBase;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
@@ -30,7 +30,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import FriendManagementBackend.Management;
+import Backend.Management;
 public class ViewPost extends javax.swing.JFrame {
 
     /**

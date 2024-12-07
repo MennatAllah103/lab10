@@ -4,9 +4,9 @@
  */
 package Frontend;
 
-import UserManagementBackend.User;
-import UserManagementBackend.UserLog;
-import UserManagementBackend.UserDataBase;
+import Backend.User;
+import Backend.UserLog;
+import Backend.UserDataBase;
 import javax.swing.JOptionPane;
 
 

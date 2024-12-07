@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package ProfileManagmentFrontend;
+package Frontend;
 
-import ProfileManagementBackend.ProfileManager;
-import UserManagementBackend.UserDataBase;
+import Backend.ProfileManager;
+import Backend.UserDataBase;
 import java.awt.Image;
 import java.io.File;
 import java.security.NoSuchAlgorithmException;

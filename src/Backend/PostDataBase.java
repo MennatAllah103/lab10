@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package ContentCreationBackend;
+package Backend;
 
 /**
  *
@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import FriendManagementBackend.Management;
+
 public class PostDataBase {
 
     private static PostDataBase instance; // Singleton instance

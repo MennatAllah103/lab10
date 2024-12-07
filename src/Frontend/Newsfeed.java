@@ -4,15 +4,12 @@
  */
 package Frontend;
 
-import ContentCreationFrontend.AddPostFront;
-import ContentCreationFrontend.AddStoryFront;
-import ContentCreationFrontend.ViewPost;
-import ContentCreationFrontend.ViewStory;
-import FriendManagementBackend.Management;
-import ProfileManagmentFrontend.ViewProfile;
-import UserManagementBackend.User;
-import UserManagementBackend.UserDataBase;
-import UserManagementBackend.UserLog;
+
+
+import Backend.Management;
+import Backend.User;
+import Backend.UserDataBase;
+import Backend.UserLog;
 import javax.swing.JOptionPane;
 
 /**

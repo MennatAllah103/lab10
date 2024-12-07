@@ -4,8 +4,8 @@
  */
 package Frontend;
 
-import UserManagementBackend.UserDataBase;
-import UserManagementBackend.UserLog;
+import Backend.UserDataBase;
+import Backend.UserLog;
 
 /**
  *

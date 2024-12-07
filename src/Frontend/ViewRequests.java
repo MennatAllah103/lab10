@@ -5,8 +5,8 @@
 package Frontend;
 
 
-import FriendManagementBackend.*;
-import UserManagementBackend.*;
+import Backend.*;
+
 import java.awt.ScrollPane;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;

@@ -2,22 +2,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package ProfileManagmentFrontend;
+package Frontend;
 
-import Frontend.Newsfeed;
-import UserManagementBackend.UserDataBase;
+
+import Backend.UserDataBase;
 import java.awt.Image;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
-import FriendManagementBackend.*;
-import UserManagementBackend.User;
+import Backend.*;
+import Backend.User;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import ContentCreationBackend.*;
+import Backend.*;
 import java.awt.Dimension;
 import javax.swing.JScrollPane;
 
