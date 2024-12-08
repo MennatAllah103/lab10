@@ -156,16 +156,28 @@ public class ManageFriends extends javax.swing.JFrame {
       {
           
           
-         User receiver=userDB.getUserByUsername(usernametoadd);
-      
+      User receiver=userDB.getUserByUsername(usernametoadd);
+      if (receiver == null) {
+        JOptionPane.showMessageDialog(this, "User not found!", "Message", JOptionPane.PLAIN_MESSAGE);
+        return;
+    }
       String receiverid=receiver.getUserId();
-      
+        for(Requests r : requests)
+        {
+          if(r.getSenderID().equals(receiverid)&&r.getReceiverID().equals(senderid))
+          {
+           
+              JOptionPane.showMessageDialog(this,"This user have sent a request to u , check ur Requests", "  Message ", JOptionPane.PLAIN_MESSAGE);
+               return;
+          } 
+             
+        }
       
       boolean Flag =areUsersBlocked(senderid,receiverid);
       if(!Flag)
       {
            Requests R= new Requests(senderid,receiverid);
-      manage.addrequest(R);
+           manage.addrequest(R);
       }
       
       else {

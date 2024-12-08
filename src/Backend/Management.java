@@ -70,8 +70,7 @@ public class Management {
      
      
       public void addrequest(Requests R)
-    {
-        
+    { 
         requestsList.add(R);
         RequestsDB.saveFile(requestsList);
     }

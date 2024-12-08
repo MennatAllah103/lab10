@@ -223,7 +223,10 @@ public class UserSignup extends javax.swing.JFrame {
     }//GEN-LAST:event_confirmpasswordtextActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-     //  home.setVisible(true);
+    
+         setVisible(false);
+        home.setVisible(true);
+     
     }//GEN-LAST:event_formWindowClosed
 
 
