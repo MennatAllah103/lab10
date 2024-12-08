@@ -8,12 +8,12 @@ package Backend;
  *
  * @author daree
  */
-public class Requests {
+public class Request {
     String senderID;  
     String receiverID;  
     String requestStatus;
 
-    public Requests(String senderID,String receiverID) {
+    public Request(String senderID,String receiverID) {
         this.senderID = senderID;
         this.receiverID = receiverID;
         requestStatus="pending";

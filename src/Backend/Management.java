@@ -12,23 +12,23 @@ import java.util.ArrayList;
  */
 public class Management {
     
-    FriendsDatabase FriendsDB =FriendsDatabase.getinstance();
-    ArrayList<Friends> friendsList=FriendsDB.getALLFriends();
+    FriendDatabase FriendsDB =FriendDatabase.getinstance();
+    ArrayList<Friend> friendsList=FriendsDB.getALLFriends();
     
-   RequestsDatabase RequestsDB = RequestsDatabase.getinstance();
-  ArrayList<Requests> requestsList = RequestsDB.getALLRequests();
+   RequestDatabase RequestsDB = RequestDatabase.getinstance();
+  ArrayList<Request> requestsList = RequestsDB.getALLRequests();
   
-   BlocksDatabase BlocksDB= BlocksDatabase.getinstance();
-  ArrayList<BlockedUsers> blocksList=BlocksDB.getALLBlockedUsers();
+   BlockDatabase BlocksDB= BlockDatabase.getinstance();
+  ArrayList<Block> blocksList=BlocksDB.getALLBlockedUsers();
   
   
-   public void addfriend(Friends F)
+   public void addfriend(Friend F)
     {
         friendsList.add(F);
        FriendsDB.saveFile(friendsList);
     }
     
-    public void removefriend(Friends F)
+    public void removefriend(Friend F)
     {
         friendsList.remove(F);
        FriendsDB.saveFile(friendsList);
@@ -38,7 +38,7 @@ public class Management {
     {
         ArrayList<String> userfriendsIDs = new ArrayList<>();
         
-        for(Friends f : friendsList)
+        for(Friend f : friendsList)
         {
            if(Userid1.equals(f.getUserid1()))
                     userfriendsIDs .add(f.getUserid2());
@@ -50,13 +50,11 @@ public class Management {
         return userfriendsIDs ;
     }
      
-         public ArrayList<Friends> getUserFriends(String Userid1)
+         public ArrayList<Friend> getUserFriends(String Userid1)
     {
+        ArrayList<Friend> userfriends = new ArrayList<>();
         
-    friendsList=FriendsDB.loadFile();
-        ArrayList<Friends> userfriends = new ArrayList<>();
-        
-        for(Friends f : friendsList)
+        for(Friend f : friendsList)
         {
            if(Userid1.equals(f.getUserid1()))
                     userfriends .add(f);
@@ -69,33 +67,33 @@ public class Management {
     }
      
      
-      public void addrequest(Requests R)
+      public void sendRequest(Request R)
     { 
         requestsList.add(R);
         RequestsDB.saveFile(requestsList);
     }
     
-    public void deleterequest(Requests R)
+    public void deleterequest(Request R)
     {
         requestsList.remove(R);
      
        RequestsDB.saveFile(requestsList);
     }
     
-    public void acceptrequest(Requests R)
+    public void acceptrequest(Request R)
     {
      
       String Userid1 = R.getSenderID();
       String Userid2 = R.getReceiverID();
       
-    Friends friends= new Friends(Userid1,Userid2);
+    Friend friends= new Friend(Userid1,Userid2);
    
     deleterequest(R);
     addfriend(friends);
       
     }
     
-    public void declinerequest(Requests R)
+    public void declinerequest(Request R)
     {
      
         deleterequest(R);
@@ -103,42 +101,73 @@ public class Management {
          
     }
     
+    //////getters lel requests w ids////////
     
-     public ArrayList<Requests> getUserRequests(String Userid)
+    //al requests aly wslt le user mo3yn
+     public ArrayList<Request> getUserReceivedRequests(String Userid)
     {
-        ArrayList<Requests> userrequests = new ArrayList<>();
-        ArrayList<Requests> requests =RequestsDB.getALLRequests();
-        for(Requests r:requests)
+        ArrayList<Request> userrequests = new ArrayList<>();
+    
+        for(Request r:requestsList)
         {
             if(Userid.equals(r.getReceiverID()))
                    userrequests.add(r);
         }
         return userrequests ;
     }
-      
-       public ArrayList<String> getUserSenderRequestsIDS(String Userid)
+    //al ids b3atet requests le user mo3yn
+       public ArrayList<String> getUserRequestsSenderIDS(String Userid)
     {
-        ArrayList<String> userSenderRequestsIDs = new ArrayList<>();
-        ArrayList<Requests> requests =RequestsDB.getALLRequests();
-        for(Requests r:requests)
+        ArrayList<String> userRequestsSenderIDs = new ArrayList<>();
+        ArrayList<Request> userrequests = getUserReceivedRequests(Userid);
+        for(Request r:userrequests)
         {
             if(Userid.equals(r.getReceiverID()))
-                   userSenderRequestsIDs.add(r.getSenderID());
+                   userRequestsSenderIDs.add(r.getSenderID());
         }
-        return userSenderRequestsIDs ;
+        return userRequestsSenderIDs ;
     }
+    
        
+     //al requests aly b3tha user mo3yn  
+       
+          public ArrayList<Request> getUserSentRequests(String Userid)
+    {
+        ArrayList<Request> userrequests = new ArrayList<>();
+    
+        for(Request r:requestsList)
+        {
+            if(Userid.equals(r.getSenderID()))
+                   userrequests.add(r);
+        }
+        return userrequests ;
+    }
+          
+      //al ids aly atb3tlha request mn user mo3yn
+       public ArrayList<String> getUserRequestsReceiversIDS(String Userid)
+    {
+        ArrayList<String> userRequestsReceiversIDs = new ArrayList<>();
+        ArrayList<Request> userrequests =getUserSentRequests (Userid);
+        for(Request r:userrequests)
+        {
+            if(Userid.equals(r.getSenderID()))
+                   userRequestsReceiversIDs.add(r.getReceiverID());
+        }
+        return userRequestsReceiversIDs ;
+    }   
+       
+   ///////////////////////////////////////////////////  
        
      public void BlockUser(String Blocker, String Blocked)
   {
-      BlockedUsers b= new BlockedUsers(Blocker,Blocked);
+      Block b= new Block(Blocker,Blocked);
       blocksList.add(b);
       BlocksDB.saveFile(blocksList);
       
       
   }
   
-  public void RemoveBlock(BlockedUsers b)
+  public void RemoveBlock(Block b)
   {
       blocksList.remove(b);
        BlocksDB.saveFile(blocksList);
@@ -147,11 +176,11 @@ public class Management {
   
   public  ArrayList<String> getAllUsersBlockedForaUser(String UserID)
   {
-     blocksList=BlocksDB.loadFile();
+     
       
       ArrayList<String> blockedIDs=new ArrayList<>();
       
-      for(BlockedUsers B : blocksList)
+      for(Block B : blocksList)
       {
           if(UserID.equals(B.getBlocked()))
           {
@@ -177,13 +206,13 @@ public class Management {
   //gbt list mn idsFriends bto3o
   //b3den hageb friendsIds le kl ID mn list de
   //b3den h loop 3ala kol array mn friendsof friends ids
-  //w h add bshrt mykonsh blocked aw 3nde aw fe bena request  getUserSenderRequestsIDS ,getAllUsersBlockedForaUser
+  //w h add bshrt mykonsh blocked aw 3nde aw fe bena request  getUserRequestsSenderIDS ,getAllUsersBlockedForaUser
   
    public ArrayList<String> getSuggestedFriends(String Userid1) 
     {
         
         
-        ArrayList<String>  requestsSendersIDs=getUserSenderRequestsIDS(Userid1);
+        ArrayList<String>  requestsSendersIDs=getUserRequestsSenderIDS(Userid1);
         ArrayList<String>  blockedUsersIDs =getAllUsersBlockedForaUser(Userid1);
         
         ArrayList<String>  suggestedFriendsIDs= new ArrayList<>();
@@ -207,10 +236,50 @@ public class Management {
            return suggestedFriendsIDs;
     }
    
-    public Requests getRequest(String senderID,String receiverID)
+   
+   public boolean  allowedToSendRequest(String SenderID , String ReceiverID)
+   {
+       
+       //mykonsh howa b3tle request abl kda
+       //mykonsh ana b3tlo request abl kda
+       //mkonsh bb3at le nfseeeeee
+       ArrayList<String>  requestsSendersIDs1=getUserRequestsSenderIDS(SenderID); //al ids b3atet request le user mo3yn
+        ArrayList<String>  requestsSendersIDs2=getUserRequestsSenderIDS(ReceiverID);
+       if((requestsSendersIDs1.contains(ReceiverID)||ReceiverID.equals(SenderID))||requestsSendersIDs2.contains(SenderID))
+        {
+            return false;
+        }
+        return true;
+   }
+   
+   
+    public boolean areUsersBlocked(String senderId, String receiverId) {
+   
+      ArrayList<String>  blockedUsersIDs =getAllUsersBlockedForaUser(senderId);
+      if(blockedUsersIDs.contains(receiverId))
+      {
+          return true;
+      }
+       return false;
+    }
+    
+    public boolean areUsersFriends(String senderId, String receiverId)
+    {
+         ArrayList<String> userfriendsIDS=getUserFriendsIDs(senderId);
+         if(userfriendsIDS.contains(receiverId))
+         {
+             return true;
+         }
+         
+         return false;
+    }
+    
+    
+    
+    public Request getRequest(String senderID,String receiverID)
     {
       
-        for(Requests R : requestsList)
+        for(Request R : requestsList)
         {
             if(R.senderID.equals(senderID)&&R.receiverID.equals(receiverID))
                 return R;
@@ -219,10 +288,10 @@ public class Management {
         return null;
     }
     
-      public Friends getFriend(String id1,String id2)
+      public Friend getFriend(String id1,String id2)
     {
       
-        for(Friends F : friendsList )
+        for(Friend F : friendsList )
         {
             
            

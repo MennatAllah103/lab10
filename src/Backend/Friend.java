@@ -8,12 +8,12 @@ package Backend;
  *
  * @author daree
  */
-public class Friends {
+public class Friend {
     
     String Userid1; 
     String Userid2;  
 
-    public Friends(String Userid1, String Userid2) {
+    public Friend(String Userid1, String Userid2) {
         this.Userid1 = Userid1;
         this.Userid2 = Userid2;
     }

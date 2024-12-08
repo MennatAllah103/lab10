@@ -4,8 +4,6 @@
  */
 package Frontend;
 
-
-
 import Backend.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -19,14 +17,14 @@ public class ManageFriends extends javax.swing.JFrame {
     Newsfeed newsfeed;
     User currentuser;
     Management manage;
-    UserDataBase userDB =UserDataBase.getDatabase();
+    UserDataBase userDB = UserDataBase.getDatabase();
 
-    public ManageFriends(Newsfeed newsfeed , User currentuser, Management manage) {
+    public ManageFriends(Newsfeed newsfeed, User currentuser, Management manage) {
         initComponents();
-       this.newsfeed=newsfeed;
-       this.currentuser=currentuser;
-       this.manage = manage;
-        
+        this.newsfeed = newsfeed;
+        this.currentuser = currentuser;
+        this.manage = manage;
+
     }
 
     /**
@@ -136,69 +134,87 @@ public class ManageFriends extends javax.swing.JFrame {
 
     private void viewReqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewReqActionPerformed
         // TODO add your handling code here:
-    
-       ViewRequests viewReqFrame=new ViewRequests(this,currentuser,manage);
-        
+
+        ViewRequests viewReqFrame = new ViewRequests(this, currentuser, manage);
+
         viewReqFrame.setVisible(true);
         setVisible(false);
-        
-      
-        
+
+
     }//GEN-LAST:event_viewReqActionPerformed
 
     private void sendreqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendreqActionPerformed
         // TODO add your handling code here:
+
+        String senderid = currentuser.getUserId(); // aly hyb3t request
+
+        ArrayList<Request> requests = manage.getUserReceivedRequests(senderid);// requests of current User
+
+        String usernametoadd = JOptionPane.showInputDialog("Enter username:");
+
         
-      String senderid= currentuser.getUserId();
-      ArrayList<Requests> requests =manage.getUserRequests(senderid);
-      String usernametoadd= JOptionPane.showInputDialog("Enter username:");
-      if(usernametoadd!=null)
-      {
-          
-          
-      User receiver=userDB.getUserByUsername(usernametoadd);
-      if (receiver == null) {
-        JOptionPane.showMessageDialog(this, "User not found!", "Message", JOptionPane.PLAIN_MESSAGE);
-        return;
-    }
-      String receiverid=receiver.getUserId();
-        for(Requests r : requests)
-        {
-          if(r.getSenderID().equals(receiverid)&&r.getReceiverID().equals(senderid))
-          {
-           
-              JOptionPane.showMessageDialog(this,"This user have sent a request to u , check ur Requests", "  Message ", JOptionPane.PLAIN_MESSAGE);
-               return;
-          } 
-             
+        //lw cancel aw close
+        if (usernametoadd == null) {
+
+          return;
+        }
+        //lw a5tar ok mn8er ma yd5l
+      else  if (usernametoadd.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "You should enter a username", "Message", JOptionPane.PLAIN_MESSAGE);
+         
         }
       
-      boolean Flag =areUsersBlocked(senderid,receiverid);
-      if(!Flag)
-      {
-           Requests R= new Requests(senderid,receiverid);
-           manage.addrequest(R);
-      }
-      
-      else {
-           JOptionPane.showMessageDialog(this,"These users are blocked", "  Message ", JOptionPane.PLAIN_MESSAGE);
-      }
-      }
-    
-      else
-      {
-          JOptionPane.showMessageDialog(this, "You Should enter a username", "  Message ", JOptionPane.PLAIN_MESSAGE);
-      }
+      //lw d5l username
+      else 
+        {
+            User receiver = userDB.getUserByUsername(usernametoadd); //hageb User mn username
+             //check lw user mawgod asln
+            if (receiver == null) {
+                JOptionPane.showMessageDialog(this, "User not found!", "Message", JOptionPane.PLAIN_MESSAGE); // lw mafesh User bl name dah
+               
+            } 
+            // if user found
+            // get id of the receiver of the req
+            else if (receiver != null)
+            {
+                String receiverid = receiver.getUserId();
+                //lw friends msh h send request
+                if (manage.areUsersFriends(senderid, receiverid)) {
+                    JOptionPane.showMessageDialog(this, "You are already Friends", "Message", JOptionPane.PLAIN_MESSAGE);
+                    return;
+                //lw fy block bnhom
+                } else if (manage.areUsersBlocked(senderid, receiverid))
+                {
+                    JOptionPane.showMessageDialog(this, "You can not send a request to this user", "Message", JOptionPane.PLAIN_MESSAGE);
+                    return;
+                }
+                // lw mafesh request bnhom w msh bysend le nfso
+                else if (manage.allowedToSendRequest(senderid, receiverid))
+                {
+                    Request newR = new Request(senderid, receiverid);
+                    manage.sendRequest(newR);
+                    JOptionPane.showMessageDialog(this, "Request is sent", "Message", JOptionPane.PLAIN_MESSAGE);
+                    return;
+
+                }
+                else 
+                {
+                    JOptionPane.showMessageDialog(this, "You can not send a request ", "Message", JOptionPane.PLAIN_MESSAGE);
+
+                }
+
+            }
+
+        } 
     }//GEN-LAST:event_sendreqActionPerformed
 
     private void suggestButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_suggestButtonActionPerformed
         // TODO add your handling code here:
-        SuggestedFriends suggestFrame=new SuggestedFriends(this,currentuser,manage);
+        SuggestedFriends suggestFrame = new SuggestedFriends(this, currentuser, manage);
         suggestFrame.setVisible(true);
         setVisible(false);
-        
-        
-        
+
+
     }//GEN-LAST:event_suggestButtonActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -208,18 +224,12 @@ public class ManageFriends extends javax.swing.JFrame {
 
     private void viewFriendsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewFriendsActionPerformed
         // TODO add your handling code here:
-        ViewFriends  viewfriendsframe=new ViewFriends(this,currentuser,manage);
+        ViewFriends viewfriendsframe = new ViewFriends(this, currentuser, manage);
         viewfriendsframe.setVisible(true);
         setVisible(false);
     }//GEN-LAST:event_viewFriendsActionPerformed
 
-    
-       public boolean areUsersBlocked(String senderId, String receiverId) {
-    ArrayList<String> senderBlockedUsers = manage.getAllUsersBlockedForaUser(senderId);
-    ArrayList<String> receiverBlockedUsers = manage.getAllUsersBlockedForaUser(receiverId);
-    return senderBlockedUsers.contains(receiverId) || receiverBlockedUsers.contains(senderId);
-       }
-  
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton back;
     private javax.swing.JButton sendreq;

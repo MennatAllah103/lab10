@@ -7,12 +7,9 @@ package Frontend;
 
 import Backend.*;
 
-import java.awt.ScrollPane;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.ListSelectionModel;
 
 /**
  *
@@ -20,17 +17,14 @@ import javax.swing.ListSelectionModel;
  */
 public class ViewRequests extends javax.swing.JFrame {
     
-
-      ManageFriends manageframe;
+    ManageFriends manageframe;
     User currentuser;
     Management manage;
     UserDataBase userDB =UserDataBase.getDatabase();
-    /**
-     * Creates new form RequestsManagement
-     */
+ 
     public ViewRequests(ManageFriends manageframe,User currentuser,Management manage) {
         initComponents();
-     this.manageframe=manageframe;
+        this.manageframe=manageframe;
         this.currentuser=currentuser;
         this.manage=manage;
         fillList();
@@ -38,18 +32,18 @@ public class ViewRequests extends javax.swing.JFrame {
     }
     public void fillList()
     {
-        ArrayList<Requests> requests =manage.getUserRequests(currentuser.getUserId());
+        ArrayList<String> senderIDsRequests =manage.getUserRequestsSenderIDS(currentuser.getUserId());
         DefaultListModel<String> model=new DefaultListModel();
 
-     for(Requests r:requests)
+     for(String id:senderIDsRequests)
         {   
-            String userid1=r.getSenderID();
-            User u=userDB.getUserById(userid1);
-           String username=u.getUsername();
+           
+            User u=userDB.getUserById(id);
+            String username=u.getUsername();
             model.addElement(username);
         }
      
-        listreq.setModel(model);
+       listreq.setModel(model);
        jScrollPane1.setViewportView(listreq);
       
     
@@ -165,11 +159,11 @@ public class ViewRequests extends javax.swing.JFrame {
      int index= listreq.getSelectedIndex();
      if(index>-1)
      {
-         String selectedusername=listreq.getSelectedValue();
-        User userAccepted=userDB.getUserByUsername(selectedusername);
+      String selectedusername=listreq.getSelectedValue();
+      User userAccepted=userDB.getUserByUsername(selectedusername);
       String senderid=userAccepted.getUserId();
       String receiverid=currentuser.getUserId();
-      Requests R=manage.getRequest(senderid, receiverid);
+      Request R=manage.getRequest(senderid, receiverid);
       manage.acceptrequest(R);
       fillList();  
      }
@@ -189,12 +183,12 @@ public class ViewRequests extends javax.swing.JFrame {
         int index= listreq.getSelectedIndex();
      if(index>-1)
      {
-         String selectedusername=listreq.getSelectedValue();
-          User userDeclined=userDB.getUserByUsername(selectedusername);
-        String senderid=userDeclined.getUserId();
+      String selectedusername=listreq.getSelectedValue();
+      User userDeclined=userDB.getUserByUsername(selectedusername);
+      String senderid=userDeclined.getUserId();
       String receiverid=currentuser.getUserId();
-      Requests R=manage.getRequest(senderid, receiverid);
-       manage.declinerequest(R);
+      Request R=manage.getRequest(senderid, receiverid);
+      manage.declinerequest(R);
       fillList();  
      }
      
@@ -209,7 +203,7 @@ public class ViewRequests extends javax.swing.JFrame {
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
         // TODO add your handling code here:
         
-          setVisible(false);
+        setVisible(false);
         manageframe.setVisible(true);
     }//GEN-LAST:event_backActionPerformed
 

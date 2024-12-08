@@ -19,28 +19,28 @@ import org.json.JSONObject;
  *
  * @author daree
  */
-public class FriendsDatabase {
+public class FriendDatabase {
     
-    private static FriendsDatabase friendsDB=null;
-    ArrayList<Friends> friends=new ArrayList<>();
+    private static FriendDatabase friendsDB=null;
+    ArrayList<Friend> friends=new ArrayList<>();
 
-    private FriendsDatabase() {
+    private FriendDatabase() {
         
         friends = loadFile();
     }
     
     
-    public static FriendsDatabase getinstance()
+    public static FriendDatabase getinstance()
     {
         if(friendsDB==null)
-            friendsDB=new FriendsDatabase();
+            friendsDB=new FriendDatabase();
         
         return friendsDB;
         
     }
     
    
-    public ArrayList<Friends> loadFile(){ 
+    public ArrayList<Friend> loadFile(){ 
            try {
           String  json = new String(Files.readAllBytes(Paths.get("friends.json")));
             JSONArray friendsArray = new JSONArray(json);
@@ -49,7 +49,7 @@ public class FriendsDatabase {
         JSONObject friendsJson = friendsArray.getJSONObject(i);
                 String Userid1  = friendsJson.getString("Userid1");
                 String Userid2  = friendsJson.getString("Userid2");
-                friends.add(new Friends(Userid1,Userid2));
+                friends.add(new Friend(Userid1,Userid2));
                
     }
              
@@ -58,7 +58,7 @@ public class FriendsDatabase {
            } 
            
            catch (IOException ex) {
-            Logger.getLogger(FriendsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FriendDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
  
      
@@ -66,10 +66,10 @@ public class FriendsDatabase {
 
 }
  
-    public void saveFile(ArrayList<Friends> friends)
+    public void saveFile(ArrayList<Friend> friends)
     {
         JSONArray friendsArray = new JSONArray();
-        for(Friends f : friends)
+        for(Friend f : friends)
         {
             JSONObject j = new JSONObject();
             j.put("Userid1", f.getUserid1());
@@ -84,15 +84,15 @@ public class FriendsDatabase {
           file.write(friendsArray.toString(4));
           file.close();
         } catch (IOException ex) {
-            Logger.getLogger(FriendsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FriendDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
             
     
     }
 
-    public ArrayList<Friends> getALLFriends() {
+    public ArrayList<Friend> getALLFriends() {
         
-      //  ArrayList<Friends> friends =friendsDB.loadFile();
+      
         return friends;
     }
     

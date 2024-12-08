@@ -7,6 +7,8 @@ package Frontend;
 import Backend.User;
 import Backend.UserLog;
 import Backend.UserDataBase;
+import java.awt.Font;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 
@@ -172,8 +174,11 @@ public class UserLogin extends javax.swing.JFrame {
         return;
     }
       UserDataBase.setCurrentUser(u);
-  
-    JOptionPane.showMessageDialog(this, "Login successful! Welcome, " + username + ".", "Success", JOptionPane.INFORMATION_MESSAGE);
+       JLabel messageLabel = new JLabel("  Welcome Back " + username +" !");
+       messageLabel.setFont(new Font("Arial", Font.BOLD, 14));
+      JOptionPane.showMessageDialog(this, messageLabel, "Login successful !", JOptionPane.PLAIN_MESSAGE);
+          
+   // JOptionPane.showMessageDialog(this, "Login successful! Welcome, " + username + ".", "Success", JOptionPane.PLAIN_MESSAGE);
  
         Newsfeed news=new Newsfeed();
         news.setVisible(true);

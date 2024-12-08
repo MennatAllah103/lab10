@@ -21,7 +21,7 @@ public class ViewFriends extends javax.swing.JFrame {
      * Creates new form ViewFriends
      */
     
-       ManageFriends manageframe;
+    ManageFriends manageframe;
     User currentuser;
     Management manage;
     UserDataBase userDB =UserDataBase.getDatabase();
@@ -153,7 +153,7 @@ public class ViewFriends extends javax.swing.JFrame {
          User u =userDB.getUserByUsername(selectedusername);
         String id2=u.getUserId();
         String id1=currentuser.getUserId();
-        Friends f= manage.getFriend(id1, id2);
+        Friend f= manage.getFriend(id1, id2);
         manage.removefriend(f);
         manage.BlockUser(id1, id2);
      
@@ -183,7 +183,7 @@ public class ViewFriends extends javax.swing.JFrame {
          User u =userDB.getUserByUsername(selectedusername);
         String id2=u.getUserId();
         String id1=currentuser.getUserId();
-        Friends f= manage.getFriend(id1, id2);
+        Friend f= manage.getFriend(id1, id2);
         manage.removefriend(f);
      
       fillList();  

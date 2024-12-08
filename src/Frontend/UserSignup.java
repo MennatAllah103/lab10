@@ -5,8 +5,10 @@
 package Frontend;
 import Backend.UserDataBase;
 import Backend.UserLog;
+import java.awt.Font;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /**
@@ -191,20 +193,28 @@ public class UserSignup extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Passwords do not match", "Message", JOptionPane.ERROR_MESSAGE);
         return;
     }
+   try {
+    date = textdate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-    // Attempt to parse the date of birth
-    try {
-        date = textdate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-    } catch (NullPointerException e) {
-        JOptionPane.showMessageDialog(this, "Please select a valid date of birth.", "Error", JOptionPane.ERROR_MESSAGE);
+    if (date.isAfter(LocalDate.now())) {
+        JOptionPane.showMessageDialog(this, "Date of birth cannot be in the future.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
-
+} catch (NullPointerException e) {
+    JOptionPane.showMessageDialog(this, "Please select a valid date of birth.", "Error", JOptionPane.ERROR_MESSAGE);
+    return;
+}
     // Attempt to create a new user and handle signup logic
     boolean signupSuccess = log.signup(email, password, date, username);
-    if (signupSuccess) {
-        JOptionPane.showMessageDialog(this, "Signup successful!", "Message", JOptionPane.INFORMATION_MESSAGE);
-       this.dispose();
+    if (signupSuccess)
+    
+    {
+        
+       JLabel messageLabel = new JLabel("  Welcome  " + username + "!");
+       messageLabel.setFont(new Font("Arial", Font.BOLD, 14));
+       JOptionPane.showMessageDialog(this, messageLabel, "Signup successful!", JOptionPane.PLAIN_MESSAGE);
+      // JOptionPane.showMessageDialog(this, "Signup successful!", "Message", JOptionPane.PLAIN_MESSAGE);
+       setVisible(false);
        UserLogin login=new UserLogin(log,home);
       login.setVisible(true);
         // Navigate to next screen or take other actions

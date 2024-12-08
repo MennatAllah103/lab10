@@ -18,27 +18,27 @@ import org.json.JSONObject;
  *
  * @author daree
  */
-public class BlocksDatabase {
+public class BlockDatabase {
     
     
-    private static BlocksDatabase BlocksDB=null;
-    ArrayList<BlockedUsers> blocks = new ArrayList<>();
+    private static BlockDatabase BlocksDB=null;
+    ArrayList<Block> blocks = new ArrayList<>();
 
-    private BlocksDatabase() {
+    private BlockDatabase() {
         
         blocks=loadFile();
     }
     
-       public static BlocksDatabase getinstance() {
+       public static BlockDatabase getinstance() {
         if (BlocksDB == null) {
-            BlocksDB = new BlocksDatabase();
+            BlocksDB = new BlockDatabase();
         }
 
         return BlocksDB;
 
     }
        
-        public ArrayList<BlockedUsers> loadFile() {
+        public ArrayList<Block> loadFile() {
         try {
             String json = new String(Files.readAllBytes(Paths.get("blocks.json")));
             JSONArray blocksArray = new JSONArray(json);
@@ -46,22 +46,22 @@ public class BlocksDatabase {
                 JSONObject blockJson = blocksArray.getJSONObject(i);
                 String Blocker = blockJson.getString("Blocker");
                 String Blocked = blockJson.getString("Blocked");
-                blocks.add(new BlockedUsers(Blocker, Blocked));
+                blocks.add(new Block(Blocker, Blocked));
 
             }
 
            
         } catch (IOException ex) {
-            Logger.getLogger(RequestsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RequestDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
         
      return blocks;
     }
 
         
-         public void saveFile(ArrayList<BlockedUsers> blocks) {
+         public void saveFile(ArrayList<Block> blocks) {
         JSONArray blocksArray = new JSONArray();
-        for (BlockedUsers b : blocks) {
+        for (Block b : blocks) {
             JSONObject j = new JSONObject();
             j.put("Blocker", b.Blocker);
             j.put("Blocked", b.Blocked);
@@ -74,14 +74,14 @@ public class BlocksDatabase {
             file.write(blocksArray.toString(4));
             file.close();
         } catch (IOException ex) {
-            Logger.getLogger(BlocksDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BlockDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    public ArrayList<BlockedUsers> getALLBlockedUsers() {
+    public ArrayList<Block> getALLBlockedUsers() {
         
-      //  ArrayList<BlockedUsers> blocks=BlocksDB.loadFile();
+    
         return blocks;
     }
     

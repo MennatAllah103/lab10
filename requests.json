@@ -1,32 +1,12 @@
 [
     {
-        "senderID": "e5e860ae-7ad2-402b-aca9-88a680d0d5a2",
-        "receiverID": "c7bcb928-4819-4a52-9ca4-38ea0eacae4d",
-        "requestStatus": "pending"
-    },
-    {
-        "senderID": "e7ed9260-3b59-4ca0-9b4f-f6ef7d607a4f",
-        "receiverID": "0bf86395-e1c3-44a0-aa15-106694f3d5ee",
-        "requestStatus": "pending"
-    },
-    {
-        "senderID": "e5e860ae-7ad2-402b-aca9-88a680d0d5a2",
-        "receiverID": "c7bcb928-4819-4a52-9ca4-38ea0eacae4d",
-        "requestStatus": "pending"
-    },
-    {
-        "senderID": "e7ed9260-3b59-4ca0-9b4f-f6ef7d607a4f",
-        "receiverID": "0bf86395-e1c3-44a0-aa15-106694f3d5ee",
-        "requestStatus": "pending"
-    },
-    {
-        "senderID": "2c2d8783-cfba-42fe-b330-954c047f1753",
-        "receiverID": "47d5973d-d4c6-4605-bcd5-694eb2339b6e",
-        "requestStatus": "pending"
-    },
-    {
         "senderID": "47d5973d-d4c6-4605-bcd5-694eb2339b6e",
-        "receiverID": "2c2d8783-cfba-42fe-b330-954c047f1753",
+        "receiverID": "446c0781-b3f7-48c4-a4c9-88f0c24e815f",
+        "requestStatus": "pending"
+    },
+    {
+        "senderID": "eb899a2e-9cd1-45da-8166-49d5a7d2b150",
+        "receiverID": "446c0781-b3f7-48c4-a4c9-88f0c24e815f",
         "requestStatus": "pending"
     }
 ]

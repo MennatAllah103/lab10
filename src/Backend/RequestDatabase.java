@@ -18,27 +18,27 @@ import org.json.JSONObject;
  *
  * @author daree
  */
-public class RequestsDatabase {
+public class RequestDatabase {
 
-    private static RequestsDatabase requestsDB = null;
-    ArrayList<Requests> requests = new ArrayList<>();
+    private static RequestDatabase requestsDB = null;
+    ArrayList<Request> requests = new ArrayList<>();
 
-    private RequestsDatabase() {
+    private RequestDatabase() {
         
            requests=loadFile();
 
     }
 
-    public static RequestsDatabase getinstance() {
+    public static RequestDatabase getinstance() {
         if (requestsDB == null) {
-            requestsDB = new RequestsDatabase();
+            requestsDB = new RequestDatabase();
         }
 
         return requestsDB;
 
     }
 
-    public ArrayList<Requests> loadFile() {
+    public ArrayList<Request> loadFile() {
         try {
             String json = new String(Files.readAllBytes(Paths.get("requests.json")));
             JSONArray requestsArray = new JSONArray(json);
@@ -47,7 +47,7 @@ public class RequestsDatabase {
                 String senderID = requestJson.getString("senderID");
                 String receiverID = requestJson.getString("receiverID");
                 String requestStatus= requestJson.getString("requestStatus");
-                Requests R=new Requests(senderID, receiverID);
+                Request R=new Request(senderID, receiverID);
                 R.setRequestStatus(requestStatus);
                 requests.add(R);
                 
@@ -55,15 +55,15 @@ public class RequestsDatabase {
 
        
         } catch (IOException ex) {
-            Logger.getLogger(RequestsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RequestDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
         
      return requests;
     }
 
-    public void saveFile(ArrayList<Requests> requests) {
+    public void saveFile(ArrayList<Request> requests) {
         JSONArray requestsArray = new JSONArray();
-        for (Requests r : requests) {
+        for (Request r : requests) {
             JSONObject j = new JSONObject();
             j.put("senderID", r.senderID);
             j.put("receiverID", r.receiverID);
@@ -77,14 +77,14 @@ public class RequestsDatabase {
             file.write(requestsArray.toString(4));
             file.close();
         } catch (IOException ex) {
-            Logger.getLogger(RequestsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RequestDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    public ArrayList<Requests> getALLRequests() {
+    public ArrayList<Request> getALLRequests() {
         
-       // ArrayList<Requests> requests=requestsDB.loadFile();
+     
         return requests;
     }
     

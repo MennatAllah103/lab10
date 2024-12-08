@@ -8,12 +8,12 @@ package Backend;
  *
  * @author daree
  */
-public class BlockedUsers {
+public class Block {
     
     String Blocker; 
     String  Blocked; 
 
-    public BlockedUsers(String Blocker, String Blocked) {
+    public Block(String Blocker, String Blocked) {
         this.Blocker = Blocker;
         this.Blocked = Blocked;
     }

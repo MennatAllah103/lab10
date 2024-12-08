@@ -21,7 +21,7 @@ public class SuggestedFriends extends javax.swing.JFrame {
     User currentuser;
     Management manage;
     UserDataBase userDB =UserDataBase.getDatabase();
-    RequestsDatabase  requestsDB=RequestsDatabase.getinstance();
+    RequestDatabase  requestsDB=RequestDatabase.getinstance();
    
     /**
      * Creates new form SuggestedFriends
@@ -37,18 +37,22 @@ public class SuggestedFriends extends javax.swing.JFrame {
 
     public void fillList()
     {
-      
-        requestsDB.loadFile();
+     
         
-         ArrayList<String> suggestedIDs= manage.getSuggestedFriends(currentuser.getUserId());
+       ArrayList<String> suggestedIDs= manage.getSuggestedFriends(currentuser.getUserId());
          
        DefaultListModel<String> model=new DefaultListModel();
       
        for(String ID : suggestedIDs)
        {
+        if(!(manage.getUserRequestsReceiversIDS(currentuser.getUserId()).contains(ID)))  
+        {
            User u = userDB.getUserById(ID);
            String username =u.getUsername();
            model.addElement(username);
+            
+        }
+         
        }
         
         list.setModel(model);
@@ -144,16 +148,16 @@ public class SuggestedFriends extends javax.swing.JFrame {
     private void sendrequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendrequestActionPerformed
         // TODO add your handling code here:
        
-               int index= list.getSelectedIndex();
+      int index= list.getSelectedIndex();
      if(index>-1)
      {
-         String selectedusername=list.getSelectedValue();
-         User u = userDB.getUserByUsername(selectedusername);
+        String selectedusername=list.getSelectedValue();
+        User u = userDB.getUserByUsername(selectedusername);
         String receiverid=u.getUserId();
-     String SenderId=currentuser.getUserId();
+        String SenderId=currentuser.getUserId();
      
-         Requests R = new Requests (SenderId,receiverid);
-         manage.addrequest(R);
+         Request R = new Request (SenderId,receiverid);
+         manage.sendRequest(R);
     
       fillList();  
      }
