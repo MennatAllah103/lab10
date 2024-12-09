@@ -155,7 +155,7 @@ if (choice == JOptionPane.YES_OPTION)
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // TODO add your handling code here:
-        Search searchframe=new Search(this,user,manage);
+        SearchFrame searchframe=new SearchFrame(this,user,manage);
         setVisible(false);
         searchframe.setVisible(true);
         
