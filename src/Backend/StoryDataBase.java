@@ -43,7 +43,7 @@ public class StoryDataBase {
         return instance;
     }
 
-    //  ArrayList<Story> stories = new ArrayList<>();
+ 
     public void SaveStoriesToFile(ArrayList<Story> newStories) {
         ArrayList<Story> existingStories = ReadStoriesFromFile();
 
