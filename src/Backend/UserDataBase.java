@@ -172,4 +172,9 @@ public void updateStatus(String userId, boolean status) {
     public static User getCurrentUser() {
         return currentUser;
     } 
+    
+    public ArrayList<User> getAllUsers()
+    {
+        return Users;
+    }
 }
