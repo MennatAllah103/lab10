@@ -174,5 +174,16 @@
         "email": "hi@hotmail.com",
         "username": "hi",
         "status": "online"
+    },
+    {
+        "password": "A6xnQhbz4Vx2HuGl4lXwZ5U2I8iziLRFnhP5eNfIRvQ=",
+        "profilePhoto": "C:\\Users\\hp\\Downloads\\pfp.jpg",
+        "coverPhoto": "defaultCoverPhoto.jpg",
+        "bio": "me noob// u noob",
+        "dateOfBirth": "2024-12-02",
+        "userId": "1ae2b8ae-22c4-4d94-9f39-6651242a1140",
+        "email": "theo@hotmail.com",
+        "username": "theo",
+        "status": "offline"
     }
 ]
