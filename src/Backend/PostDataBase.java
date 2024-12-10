@@ -24,34 +24,30 @@ import org.json.JSONObject;
 
 public class PostDataBase {
 
+    FactoryContent F = new FactoryContent();
+     Management management = new Management();
     private static PostDataBase instance; // Singleton instance
-    private ArrayList<Post> posts = new ArrayList<>();
+    private ArrayList<Post> postList = new ArrayList<>();
 
-    private PostDataBase() {
+    private PostDataBase() 
+    {
+        postList=ReadPostsFromFile();
     }
 
     public static PostDataBase getInstance() {
-        if (instance == null) {
-//            synchronized (PostDataBase.class) { //  synchronizing a block of code on the Class object of the PostDataBase class.
-//                if (instance == null) {
-                    instance = new PostDataBase();
-//                }
-//            }
+        if (instance == null)
+        {
+       instance = new PostDataBase();
         }
         return instance;
     }
 
-    // ArrayList<Post> posts = new ArrayList<>();
-    public void SavePostsToFile(ArrayList<Post> newPosts) {
-        // Read existing posts from file
-        ArrayList<Post> existingPosts = ReadPostsFromFile();
-
-        // Add new posts to the existing list
-        existingPosts.addAll(newPosts);  // Add all the new posts to the existing list
-
-        // Write the updated list of posts back to the file
+  
+    public void SavePostsToFile(ArrayList<Post> Posts) 
+    {
+   
         JSONArray postsArray = new JSONArray();
-        for (Post p : existingPosts) {
+        for (Post p : Posts) {
             JSONObject j = new JSONObject();
             j.put("contentID", p.getContentID());
             j.put("authorID", p.getAuthorID());
@@ -72,6 +68,7 @@ public class PostDataBase {
 
     public ArrayList<Post> ReadPostsFromFile() {
         try {
+            
             String json = new String(Files.readAllBytes(Paths.get("posts.json")));
             JSONArray postsArray = new JSONArray(json);
             DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
@@ -89,52 +86,54 @@ public class PostDataBase {
                     // Handle the case where "imagePath" is missing
                     imagePath = "";
                 }
-                Post post = new Post();
+               // Post post = new Post();
+               //lazm tst5dme createfactory
+               Post post = (Post) F.createContent("post");
                 post.setContentID(contentID);
                 post.setAuthorID(authorID);
                 post.setContent(content);
                 post.setTimestamp(LocalDateTime.parse(timeStamp, formatter));
                 post.setImagePath(imagePath);
-                posts.add(post);
+                postList.add(post);
             }
         } catch (IOException e) {
             System.err.println("Error reading posts from file: " + e.getMessage());
         } catch (JSONException e) {
             System.err.println("Error parsing JSON data: " + e.getMessage());
         }
-        return posts;
+        return postList;
     }
 
     public ArrayList<Post> ViewUserPosts(String userId) {
-        Post post = new Post();
+    
         ArrayList<Post> userPosts = new ArrayList<>();
-       // ArrayList<Post> allPosts = ReadPostsFromFile();
-        ArrayList<Post> allPosts = ReadPostsFromFile();
-        for (Post p : allPosts) {
-            if (userId.equals(p.getAuthorID())) {
+        for (Post p : postList)
+        {
+            if (userId.equals(p.getAuthorID()))
+            {
                 userPosts.add(p);
             }
         }
         return userPosts;
     }
 
-    public ArrayList<Post> ViewFriendsPosts(String userId) {
-    Management management = new Management();
+    public ArrayList<Post> ViewFriendsPosts(String userId)
+    {
     ArrayList<String> friendsIds = management.getUserFriendsIDs(userId);
     
     ArrayList<Post> friendsPosts = new ArrayList<>();
-    ArrayList<Post> allPosts = ReadPostsFromFile();
-    
-    for (Post post : allPosts) {
-        if (friendsIds.contains(post.getAuthorID())) { // Check if post author is a friend
+    for (Post post : postList) {
+        if (friendsIds.contains(post.getAuthorID())) { 
             friendsPosts.add(post);
         }
     }
     
     return friendsPosts;
 }
-
-
+    
+    
+//msh fhma @yara 7ata method de leh w le ehhh
+/*
     public void removedPosts(String contentID) {
         posts = ReadPostsFromFile();
         for (int i = 0; i < posts.size(); i++) {
@@ -146,4 +145,18 @@ public class PostDataBase {
         SavePostsToFile(posts);
     }
 
+   */ 
+     public void addPost(Post p) {
+        postList.add(p);
+        SavePostsToFile(postList);
+    }
+    public void deletePost(Post p) {
+        postList.remove(p);
+        SavePostsToFile(postList);
+    }
+
+    public ArrayList<Post> getPosts() {
+      
+        return postList;
+    }
 }

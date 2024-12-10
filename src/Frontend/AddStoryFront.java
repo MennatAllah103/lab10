@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
  */
 public class AddStoryFront extends javax.swing.JFrame {
     Newsfeed n;
+    StoryDataBase StoryDB= StoryDataBase.getInstance();
     public AddStoryFront(Newsfeed n) {
         initComponents();
         this.n = n;
@@ -175,7 +176,7 @@ public class AddStoryFront extends javax.swing.JFrame {
         s.setContentID(UUID.randomUUID().toString());
         s.setTimestamp(LocalDateTime.now());
         s.setAuthorID(currentUser.getUserId());
-        s.addStory(s);
+        StoryDB.addStory(s);
         JOptionPane.showMessageDialog(this, "Story shared successfully.");
     }//GEN-LAST:event_ShareBtnActionPerformed
 

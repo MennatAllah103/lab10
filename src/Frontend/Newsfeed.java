@@ -36,6 +36,8 @@ public class Newsfeed extends javax.swing.JFrame {
 
     ViewProfile profile;
     UserDataBase database = UserDataBase.getDatabase();
+     PostDataBase postDatabase = PostDataBase.getInstance();
+     StoryDataBase storyDatabase = StoryDataBase.getInstance();
     User user = UserDataBase.getCurrentUser();
     UserLog log = new UserLog(UserDataBase.getDatabase());
     Home home = Home.getInstance();
@@ -56,7 +58,7 @@ public class Newsfeed extends javax.swing.JFrame {
         friendsPostsPanel.removeAll();
 
         friendsPostsPanel.setLayout(new BoxLayout(friendsPostsPanel, BoxLayout.Y_AXIS));
-        PostDataBase postDatabase = PostDataBase.getInstance();
+       
         ArrayList<Post> friendPosts = postDatabase.ViewFriendsPosts(user.getUserId());
         friendsPostsScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         friendsPostsScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -96,7 +98,7 @@ public class Newsfeed extends javax.swing.JFrame {
         friendsStoriesPanel.removeAll();
 
         friendsStoriesPanel.setLayout(new BoxLayout(friendsStoriesPanel, BoxLayout.Y_AXIS));
-        StoryDataBase storyDatabase = StoryDataBase.getInstance();
+        storyDatabase.updateStories();
         ArrayList<Story> friendStories = storyDatabase.ViewFriendsStories(user.getUserId());
         friendsStoriesScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         friendsStoriesScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);

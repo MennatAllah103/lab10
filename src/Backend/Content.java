@@ -19,12 +19,9 @@ public abstract class Content {
     protected String imagePath;
     protected LocalDateTime timestamp;
 
-    public Content() {
-//        contentID = UUID.randomUUID().toString();
-//        this.authorID = authorID;
-//        this.content = content;
-//        this.timestamp = timestamp;
-//String authorID, String content, LocalDateTime timestamp
+    public Content()
+    {
+
     }
 
     public String getContentID() {

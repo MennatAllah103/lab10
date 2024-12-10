@@ -4,11 +4,11 @@
  */
 package Backend;
 
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -25,33 +25,33 @@ import org.json.JSONObject;
 public class StoryDataBase {
 
     private static StoryDataBase instance; // Singleton instance
-    private ArrayList<Story> stories = new ArrayList<>();
+    private ArrayList<Story> storyList = new ArrayList<>();
+      Management management = new Management();
 
-    // Private constructor to prevent instantiation
+
     private StoryDataBase() {
+
+        storyList = ReadStoriesFromFile();
     }
 
-    // Public static method to get the singleton instance
-    public static StoryDataBase getInstance() {
-        if (instance == null) {
-            synchronized (StoryDataBase.class) { // Ensure thread safety
-                if (instance == null) {
-                    instance = new StoryDataBase();
-                }
-            }
+   
+    public static StoryDataBase getInstance() 
+    {
+        if (instance == null)
+        {
+            instance = new StoryDataBase();
         }
+
         return instance;
     }
 
- 
-    public void SaveStoriesToFile(ArrayList<Story> newStories) {
-        ArrayList<Story> existingStories = ReadStoriesFromFile();
-
-        // Add new posts to the existing list
-        existingStories.addAll(newStories);
+    public void SaveStoriesToFile(ArrayList<Story> Stories) {
+        
         JSONArray storiesArray = new JSONArray();
-        for (Story s : existingStories) {
-            if (!s.isExpired()) {
+        for (Story s : Stories) {
+         //   if (!s.isExpired())
+         //lesa m3mltsh lw expired
+           {
                 JSONObject j = new JSONObject();
                 j.put("contentID", s.getContentID());
                 j.put("authorID", s.getAuthorID());
@@ -72,7 +72,7 @@ public class StoryDataBase {
     }
 
     public ArrayList<Story> ReadStoriesFromFile() {
-       
+
         try {
             String json = new String(Files.readAllBytes(Paths.get("stories.json")));
             JSONArray storiesArray = new JSONArray(json);
@@ -99,24 +99,23 @@ public class StoryDataBase {
                 story.setContent(content);
                 story.setTimestamp(LocalDateTime.parse(timeStamp, formatter));
                 story.setImagePath(imagePath);
-                 stories.add(story);
-                
+                storyList.add(story);
 
             }
-           
+
         } catch (IOException e) {
             System.err.println("Error reading stories from file: " + e.getMessage());
         } catch (JSONException e) {
             System.err.println("Error parsing JSON data: " + e.getMessage());
         }
-        return stories;
+        return storyList;
     }
 
     public ArrayList<Story> ViewUserStories(String userId) {
 
         ArrayList<Story> userStories = new ArrayList<>();
-        ArrayList<Story> allStories = ReadStoriesFromFile();
-        for (Story s : allStories) {
+
+        for (Story s : storyList) {
             if (userId.equals(s.getAuthorID())) {
                 userStories.add(s);
             }
@@ -125,14 +124,12 @@ public class StoryDataBase {
     }
 
     public ArrayList<Story> ViewFriendsStories(String userId) {
-        Management management = new Management();
+      
         ArrayList<String> friendsIds = management.getUserFriendsIDs(userId);
-
         ArrayList<Story> friendsStories = new ArrayList<>();
-        ArrayList<Story> allStories = ReadStoriesFromFile();
 
-        for (Story story : allStories) {
-            if (friendsIds.contains(story.getAuthorID())) { // Check if post author is a friend
+        for (Story story : storyList) {
+            if (friendsIds.contains(story.getAuthorID())) { 
                 friendsStories.add(story);
             }
         }
@@ -140,7 +137,7 @@ public class StoryDataBase {
         return friendsStories;
     }
 
-    public void removedstories(String contentID) {
+   /* public void removedstories(String contentID) {
         stories = ReadStoriesFromFile(); // Load stories
         for (int i = 0; i < stories.size(); i++) {
             if (stories.get(i).getContentID().equals(contentID) || stories.get(i).isExpired()) {
@@ -150,4 +147,41 @@ public class StoryDataBase {
         }
         SaveStoriesToFile(stories); // Save back to file
     }
+*/
+    public void addStory(Story s) {
+        storyList.add(s);
+       SaveStoriesToFile(storyList);
+    }
+    
+    public void deleteStory(Story s) 
+     {
+        storyList.remove(s);
+        SaveStoriesToFile(storyList);
+        
+     }
+
+    public ArrayList<Story> getStories() {
+     
+        return storyList;
+    }
+
+   
+    public void updateStories() 
+    {
+     
+     
+        for (int i =0 ; i< storyList.size();i++)
+        {
+            Content content = storyList.get(i);
+            Duration duration = Duration.between(content.getTimestamp(),LocalDateTime.now());
+            long hours =duration.toHours();
+            if(hours>=24)
+            {
+                deleteStory((Story)content);
+                i--;
+            }
+        }
+    
+   }
+    
 }
