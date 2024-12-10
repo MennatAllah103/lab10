@@ -8,7 +8,8 @@ package Backend;
  *
  * @author LENOVO
  */
-public class FactoryContent {
+public class FactoryContent 
+{
     public Content createContent(String type)
     {
         if(type.equalsIgnoreCase("post"))

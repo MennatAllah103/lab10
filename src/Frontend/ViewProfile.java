@@ -51,6 +51,7 @@ public class ViewProfile extends javax.swing.JFrame {
         storiesPanel.setLayout(new BoxLayout(storiesPanel, BoxLayout.Y_AXIS));
     
         StoryDataBase storyDatabase = StoryDataBase.getInstance();
+        storyDatabase.updateStories();
         ArrayList<Story> userStories = storyDatabase.ViewUserStories(u.getUserId());
     
         storiesScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
