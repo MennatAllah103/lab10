@@ -12,8 +12,11 @@ import Backend.StoryDataBase;
 import Backend.User;
 import Backend.UserDataBase;
 import Backend.UserLog;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -21,7 +24,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
+import javax.swing.SwingWorker;
 
 /**
  *
@@ -40,6 +45,11 @@ public class Newsfeed extends javax.swing.JFrame {
         initComponents();
         loadFriendsPosts();
         loadFriendsStories();
+        progressBar.setIndeterminate(true);
+        progressBar.setString("Refreshing...");
+        progressBar.setStringPainted(true);
+        progressBar.setVisible(false);
+
     }
 
     private void loadFriendsPosts() {
@@ -56,14 +66,18 @@ public class Newsfeed extends javax.swing.JFrame {
             JPanel postPanel = new JPanel();
             postPanel.setLayout(new BoxLayout(postPanel, BoxLayout.Y_AXIS));
             postPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+
             User friend = database.getUserById(post.getAuthorID());
             String friendUsername = friend.getUsername();
+            LocalDateTime timestamp = post.getTimestamp();
+            String formattedTimestamp = timestamp.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
 
             JLabel contentLabel = new JLabel(post.getContent());
-            JLabel usernameLabel = new JLabel("Posted by: " + friendUsername);
-            usernameLabel.setFont(new Font("Arial", Font.BOLD, 12));  
-            postPanel.add(usernameLabel);
             postPanel.add(contentLabel);
+
+            JLabel usernameLabel = new JLabel("Posted by: " + friendUsername + " on " + formattedTimestamp);
+            usernameLabel.setFont(new Font("Arial", Font.BOLD, 12));
+            postPanel.add(usernameLabel);
 
             if (post.getImagePath() != null && !post.getImagePath().isEmpty()) {
                 JLabel imageLabel = new JLabel(new ImageIcon(post.getImagePath()));
@@ -92,12 +106,15 @@ public class Newsfeed extends javax.swing.JFrame {
             JPanel postPanel = new JPanel();
             postPanel.setLayout(new BoxLayout(postPanel, BoxLayout.Y_AXIS));
             postPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-            
+
             User friend = database.getUserById(story.getAuthorID());
             String friendUsername = friend.getUsername();
-            
-            JLabel usernameLabel = new JLabel("Posted by: " + friendUsername);
-            usernameLabel.setFont(new Font("Arial", Font.BOLD, 12));  // Optional: Customize font style
+
+            LocalDateTime timestamp = story.getTimestamp();
+            String formattedTimestamp = timestamp.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
+
+            JLabel usernameLabel = new JLabel("Posted by: " + friendUsername + " on " + formattedTimestamp);
+            usernameLabel.setFont(new Font("Arial", Font.BOLD, 12));
             postPanel.add(usernameLabel);
 
             JLabel contentLabel = new JLabel(story.getContent());
@@ -133,6 +150,8 @@ public class Newsfeed extends javax.swing.JFrame {
         btnAddStory = new javax.swing.JButton();
         storiesLabel = new javax.swing.JLabel();
         postsLabel = new javax.swing.JLabel();
+        btnRefresh = new javax.swing.JButton();
+        progressBar = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Newsfeed");
@@ -180,11 +199,11 @@ public class Newsfeed extends javax.swing.JFrame {
         friendsStoriesPanel.setLayout(friendsStoriesPanelLayout);
         friendsStoriesPanelLayout.setHorizontalGroup(
             friendsStoriesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 346, Short.MAX_VALUE)
+            .addGap(0, 424, Short.MAX_VALUE)
         );
         friendsStoriesPanelLayout.setVerticalGroup(
             friendsStoriesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 195, Short.MAX_VALUE)
+            .addGap(0, 212, Short.MAX_VALUE)
         );
 
         friendsStoriesScrollPane.setViewportView(friendsStoriesPanel);
@@ -222,21 +241,29 @@ public class Newsfeed extends javax.swing.JFrame {
         postsLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         postsLabel.setText("Posts");
 
+        btnRefresh.setText("Refresh");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRefresh)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(140, 140, 140))
+                        .addGap(143, 143, 143)
+                        .addComponent(logout)
+                        .addGap(15, 15, 15))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(friendsPostsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(friendsStoriesScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(manageFriends)
                                 .addGap(18, 18, 18)
@@ -247,19 +274,29 @@ public class Newsfeed extends javax.swing.JFrame {
                                 .addComponent(btnAddPost)
                                 .addGap(29, 29, 29)
                                 .addComponent(btnAddStory))
-                            .addComponent(storiesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(postsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)))
-                .addComponent(logout)
-                .addGap(18, 18, 18))
+                            .addComponent(storiesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(friendsPostsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(postsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(friendsStoriesScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
+                        .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(80, 80, 80))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(logout))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(logout)
+                            .addComponent(btnRefresh))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(manageFriends)
@@ -267,14 +304,20 @@ public class Newsfeed extends javax.swing.JFrame {
                     .addComponent(btnVisitProfile)
                     .addComponent(btnAddPost)
                     .addComponent(btnAddStory))
-                .addGap(18, 18, 18)
-                .addComponent(storiesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(friendsStoriesScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                .addComponent(postsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(friendsPostsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(storiesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(friendsStoriesScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                        .addComponent(postsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(friendsPostsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(183, 183, 183)))
                 .addContainerGap())
         );
 
@@ -283,7 +326,7 @@ public class Newsfeed extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
-        // TODO add your handling code here:
+
         log.logOut(user);
         // JOptionPane.showMessageDialog(this, "Logging out","Message",JOptionPane.PLAIN_MESSAGE);
         JLabel messageLabel = new JLabel("  Bye " + user.getUsername() + " !");
@@ -295,7 +338,7 @@ public class Newsfeed extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutActionPerformed
 
     private void manageFriendsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageFriendsActionPerformed
-        // TODO add your handling code here:
+
         ManageFriends manager = new ManageFriends(this, user, manage);
         manager.setVisible(true);
         setVisible(false);
@@ -303,13 +346,11 @@ public class Newsfeed extends javax.swing.JFrame {
     }//GEN-LAST:event_manageFriendsActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        // TODO add your handling code here:
-
 
     }//GEN-LAST:event_formWindowClosed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        // TODO add your handling code here:
+
         int choice = JOptionPane.showConfirmDialog(this, "Do you want to log out?", "Are you Sure", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
         if (choice == JOptionPane.YES_OPTION) {
@@ -331,7 +372,7 @@ public class Newsfeed extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        // TODO add your handling code here:
+
         SearchFrame searchframe = new SearchFrame(this, user, manage);
         setVisible(false);
         searchframe.setVisible(true);
@@ -356,9 +397,32 @@ public class Newsfeed extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btnAddStoryActionPerformed
 
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+
+        progressBar.setVisible(true);
+        
+        SwingWorker<Void, Void> worker = new SwingWorker<>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+
+                loadFriendsPosts();
+                loadFriendsStories();
+                return null;
+            }
+
+            @Override
+            protected void done() {
+
+                progressBar.setVisible(false);
+            }
+        };
+        worker.execute();
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddPost;
     private javax.swing.JButton btnAddStory;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnVisitProfile;
     private javax.swing.JPanel friendsPostsPanel;
     private javax.swing.JScrollPane friendsPostsScrollPane;
@@ -368,6 +432,7 @@ public class Newsfeed extends javax.swing.JFrame {
     private javax.swing.JButton logout;
     private javax.swing.JButton manageFriends;
     private javax.swing.JLabel postsLabel;
+    private javax.swing.JProgressBar progressBar;
     private javax.swing.JButton searchButton;
     private javax.swing.JLabel storiesLabel;
     // End of variables declaration//GEN-END:variables
