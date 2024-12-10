@@ -41,9 +41,8 @@ public class Newsfeed extends javax.swing.JFrame {
         loadFriendsPosts();
         loadFriendsStories();
     }
-    
-    
-    private void loadFriendsPosts(){
+
+    private void loadFriendsPosts() {
         friendsPostsPanel.removeAll();
 
         friendsPostsPanel.setLayout(new BoxLayout(friendsPostsPanel, BoxLayout.Y_AXIS));
@@ -57,8 +56,13 @@ public class Newsfeed extends javax.swing.JFrame {
             JPanel postPanel = new JPanel();
             postPanel.setLayout(new BoxLayout(postPanel, BoxLayout.Y_AXIS));
             postPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+            User friend = database.getUserById(post.getAuthorID());
+            String friendUsername = friend.getUsername();
 
             JLabel contentLabel = new JLabel(post.getContent());
+            JLabel usernameLabel = new JLabel("Posted by: " + friendUsername);
+            usernameLabel.setFont(new Font("Arial", Font.BOLD, 12));  
+            postPanel.add(usernameLabel);
             postPanel.add(contentLabel);
 
             if (post.getImagePath() != null && !post.getImagePath().isEmpty()) {
@@ -73,8 +77,8 @@ public class Newsfeed extends javax.swing.JFrame {
         friendsPostsPanel.repaint();
 
     }
-    
-    private void loadFriendsStories(){
+
+    private void loadFriendsStories() {
         friendsStoriesPanel.removeAll();
 
         friendsStoriesPanel.setLayout(new BoxLayout(friendsStoriesPanel, BoxLayout.Y_AXIS));
@@ -88,6 +92,13 @@ public class Newsfeed extends javax.swing.JFrame {
             JPanel postPanel = new JPanel();
             postPanel.setLayout(new BoxLayout(postPanel, BoxLayout.Y_AXIS));
             postPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+            
+            User friend = database.getUserById(story.getAuthorID());
+            String friendUsername = friend.getUsername();
+            
+            JLabel usernameLabel = new JLabel("Posted by: " + friendUsername);
+            usernameLabel.setFont(new Font("Arial", Font.BOLD, 12));  // Optional: Customize font style
+            postPanel.add(usernameLabel);
 
             JLabel contentLabel = new JLabel(story.getContent());
             postPanel.add(contentLabel);
@@ -124,6 +135,7 @@ public class Newsfeed extends javax.swing.JFrame {
         postsLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("Newsfeed");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -267,6 +279,7 @@ public class Newsfeed extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
@@ -338,7 +351,7 @@ public class Newsfeed extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddPostActionPerformed
 
     private void btnAddStoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddStoryActionPerformed
-       AddStoryFront addStory= new AddStoryFront(this);
+        AddStoryFront addStory = new AddStoryFront(this);
         addStory.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnAddStoryActionPerformed

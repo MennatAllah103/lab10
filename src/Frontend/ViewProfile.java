@@ -43,40 +43,44 @@ public class ViewProfile extends javax.swing.JFrame {
         reloadBio();
         loadFriendsList();
         loadPosts();
-     //   loadStories();
+        loadStories();
     }
     
-//    private void loadStories(){
-//        storiesPanel.removeAll();
-//        storiesPanel.setLayout(new BoxLayout(storiesPanel, BoxLayout.Y_AXIS));
+    private void loadStories(){
+        storiesPanel.removeAll();
+        storiesPanel.setLayout(new BoxLayout(storiesPanel, BoxLayout.Y_AXIS));
     
-//        StoryDataBase storyDatabase = StoryDataBase.getInstance();
-//        ArrayList<Story> userStories = storyDatabase.ViewUserStories(u.getUserId());
+        StoryDataBase storyDatabase = StoryDataBase.getInstance();
+        ArrayList<Story> userStories = storyDatabase.ViewUserStories(u.getUserId());
     
-//        storiesScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-//        storiesScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-//        storiesScrollPane.setViewportView(storiesPanel);
-//
-//        for (Story story : userStories) {
-//            JPanel storyPanel = new JPanel();
-//            storyPanel.setLayout(new BoxLayout(storyPanel, BoxLayout.Y_AXIS));
-//            storyPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-//
-//            JLabel contentLabel = new JLabel(story.getContent());
-//            storyPanel.add(contentLabel);
-//
-//            if (story.getImagePath() != null && !story.getImagePath().isEmpty()) {
-//                JLabel imageLabel = new JLabel(new ImageIcon(story.getImagePath()));
-//               storyPanel.add(imageLabel);
-//            }
-//
-//            storiesPanel.add(storyPanel);
-//        }
-//
-//        storiesPanel.revalidate();
-//        storiesPanel.repaint();
-//        
-//    }
+        storiesScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        storiesScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        storiesScrollPane.setViewportView(storiesPanel);
+        int c = 0;
+
+        for (Story story : userStories) {
+            JPanel storyPanel = new JPanel();
+            storyPanel.setLayout(new BoxLayout(storyPanel, BoxLayout.Y_AXIS));
+            storyPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+
+            JLabel contentLabel = new JLabel(story.getContent());
+            storyPanel.add(contentLabel);
+
+            if (story.getImagePath() != null && !story.getImagePath().isEmpty()) {
+                JLabel imageLabel = new JLabel(new ImageIcon(story.getImagePath()));
+               storyPanel.add(imageLabel);
+            }
+
+            storiesPanel.add(storyPanel);
+            c++;
+        }
+        System.out.println(c);
+        
+
+        storiesPanel.revalidate();
+        storiesPanel.repaint();
+        
+    }
 
     private void loadPosts() {
         postsPanel.removeAll();
@@ -84,9 +88,9 @@ public class ViewProfile extends javax.swing.JFrame {
         postsPanel.setLayout(new BoxLayout(postsPanel, BoxLayout.Y_AXIS));
         PostDataBase postDatabase = PostDataBase.getInstance();
         ArrayList<Post> userPosts = postDatabase.ViewUserPosts(u.getUserId());
-        postsScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        postsScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        postsScrollPane.setViewportView(postsPanel);
+        jScrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        int postCounter = 0;
 
         for (Post post : userPosts) {
             JPanel postPanel = new JPanel();
@@ -102,10 +106,14 @@ public class ViewProfile extends javax.swing.JFrame {
             }
 
             postsPanel.add(postPanel);
+            postCounter++;
         }
+        
+        jScrollPane1.setViewportView(postsPanel);
 
         postsPanel.revalidate();
         postsPanel.repaint();
+        System.out.println("Total number of posts displayed: " + postCounter);
 
     }
 
@@ -176,12 +184,15 @@ public class ViewProfile extends javax.swing.JFrame {
         friendsJList = new javax.swing.JList<>();
         bioTextLabel = new javax.swing.JLabel();
         btnBack1 = new javax.swing.JButton();
-        postsScrollPane = new javax.swing.JScrollPane();
-        postsPanel = new javax.swing.JPanel();
         labelYourFriends = new javax.swing.JLabel();
         labelYourPosts = new javax.swing.JLabel();
         profilePhotoLabel = new javax.swing.JLabel();
         coverPhotoLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        postsPanel = new javax.swing.JPanel();
+        storiesScrollPane = new javax.swing.JScrollPane();
+        storiesPanel = new javax.swing.JPanel();
+        yourStoriesLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("View Profile");
@@ -209,14 +220,42 @@ public class ViewProfile extends javax.swing.JFrame {
             }
         });
 
-        postsPanel.setLayout(new javax.swing.BoxLayout(postsPanel, javax.swing.BoxLayout.LINE_AXIS));
-        postsScrollPane.setViewportView(postsPanel);
-
         labelYourFriends.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         labelYourFriends.setText("Your Friends");
 
         labelYourPosts.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         labelYourPosts.setText("Your Posts");
+
+        jScrollPane1.setViewportView(postsPanel);
+
+        javax.swing.GroupLayout postsPanelLayout = new javax.swing.GroupLayout(postsPanel);
+        postsPanel.setLayout(postsPanelLayout);
+        postsPanelLayout.setHorizontalGroup(
+            postsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 379, Short.MAX_VALUE)
+        );
+        postsPanelLayout.setVerticalGroup(
+            postsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 301, Short.MAX_VALUE)
+        );
+
+        jScrollPane1.setViewportView(postsPanel);
+
+        javax.swing.GroupLayout storiesPanelLayout = new javax.swing.GroupLayout(storiesPanel);
+        storiesPanel.setLayout(storiesPanelLayout);
+        storiesPanelLayout.setHorizontalGroup(
+            storiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 379, Short.MAX_VALUE)
+        );
+        storiesPanelLayout.setVerticalGroup(
+            storiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 185, Short.MAX_VALUE)
+        );
+
+        storiesScrollPane.setViewportView(storiesPanel);
+
+        yourStoriesLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        yourStoriesLabel.setText("Your Stories");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -230,30 +269,31 @@ public class ViewProfile extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(70, 70, 70)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(labelYourFriends)
-                                .addComponent(bioTextLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(bioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(friendsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                                .addComponent(profilePhotoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(bioTextLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(profilePhotoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelYourFriends)
+                            .addComponent(friendsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(85, 85, 85)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(80, 80, 80)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(btnEditProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(coverPhotoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 739, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(96, 96, 96)
+                            .addComponent(coverPhotoLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 605, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEditProfile, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(labelYourPosts, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(postsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addGap(0, 132, Short.MAX_VALUE))
+                                    .addComponent(yourStoriesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(storiesScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(labelYourPosts, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(153, 153, 153)))))
+                .addGap(0, 48, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(btnBack1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -267,18 +307,21 @@ public class ViewProfile extends javax.swing.JFrame {
                             .addComponent(labelYourPosts, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(coverPhotoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEditProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(bioTextLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(labelYourFriends, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(friendsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(postsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(44, 44, 44))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bioTextLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(yourStoriesLabel)
+                    .addComponent(labelYourFriends, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(storiesScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(friendsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         pack();
@@ -305,11 +348,14 @@ public class ViewProfile extends javax.swing.JFrame {
     private javax.swing.JLabel coverPhotoLabel;
     private javax.swing.JList<String> friendsJList;
     private javax.swing.JScrollPane friendsScrollPane;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelYourFriends;
     private javax.swing.JLabel labelYourPosts;
     private javax.swing.JPanel postsPanel;
-    private javax.swing.JScrollPane postsScrollPane;
     private javax.swing.JLabel profilePhotoLabel;
+    private javax.swing.JPanel storiesPanel;
+    private javax.swing.JScrollPane storiesScrollPane;
     private javax.swing.JLabel usernameLabel;
+    private javax.swing.JLabel yourStoriesLabel;
     // End of variables declaration//GEN-END:variables
 }
