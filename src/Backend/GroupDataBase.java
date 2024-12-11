@@ -64,7 +64,7 @@ public class GroupDataBase {
                     for (int j = 0; j < adminsArray.length(); j++) {
                         User admin = userData.getUserById(adminsArray.getString(j));
                        
-                        manager.promoteToAdmin(admin, g.getName());
+                        manager.promoteToAdmin(admin, g.getName(),UserDataBase.getCurrentUser());
                     }
                 }    
                
@@ -150,18 +150,11 @@ public class GroupDataBase {
             }
         }
         return null;
+    } 
+
+    public static ArrayList<Group> getGroups() {
+        return groups;
     }
+         
      
-     
-     
-     
-     
-     
-  public void deleteGroup(String groupId) {
-        Group g = getGroupById(groupId);
-        if (g != null) {
-            groups.remove(g);
-            saveGroupToFile(groups);
-        }
-    }       
 }

@@ -95,13 +95,5 @@ public class Group {
    
 
   
-
-    public void demoteFromAdmin(User admin) {
-        admins.remove(admin);
-    }
-       
-    
-    
-    
-    
+     
 }
