@@ -63,7 +63,8 @@ public class GroupDataBase {
                 if (adminsArray != null) {
                     for (int j = 0; j < adminsArray.length(); j++) {
                         User admin = userData.getUserById(adminsArray.getString(j));
-                        g.promoteToAdmin(admin);
+                       
+                        manager.promoteToAdmin(admin, g.getName());
                     }
                 }    
                

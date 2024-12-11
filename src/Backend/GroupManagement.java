@@ -19,17 +19,57 @@ public class GroupManagement {
    {
     Group group=database.getGroupByname(groupName);
     ArrayList<User> members=group.getMembers();
-    if(members.contains(member))
+    if(members.contains(member))   
        return false;
     else{
         members.add(member);
         return true;
     }
-    
-    
-    
-    
    }
+    public boolean removeMember(User member,String groupName)
+    {
+       Group group=database.getGroupByname(groupName);
+    ArrayList<User> members=group.getMembers();
+    if(members.contains(member))
+       return false;
+    else{
+        members.remove(member);
+        return true;
     
+   }  
+}
+public boolean promoteToAdmin(User member,String groupName)
+{
+      Group group=database.getGroupByname(groupName);
+    ArrayList<User> members=group.getMembers();
+    ArrayList<User> admins=group.getAdmins();
+    
+    if(members.contains(member) && !admins.contains(member))
+    {admins.add(member);
+    return true;}
+    
+    else return false;
+    
+} 
+
+public boolean DemoteFromAdmin(User member,String groupName)
+{
+      Group group=database.getGroupByname(groupName);
+    ArrayList<User> members=group.getMembers();
+    ArrayList<User> admins=group.getAdmins();
+    
+    if(admins.contains(member))
+    {admins.remove(member);
+    return true;}
+    
+    else return false;
+    
+} 
+
+
+
+
+
+
     
 }

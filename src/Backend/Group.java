@@ -94,16 +94,7 @@ public class Group {
     }
    
 
-    public void removeMember(User member) {
-        members.remove(member);
-        admins.remove(member); 
-    }
-
-    public void promoteToAdmin(User member) {
-        if (members.contains(member) && !admins.contains(member)) {
-            admins.add(member);
-        }
-    }
+  
 
     public void demoteFromAdmin(User admin) {
         admins.remove(admin);
