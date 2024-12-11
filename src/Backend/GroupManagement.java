@@ -16,6 +16,7 @@ public class GroupManagement {
     GroupRequestDatabase requestDatabase = GroupRequestDatabase.getinstance(); 
     UserDataBase userData=UserDataBase.getDatabase();
      ArrayList<GroupRequests>requests=requestDatabase.getALLRequests();
+     PostDataBase postData=PostDataBase.getInstance();
      
     //Admin
    public void addMember(User member,String groupName) 
@@ -96,12 +97,15 @@ else if(member.getUserId().equals(group.getPrimaryAdminId())){
     }
     
     
+   /* public void addPosttoGroup(Post p)
     
+    {
+    User currentUser = UserDataBase.getCurrentUser();
     
-    
-    
-    
-
+  
+    }
+*/
+   
     
     
     //PrimaryAdmin
@@ -116,11 +120,12 @@ public void promoteToAdmin(User member,String groupName)
     ArrayList<User> admins=group.getAdmins();
     
    /* if(members.contains(member) && !admins.contains(member) && currentuser.getUserId().equals(group.getAdminId()))
-    {admins.add(member);
+    {*/
+    admins.add(member);
      GroupDataBase.saveGroupToFile(GroupDataBase.getGroups());
-    return true;}
+    //return true;}
     
-    else return false;*/
+    //else return false;*/
     
 } 
 
@@ -133,13 +138,14 @@ public void DemoteFromAdmin(User admin,String groupName)
     }*/
     ArrayList<User> admins=group.getAdmins();
     
-    /*if(admins.contains(admin)&& currentuser.getUserId().equals(group.getPrimaryAdminId()))
-    {admins.remove(admin);
+    //if(admins.contains(admin)&& currentuser.getUserId().equals(group.getPrimaryAdminId()))
+   // {
+    admins.remove(admin);
      GroupDataBase.saveGroupToFile(GroupDataBase.getGroups());
-    return true;}
+   // return true;}
     
-    else{ System.out.println("Current user is not primary admin,can't demote admin");
-        return false;}*/
+    //else{ System.out.println("Current user is not primary admin,can't demote admin");
+        //return false;}
     
 } 
  public void deleteGroup(String groupName) {
@@ -155,4 +161,15 @@ public void DemoteFromAdmin(User admin,String groupName)
             GroupDataBase.saveGroupToFile(GroupDataBase.getGroups());
     //}  
  }
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 }
