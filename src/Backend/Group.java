@@ -29,7 +29,6 @@ public class Group {
         this.name = name;
         this.description = description;
         this.photo = photo;
-        this.members= new ArrayList<>();
         this.groupId=UUID.randomUUID().toString();
         this.members = new ArrayList<>();
         this.admins = new ArrayList<>();
