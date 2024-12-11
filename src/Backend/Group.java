@@ -92,16 +92,7 @@ public class Group {
     public ArrayList<User> getAdmins() {
         return admins;
     }
-    
-    
-    
-    
-    
-   public void addMember(User member) {
-        if (!members.contains(member)) {
-            members.add(member);
-        }
-    }
+   
 
     public void removeMember(User member) {
         members.remove(member);

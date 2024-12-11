@@ -21,6 +21,7 @@ public class GroupDataBase {
     private static ArrayList<Group> groups=new ArrayList<>();
     public static GroupDataBase database=null;
     UserDataBase userData=UserDataBase.getDatabase();
+    GroupManagement manager=new GroupManagement();
     
      private GroupDataBase() {
         groups=ReadGroupsfromFile();
@@ -54,7 +55,7 @@ public class GroupDataBase {
                 if (membersArray != null) {
                     for (int j = 0; j < membersArray.length(); j++) {
                         User member = userData.getUserById(membersArray.getString(j));
-                        g.addMember(member);
+                        manager.addMember(member, g.getName());
                     }
                 }
                 
@@ -141,6 +142,20 @@ public class GroupDataBase {
         return null;
     }
   
+         public Group getGroupByname(String name) {
+        for (Group g : groups) {
+            if (g.getName().equals(name)) {
+                return g;
+            }
+        }
+        return null;
+    }
+     
+     
+     
+     
+     
+     
   public void deleteGroup(String groupId) {
         Group g = getGroupById(groupId);
         if (g != null) {
