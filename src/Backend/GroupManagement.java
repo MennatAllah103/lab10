@@ -15,7 +15,7 @@ public class GroupManagement {
     GroupDataBase database=GroupDataBase.getInstance();
 
   
-    
+    //Admin
    public boolean addMember(User member,String groupName) 
    {
     Group group=database.getGroupByname(groupName);
