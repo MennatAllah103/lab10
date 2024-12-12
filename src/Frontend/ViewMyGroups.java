@@ -15,14 +15,14 @@ import javax.swing.DefaultListModel;
  *
  * @author yaras
  */
-public class ViewGroups extends javax.swing.JFrame {
+public class ViewMyGroups extends javax.swing.JFrame {
 
     User user = UserDataBase.getCurrentUser();
 
     /**
      * Creates new form ViewGroups
      */
-    public ViewGroups() {
+    public ViewMyGroups() {
         initComponents();
         GroupDataBase GDB = GroupDataBase.getInstance();
       //  ArrayList<String> groupIDs = GDB.UserGroupIDs(user.getUserId());

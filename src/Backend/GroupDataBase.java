@@ -134,7 +134,7 @@ public class GroupDataBase {
         }
     }
 
-    public boolean addGroup(Group g) {
+    public void addGroup(Group g) {
         // Ensure the current groups are loaded from the file (if not already loaded)
         if (groups.isEmpty()) {
             groups = ReadGroupsfromFile();
@@ -144,13 +144,12 @@ public class GroupDataBase {
         for (Group existingGroup : groups) {
             if (existingGroup.getName().equals(g.getName())) {
                 System.err.println("Group already exists.");
-                return false;
+                return ;
             }
         }
 
         groups.add(g);
         saveGroupToFile(groups);
-        return true;
     }
 
     public Group getGroupById(String groupId) {

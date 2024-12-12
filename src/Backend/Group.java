@@ -38,7 +38,7 @@ public class Group {
         this.members.add(creator);
         this.admins.add(creator);
        
-    }
+    }    
     public void setPrimaryAdminId(String primaryAdminId) {
         this.primaryAdminId = primaryAdminId;
     }
