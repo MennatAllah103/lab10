@@ -159,4 +159,15 @@ public class PostDataBase {
       
         return postList;
     }
+    public  Post GetPostById(String postId )
+        {
+        for (Post post : postList) {
+            if (post.contentID.equals(postId)) {
+                return post;
+            }
+        }
+
+        return null;
+    }
+            
 }

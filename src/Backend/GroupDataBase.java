@@ -68,15 +68,24 @@ public class GroupDataBase {
                     }
                 }    
                 
-              /* JSONArray postsArray = groupJson.optJSONArray("posts");
+               JSONArray postsArray = groupJson.optJSONArray("posts");
                 if (postsArray != null) {
                     for (int j = 0; j < postsArray.length(); j++) {
-                        Post post =postData.getContentById(postsArray.getString(j));
+                        Post post =postData.GetPostById(postsArray.getString(j));
                        
-                manager.addPost(post,g.getName()):
+                manager.addPosttoGroup(post,g.getName());
                         
                     }
-                }  */    
+                }  
+             
+
+              
+              
+              
+              
+              
+              
+              
                 
                 
                 
