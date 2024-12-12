@@ -101,7 +101,8 @@ else if(member.getUserId().equals(group.getPrimaryAdminId())){
     
     {
     User currentUser = UserDataBase.getCurrentUser();
-    
+      ArrayList<Posts>posts=database.getAllposts();
+      posts.add(p);
   
     }
 */

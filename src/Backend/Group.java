@@ -21,7 +21,8 @@ public class Group {
     private String primaryAdminId;
     private String adminId;
     private User primaryAdmin;
-     private ArrayList<User> admins;
+    private ArrayList<User> admins;
+    private ArrayList<Post> posts;
      
      
      
@@ -32,6 +33,7 @@ public class Group {
         this.groupId=UUID.randomUUID().toString();
         this.members = new ArrayList<>();
         this.admins = new ArrayList<>();
+        this.posts=new ArrayList<>();
         this.primaryAdmin = creator;
         this.members.add(creator);
         this.admins.add(creator);
