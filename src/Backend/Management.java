@@ -281,7 +281,7 @@ public class Management {
       
         for(Request R : requestsList)
         {
-            if(R.senderID.equals(senderID)&&R.receiverID.equals(receiverID))
+            if((R.senderID.equals(senderID)&&R.receiverID.equals(receiverID))||(R.senderID.equals(receiverID)&&R.receiverID.equals(senderID)))
                 return R;
         }
         

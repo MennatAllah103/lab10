@@ -1,23 +1,16 @@
 [
     {
-        "timeStamp": "2024-12-09T18:38:52.198249700",
-        "imagePath": "C:\\Users\\hp\\Downloads\\coverphoto.jpg",
-        "contentID": "ebaa975e-87b0-46dd-ba02-5db2937ef4b3",
-        "authorID": "c6c8668a-84bc-4196-870d-2e988d9e0d45",
-        "content": "testtttttt"
+        "timeStamp": "2024-12-12T12:43:28.638367100",
+        "imagePath": "C:\\Users\\daree\\Documents\\coverPhoto.jpg",
+        "contentID": "27a257ed-c792-4fe6-908b-6051778576bb",
+        "authorID": "2c2d8783-cfba-42fe-b330-954c047f1753",
+        "content": "my story"
     },
     {
-        "timeStamp": "2024-12-09T19:13:30.726229400",
-        "imagePath": "C:\\Users\\hp\\Downloads\\pfp.jpg",
-        "contentID": "9d919bb7-0a24-44cb-b332-58a5cb4fc4eb",
-        "authorID": "eb899a2e-9cd1-45da-8166-49d5a7d2b150",
-        "content": "testing"
-    },
-    {
-        "timeStamp": "2024-12-10T03:31:23.064624800",
-        "imagePath": "C:\\Users\\hp\\Downloads\\pfp.jpg",
-        "contentID": "bd65bc48-271e-4561-8b50-d577c20c73a1",
-        "authorID": "1ae2b8ae-22c4-4d94-9f39-6651242a1140",
-        "content": "hello"
+        "timeStamp": "2024-12-12T14:37:48.221153600",
+        "imagePath": "C:\\Users\\daree\\Documents\\WhatsApp Image 2024-12-05 at 16.01.27_3bd1b165.jpg",
+        "contentID": "f3f77668-8bd0-4ace-b4b1-9156ef4ca6a7",
+        "authorID": "47d5973d-d4c6-4605-bcd5-694eb2339b6e",
+        "content": "my story"
     }
 ]

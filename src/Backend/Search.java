@@ -15,6 +15,8 @@ public class Search {
     UserDataBase userDB=UserDataBase.getDatabase();
     ArrayList<User> AllUsers =userDB.getAllUsers();
     
+    
+    
     public  ArrayList<User> search (String searchString)
     {
         ArrayList<User> searchResults= new ArrayList<>();
