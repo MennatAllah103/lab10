@@ -207,6 +207,16 @@ public class GroupDataBase {
 
         return userGroups;
     }
+    
+  public void leaveGroup(User user , Group group)
+    {
+     ArrayList<Group>userGroups=viewUserGroups(user.getUserId());
+     userGroups.remove(group);
+     group.getMembers().remove(user);
+     saveGroupToFile(groups);
+     
+
+    }
 
     public ArrayList<String> viewUserGroupNames(String userId) {
         User user = userData.getUserById(userId);
