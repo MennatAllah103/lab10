@@ -190,6 +190,28 @@ public class GroupDataBase {
     public static ArrayList<Group> getGroups() {
         return groups;
     }
-         
+       
+    
+  public ArrayList<Group> viewUserGroups(String userId) {
+    User user = userData.getUserById(userId);
+    ArrayList<Group> userGroups = new ArrayList<>();
+
+    if (user != null) {
+        for (Group group : groups) {
+            for (User member : group.getMembers()) {
+                if (userId.equals(member.getUserId())) {
+                    userGroups.add(group);
+                    break; 
+                }
+            }
+        }
+    }
+
+    return userGroups;
+}  
+    
+    
+    
+    
      
 }
