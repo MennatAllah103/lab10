@@ -200,6 +200,11 @@ public class viewUserSearch extends javax.swing.JFrame {
         // TODO add your handling code here:
         String id2=user.getUserId();
         String id1=currentuser.getUserId();
+        Request R= manage.getRequest(id1, id2);
+        if(R!=null)
+        {
+            manage.deleterequest(R);
+        }
         manage.BlockUser(id1, id2);
         JOptionPane.showMessageDialog(this, "Block done", "  Message ", JOptionPane.PLAIN_MESSAGE);
         setVisible(false);

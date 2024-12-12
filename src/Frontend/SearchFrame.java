@@ -108,7 +108,9 @@ public class SearchFrame extends javax.swing.JFrame {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
+          
         
+        ArrayList<String> allblockedIds= manage.getAllUsersBlockedForaUser(currentuser.getUserId());
         String searchField=searchBar.getText();
         
         if (searchField == null)
@@ -123,12 +125,17 @@ public class SearchFrame extends javax.swing.JFrame {
         
         else
       {
-         ArrayList<User> searchResults=Search.search(searchField);
-      
+     ArrayList<User> searchResults=Search.search(searchField);
+      ArrayList<User> searchResultswithoutBlocked= new ArrayList<>();
+          for(User u : searchResults)   
+   {
+      if(!(allblockedIds.contains(u.getUserId())))
+          searchResultswithoutBlocked.add(u);
+   }
      
        DefaultListModel<String> model=new DefaultListModel();
       
-       for(User u : searchResults)
+       for(User u : searchResultswithoutBlocked)
        {
            String username =u.getUsername();
            model.addElement(username);
