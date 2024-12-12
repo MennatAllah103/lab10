@@ -3,16 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/github/lab10/lab10/src/Frontend/AddStoryFront.java</file>
             <file>file:/C:/github/lab10/lab10/src/Backend/StoryDataBase.java</file>
             <file>file:/C:/github/lab10/lab10/src/Frontend/EditProfile.java</file>
-            <file>file:/C:/github/lab10/lab10/src/Backend/Story.java</file>
             <file>file:/C:/github/lab10/lab10/src/Frontend/Newsfeed.java</file>
-            <file>file:/C:/github/lab10/lab10/src/Frontend/ChangePassword.java</file>
+            <file>file:/C:/github/lab10/lab10/src/Backend/NotificationManager.java</file>
             <file>file:/C:/github/lab10/lab10/src/Backend/UserDataBase.java</file>
             <file>file:/C:/github/lab10/lab10/src/Backend/Post.java</file>
             <file>file:/C:/github/lab10/lab10/src/Backend/Request.java</file>
             <file>file:/C:/github/lab10/lab10/src/Backend/Content.java</file>
+            <file>file:/C:/github/lab10/lab10/src/Frontend/AddStoryFront.java</file>
+            <file>file:/C:/github/lab10/lab10/src/Backend/Story.java</file>
+            <file>file:/C:/github/lab10/lab10/src/Backend/NotificationDatabase.java</file>
+            <file>file:/C:/github/lab10/lab10/src/Backend/Notification.java</file>
+            <file>file:/C:/github/lab10/lab10/src/Frontend/ChangePassword.java</file>
+            <file>file:/C:/github/lab10/lab10/src/Frontend/ViewPost.java</file>
+            <file>file:/C:/github/lab10/lab10/src/Backend/User.java</file>
+            <file>file:/C:/github/lab10/lab10/src/Frontend/ViewProfile.java</file>
         </group>
     </open-files>
 </project-private>
