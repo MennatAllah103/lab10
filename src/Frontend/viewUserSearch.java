@@ -20,12 +20,14 @@ public class viewUserSearch extends javax.swing.JFrame {
     Newsfeed newsfeed;
     User currentuser;
     Management manage;
-    public viewUserSearch(Newsfeed newsfeed, User currentuser, Management manage) {
+    User user;
+    public viewUserSearch(Newsfeed newsfeed, User currentuser, Management manage,User user) {
         initComponents();
       
         this.newsfeed = newsfeed;
         this.currentuser = currentuser;
         this.manage = manage;
+        this.user=user;
     }
 
     /**
@@ -39,9 +41,8 @@ public class viewUserSearch extends javax.swing.JFrame {
 
         profilephotolabel = new javax.swing.JLabel();
         coverphotolabel = new javax.swing.JLabel();
-        viewwpostsPanel = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        sendRequest = new javax.swing.JButton();
+        blockbtn = new javax.swing.JButton();
         backbtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -56,20 +57,9 @@ public class viewUserSearch extends javax.swing.JFrame {
         coverphotolabel.setBackground(new java.awt.Color(255, 255, 255));
         coverphotolabel.setForeground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout viewwpostsPanelLayout = new javax.swing.GroupLayout(viewwpostsPanel);
-        viewwpostsPanel.setLayout(viewwpostsPanelLayout);
-        viewwpostsPanelLayout.setHorizontalGroup(
-            viewwpostsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 696, Short.MAX_VALUE)
-        );
-        viewwpostsPanelLayout.setVerticalGroup(
-            viewwpostsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 318, Short.MAX_VALUE)
-        );
+        sendRequest.setText("send Request");
 
-        jButton1.setText("send Request");
-
-        jButton2.setText("Block");
+        blockbtn.setText("Block");
 
         backbtn.setText("Back to Newsfeed");
         backbtn.addActionListener(new java.awt.event.ActionListener() {
@@ -83,20 +73,15 @@ public class viewUserSearch extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(22, 22, 22)
+                .addComponent(profilephotolabel, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(81, 81, 81)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(profilephotolabel, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(81, 81, 81)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(98, 98, 98)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(coverphotolabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(viewwpostsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(sendRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(98, 98, 98)
+                        .addComponent(blockbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(coverphotolabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(backbtn)
                 .addGap(14, 14, 14))
@@ -114,12 +99,10 @@ public class viewUserSearch extends javax.swing.JFrame {
                         .addGap(24, 24, 24)
                         .addComponent(backbtn)))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(29, 29, 29)
-                .addComponent(viewwpostsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(blockbtn)
+                    .addComponent(sendRequest))
+                .addContainerGap(363, Short.MAX_VALUE))
         );
 
         pack();
@@ -141,10 +124,9 @@ public class viewUserSearch extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backbtn;
+    private javax.swing.JButton blockbtn;
     private javax.swing.JLabel coverphotolabel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel profilephotolabel;
-    private javax.swing.JPanel viewwpostsPanel;
+    private javax.swing.JButton sendRequest;
     // End of variables declaration//GEN-END:variables
 }

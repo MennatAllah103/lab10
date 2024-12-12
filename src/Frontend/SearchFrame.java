@@ -5,8 +5,6 @@
 package Frontend;
 
 import Backend.*;
-import Frontend.viewFriendSearch;
-import Frontend.viewUserSearch;
 import java.util.*;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -164,12 +162,12 @@ public class SearchFrame extends javax.swing.JFrame {
 
                         if (currentUserFriendsIds.contains(selectedUserId)) 
                          {
-                            viewFriendSearch viewFriendProfile = new viewFriendSearch(newsfeed,currentuser,manage);
+                            viewFriendSearch viewFriendProfile = new viewFriendSearch(newsfeed,currentuser,manage,u);
                             setVisible(false);
                             viewFriendProfile.setVisible(true);
                         } else
                         {
-                            viewUserSearch viewUserProfile = new viewUserSearch(newsfeed,currentuser,manage);
+                            viewUserSearch viewUserProfile = new viewUserSearch(newsfeed,currentuser,manage,u);
                             setVisible(false);
                             viewUserProfile.setVisible(true);
                         }

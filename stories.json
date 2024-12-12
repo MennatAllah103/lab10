@@ -1,1 +1,16 @@
-[]
+[
+    {
+        "timeStamp": "2024-12-12T12:43:28.638367100",
+        "imagePath": "C:\\Users\\daree\\Documents\\coverPhoto.jpg",
+        "contentID": "27a257ed-c792-4fe6-908b-6051778576bb",
+        "authorID": "2c2d8783-cfba-42fe-b330-954c047f1753",
+        "content": "my story"
+    },
+    {
+        "timeStamp": "2024-12-12T14:37:48.221153600",
+        "imagePath": "C:\\Users\\daree\\Documents\\WhatsApp Image 2024-12-05 at 16.01.27_3bd1b165.jpg",
+        "contentID": "f3f77668-8bd0-4ace-b4b1-9156ef4ca6a7",
+        "authorID": "47d5973d-d4c6-4605-bcd5-694eb2339b6e",
+        "content": "my story"
+    }
+]
