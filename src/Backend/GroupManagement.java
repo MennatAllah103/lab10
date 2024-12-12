@@ -18,6 +18,15 @@ public class GroupManagement {
      ArrayList<GroupRequests>requests=requestDatabase.getALLRequests();
      PostDataBase postData=PostDataBase.getInstance();
      
+   public GroupManagement(GroupDataBase database) {
+        this.database = database;
+    }  
+     
+     
+     
+     
+     
+     
     //Admin
    public void addMember(User member,String groupName) 
    {  User currentuser = UserDataBase.getCurrentUser();
