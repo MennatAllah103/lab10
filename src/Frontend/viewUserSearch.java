@@ -4,8 +4,11 @@
  */
 package Frontend;
 
-import Backend.Management;
-import Backend.User;
+
+import Backend.*;
+import java.awt.Font;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,6 +24,7 @@ public class viewUserSearch extends javax.swing.JFrame {
     User currentuser;
     Management manage;
     User user;
+      boolean requestsent;
     public viewUserSearch(Newsfeed newsfeed, User currentuser, Management manage,User user) {
         initComponents();
       
@@ -28,8 +32,34 @@ public class viewUserSearch extends javax.swing.JFrame {
         this.currentuser = currentuser;
         this.manage = manage;
         this.user=user;
+        
+        String username = user.getUsername();
+        Font font1 = new Font("Arial", Font.BOLD, 20); 
+        usernameLabel.setFont(font1);
+        usernameLabel.setText(username);
+        
+        reloadProfilePhotos();
     }
 
+    
+      private void reloadProfilePhotos() {
+        String defaultProfilePath = "/resources/defaultProfilePhoto.jpeg"; 
+        String defaultCoverPath = "/resources/defaultCoverPhoto.jpg";
+
+        if (user.getProfilePhoto().equals("defaultProfilePhoto.jpg")) {
+            profilePhotoLabel.setIcon(new ImageIcon(getClass().getResource(defaultProfilePath)));
+        } else {
+            profilePhotoLabel.setIcon(new ImageIcon(new ImageIcon(user.getProfilePhoto())
+                    .getImage().getScaledInstance(profilePhotoLabel.getWidth(), profilePhotoLabel.getHeight(), java.awt.Image.SCALE_SMOOTH)));
+        }
+
+        if (user.getCoverPhoto().equals("defaultCoverPhoto.jpg")) {
+            coverPhotoLabel.setIcon(new ImageIcon(getClass().getResource(defaultCoverPath)));
+        } else {
+            coverPhotoLabel.setIcon(new ImageIcon(new ImageIcon(user.getCoverPhoto())
+                    .getImage().getScaledInstance(coverPhotoLabel.getWidth(), coverPhotoLabel.getHeight(), java.awt.Image.SCALE_SMOOTH)));
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -39,11 +69,13 @@ public class viewUserSearch extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        profilephotolabel = new javax.swing.JLabel();
-        coverphotolabel = new javax.swing.JLabel();
+        profilePhotoLabel = new javax.swing.JLabel();
+        coverPhotoLabel = new javax.swing.JLabel();
         sendRequest = new javax.swing.JButton();
         blockbtn = new javax.swing.JButton();
         backbtn = new javax.swing.JButton();
+        usernameLabel = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -52,14 +84,24 @@ public class viewUserSearch extends javax.swing.JFrame {
             }
         });
 
-        profilephotolabel.setBackground(new java.awt.Color(255, 255, 255));
+        profilePhotoLabel.setBackground(new java.awt.Color(255, 255, 255));
 
-        coverphotolabel.setBackground(new java.awt.Color(255, 255, 255));
-        coverphotolabel.setForeground(new java.awt.Color(255, 255, 255));
+        coverPhotoLabel.setBackground(new java.awt.Color(255, 255, 255));
+        coverPhotoLabel.setForeground(new java.awt.Color(255, 255, 255));
 
         sendRequest.setText("send Request");
+        sendRequest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendRequestActionPerformed(evt);
+            }
+        });
 
         blockbtn.setText("Block");
+        blockbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                blockbtnActionPerformed(evt);
+            }
+        });
 
         backbtn.setText("Back to Newsfeed");
         backbtn.addActionListener(new java.awt.event.ActionListener() {
@@ -68,41 +110,53 @@ public class viewUserSearch extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setText("This profile is locked ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(backbtn)
+                .addGap(19, 19, 19))
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(profilephotolabel, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(81, 81, 81)
+                .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(usernameLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(profilePhotoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(sendRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(98, 98, 98)
+                        .addGap(85, 85, 85)
                         .addComponent(blockbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(coverphotolabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addComponent(backbtn)
-                .addGap(14, 14, 14))
+                    .addComponent(coverPhotoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(127, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(coverphotolabel, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
-                            .addComponent(profilephotolabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(backbtn)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(blockbtn)
-                    .addComponent(sendRequest))
-                .addContainerGap(363, Short.MAX_VALUE))
+                .addGap(25, 25, 25)
+                .addComponent(backbtn)
+                .addGap(2, 2, 2)
+                .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(profilePhotoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(coverPhotoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sendRequest)
+                    .addComponent(blockbtn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(63, Short.MAX_VALUE))
         );
 
         pack();
@@ -120,13 +174,47 @@ public class viewUserSearch extends javax.swing.JFrame {
         newsfeed.setVisible(true);
     }//GEN-LAST:event_backbtnActionPerformed
 
+    private void sendRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendRequestActionPerformed
+        // TODO add your handling code here:
+        
+        
+        String receiverid=user.getUserId();
+        String SenderId=currentuser.getUserId();
+         Request R = new Request (SenderId,receiverid);
+         if(manage.allowedToSendRequest(SenderId, receiverid))
+         {
+             
+           manage.sendRequest(R);
+         JOptionPane.showMessageDialog(this, "Request is sent", "  Message ", JOptionPane.PLAIN_MESSAGE);
+         }
+         else
+         {
+               JOptionPane.showMessageDialog(this, "Request is already Pending", "  Message ", JOptionPane.PLAIN_MESSAGE);
+         }
+         
+    
+         
+    }//GEN-LAST:event_sendRequestActionPerformed
+
+    private void blockbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blockbtnActionPerformed
+        // TODO add your handling code here:
+        String id2=user.getUserId();
+        String id1=currentuser.getUserId();
+        manage.BlockUser(id1, id2);
+        JOptionPane.showMessageDialog(this, "Block done", "  Message ", JOptionPane.PLAIN_MESSAGE);
+        setVisible(false);
+        newsfeed.setVisible(true);
+    }//GEN-LAST:event_blockbtnActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backbtn;
     private javax.swing.JButton blockbtn;
-    private javax.swing.JLabel coverphotolabel;
-    private javax.swing.JLabel profilephotolabel;
+    private javax.swing.JLabel coverPhotoLabel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel profilePhotoLabel;
     private javax.swing.JButton sendRequest;
+    private javax.swing.JLabel usernameLabel;
     // End of variables declaration//GEN-END:variables
 }
