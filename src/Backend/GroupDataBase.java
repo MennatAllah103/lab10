@@ -44,56 +44,71 @@ public class GroupDataBase {
     }
 
     private ArrayList<Group> ReadGroupsfromFile() {
-        ArrayList<Group> groups = new ArrayList<>();
-        try {
-            String json = new String(Files.readAllBytes(Paths.get("groups.json")));
-            JSONArray groupsArray = new JSONArray(json);
-            for (int i = 0; i < groupsArray.length(); i++) {
-                JSONObject groupJson = groupsArray.getJSONObject(i);
-                String name = groupJson.getString("name");
-                String description = groupJson.getString("description");
-                String photo = groupJson.getString("photo");
-                String groupId = groupJson.getString("groupId");
-                String primaryAdminId = groupJson.getString("PrimaryAdminId");
-                User primaryAdmin = userData.getUserById(primaryAdminId);
+    ArrayList<Group> groups = new ArrayList<>();
+    try {
+        String json = new String(Files.readAllBytes(Paths.get("groups.json")));
+        JSONArray groupsArray = new JSONArray(json);
 
-                Group g = new Group(name, description, photo, primaryAdmin);
-                g.setGroupId(groupId);
+        for (int i = 0; i < groupsArray.length(); i++) {
+            JSONObject groupJson = groupsArray.getJSONObject(i);
+            String name = groupJson.getString("name");
+            String description = groupJson.getString("description");
+            String photo = groupJson.getString("photo");
+            String groupId = groupJson.getString("groupId");
+            String primaryAdminId = groupJson.getString("PrimaryAdminId");
+            User primaryAdmin = userData.getUserById(primaryAdminId);
 
-                JSONArray membersArray = groupJson.optJSONArray("members");
-                if (membersArray != null) {
-                    for (int j = 0; j < membersArray.length(); j++) {
-                        User member = userData.getUserById(membersArray.getString(j));
-                        getManager().addMember(member, g.getName()); // Use lazy manager here
-                    }
+           
+            Group.GroupBuilder builder = new Group.GroupBuilder()
+                    .setName(name)
+                    .setDescription(description)
+                    .setPhoto(photo)
+                    .setGroupId(groupId)
+                    .setPrimaryAdmin(primaryAdmin)
+                    .setPrimaryAdminId(primaryAdminId);
+
+            JSONArray membersArray = groupJson.optJSONArray("members");
+            if (membersArray != null) {
+                ArrayList<User> members = new ArrayList<>();
+                for (int j = 0; j < membersArray.length(); j++) {
+                    User member = userData.getUserById(membersArray.getString(j));
+                    members.add(member);
                 }
-
-                JSONArray adminsArray = groupJson.optJSONArray("admins");
-                if (adminsArray != null) {
-                    for (int j = 0; j < adminsArray.length(); j++) {
-                        User admin = userData.getUserById(adminsArray.getString(j));
-                        getManager().promoteToAdmin(admin, g.getName()); // Use lazy manager here
-                    }
-                }
-
-                JSONArray postsArray = groupJson.optJSONArray("posts");
-                if (postsArray != null) {
-                    for (int j = 0; j < postsArray.length(); j++) {
-                        Post post = postData.GetPostById(postsArray.getString(j));
-                        getManager().addPosttoGroup(post, g.getName()); // Use lazy manager here
-                    }
-                }
-
-                groups.add(g);
+                builder.setMembers(members);
             }
-        } catch (IOException e) {
-            System.err.println("Error reading groups from file: " + e.getMessage());
-        } catch (JSONException e) {
-            System.err.println("Error parsing JSON data: " + e.getMessage());
-        }
-        return groups;
-    }
 
+            JSONArray adminsArray = groupJson.optJSONArray("admins");
+            if (adminsArray != null) {
+                ArrayList<User> admins = new ArrayList<>();
+                for (int j = 0; j < adminsArray.length(); j++) {
+                    User admin = userData.getUserById(adminsArray.getString(j));
+                    admins.add(admin);
+                }
+                builder.setAdmins(admins);
+            }
+
+            JSONArray postsArray = groupJson.optJSONArray("posts");
+            if (postsArray != null) {
+                ArrayList<Post> posts = new ArrayList<>();
+                for (int j = 0; j < postsArray.length(); j++) {
+                    Post post = postData.GetPostById(postsArray.getString(j));
+                    posts.add(post);
+                }
+                builder.setPosts(posts);
+            }
+
+           
+            Group group = builder.build();
+
+            groups.add(group);
+        }
+    } catch (IOException e) {
+        System.err.println("Error reading groups from file: " + e.getMessage());
+    } catch (JSONException e) {
+        System.err.println("Error parsing JSON data: " + e.getMessage());
+    }
+    return groups;
+}
     public static void saveGroupToFile(ArrayList<Group> groups) {
         JSONArray groupsArray = new JSONArray();
         for (Group g : groups) {
@@ -130,7 +145,7 @@ public class GroupDataBase {
             file.write(groupsArray.toString(4));
             file.close();
         } catch (IOException e) {
-            System.out.println("Error saving users to file");
+            System.out.println("Error saving groups to file");
         }
     }
 
