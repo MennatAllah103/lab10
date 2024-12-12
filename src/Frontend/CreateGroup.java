@@ -4,14 +4,20 @@
  */
 package Frontend;
 import Backend.Group;
+import Backend.*;
 import Backend.User;
 import Backend.UserDataBase;
+import java.awt.Image;
+import java.util.UUID;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 /**
  *
  * @author yaras
  */
 public class CreateGroup extends javax.swing.JFrame {
 User user = UserDataBase.getCurrentUser();
+ private String selectedImagePath;
     /**
      * Creates new form CreateGroup
      */
@@ -29,21 +35,19 @@ User user = UserDataBase.getCurrentUser();
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        groupName = new javax.swing.JTextField();
         CreateBtn = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        photoLabel = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        descriptionTXT = new javax.swing.JTextField();
+        nameTXT = new javax.swing.JTextField();
+        IMGbtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Create New Group");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Enter group name:");
-
-        groupName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        groupName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                groupNameActionPerformed(evt);
-            }
-        });
 
         CreateBtn.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         CreateBtn.setText("Create Group");
@@ -53,50 +57,143 @@ User user = UserDataBase.getCurrentUser();
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setText("Enter group photo:");
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel3.setText("Enter description:");
+
+        descriptionTXT.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        descriptionTXT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                descriptionTXTActionPerformed(evt);
+            }
+        });
+
+        nameTXT.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        nameTXT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nameTXTActionPerformed(evt);
+            }
+        });
+
+        IMGbtn.setText("Add Photo");
+        IMGbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                IMGbtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(57, 57, 57)
-                        .addComponent(groupName, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(131, 131, 131)
-                        .addComponent(CreateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(340, 340, 340)
+                            .addComponent(descriptionTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(149, 149, 149)
+                            .addComponent(CreateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(35, 35, 35)
+                                        .addComponent(IMGbtn)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(nameTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(photoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(54, 54, 54)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(groupName, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
-                .addComponent(CreateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                    .addComponent(nameTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(54, 54, 54)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(descriptionTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(IMGbtn)
+                        .addGap(95, 95, 95))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(photoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addComponent(CreateBtn)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void groupNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupNameActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_groupNameActionPerformed
-
     private void CreateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateBtnActionPerformed
         // TODO add your handling code here:
-        String name = groupName.getText();
-        Group newGroup = new Group(name, null, photo, user);
+        String name = nameTXT.getText();
+       Group.GroupBuilder builder = new Group.GroupBuilder()
+                    .setName(name)
+                    .setGroupId(UUID.randomUUID().toString())
+                    .setPrimaryAdmin(user);
+       if (selectedImagePath != null && !selectedImagePath.isEmpty()) {
+            builder = new Group.GroupBuilder()
+                    .setPhoto(selectedImagePath);
+        }
+       if (descriptionTXT != null) {
+           String description = descriptionTXT.getText();
+          builder = new Group.GroupBuilder()
+                    .setDescription(description);
+        }
+       GroupDataBase GDB = GroupDataBase.getInstance();
+       Group group = builder.build();
+       GDB.addGroup(group);
         ViewGroup v = new ViewGroup();
         v.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_CreateBtnActionPerformed
+
+    private void descriptionTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descriptionTXTActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_descriptionTXTActionPerformed
+
+    private void nameTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameTXTActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nameTXTActionPerformed
+
+    private void IMGbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IMGbtnActionPerformed
+        // TODO add your handling code here:
+         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Select an Image");
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image Files", "jpg", "png", "jpeg"));
+
+        int fileResult = fileChooser.showOpenDialog(this);
+        if (fileResult == JFileChooser.APPROVE_OPTION) {
+            selectedImagePath = fileChooser.getSelectedFile().getAbsolutePath();
+            // Optionally display the image
+            ImageIcon icon = new ImageIcon(selectedImagePath);
+            Image scaledImage = icon.getImage().getScaledInstance(250, 250, Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(scaledImage);
+            photoLabel.setIcon(scaledIcon);
+        }
+    }//GEN-LAST:event_IMGbtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -135,7 +232,12 @@ User user = UserDataBase.getCurrentUser();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CreateBtn;
-    private javax.swing.JTextField groupName;
+    private javax.swing.JButton IMGbtn;
+    private javax.swing.JTextField descriptionTXT;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JTextField nameTXT;
+    private javax.swing.JLabel photoLabel;
     // End of variables declaration//GEN-END:variables
 }
