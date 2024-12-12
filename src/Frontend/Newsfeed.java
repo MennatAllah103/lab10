@@ -5,6 +5,7 @@
 package Frontend;
 
 import Backend.Management;
+import Backend.NotificationManager;
 import Backend.Post;
 import Backend.PostDataBase;
 import Backend.Story;
@@ -36,12 +37,13 @@ public class Newsfeed extends javax.swing.JFrame {
 
     ViewProfile profile;
     UserDataBase database = UserDataBase.getDatabase();
-     PostDataBase postDatabase = PostDataBase.getInstance();
-     StoryDataBase storyDatabase = StoryDataBase.getInstance();
+    PostDataBase postDatabase = PostDataBase.getInstance();
+    StoryDataBase storyDatabase = StoryDataBase.getInstance();
     User user = UserDataBase.getCurrentUser();
     UserLog log = new UserLog(UserDataBase.getDatabase());
     Home home = Home.getInstance();
     Management manage = new Management();
+    NotificationManager notifManager = NotificationManager.getInstance();
 
     public Newsfeed() {
         initComponents();
@@ -58,7 +60,7 @@ public class Newsfeed extends javax.swing.JFrame {
         friendsPostsPanel.removeAll();
 
         friendsPostsPanel.setLayout(new BoxLayout(friendsPostsPanel, BoxLayout.Y_AXIS));
-       
+
         ArrayList<Post> friendPosts = postDatabase.ViewFriendsPosts(user.getUserId());
         friendsPostsScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         friendsPostsScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -154,6 +156,9 @@ public class Newsfeed extends javax.swing.JFrame {
         postsLabel = new javax.swing.JLabel();
         btnRefresh = new javax.swing.JButton();
         progressBar = new javax.swing.JProgressBar();
+        btnNotifications = new javax.swing.JButton();
+        notificationScrollPane = new javax.swing.JScrollPane();
+        notificationPanel1 = new Frontend.notificationPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Newsfeed");
@@ -250,6 +255,26 @@ public class Newsfeed extends javax.swing.JFrame {
             }
         });
 
+        btnNotifications.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Frontend/pinknotif (2).png"))); // NOI18N
+        btnNotifications.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNotificationsActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout notificationPanel1Layout = new javax.swing.GroupLayout(notificationPanel1);
+        notificationPanel1.setLayout(notificationPanel1Layout);
+        notificationPanel1Layout.setHorizontalGroup(
+            notificationPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 154, Short.MAX_VALUE)
+        );
+        notificationPanel1Layout.setVerticalGroup(
+            notificationPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        notificationScrollPane.setViewportView(notificationPanel1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -258,14 +283,12 @@ public class Newsfeed extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnRefresh)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(143, 143, 143)
-                        .addComponent(logout)
-                        .addGap(15, 15, 15))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnRefresh)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(137, 137, 137))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(manageFriends)
                                 .addGap(18, 18, 18)
@@ -275,17 +298,26 @@ public class Newsfeed extends javax.swing.JFrame {
                                 .addGap(34, 34, 34)
                                 .addComponent(btnAddPost)
                                 .addGap(29, 29, 29)
-                                .addComponent(btnAddStory))
-                            .addComponent(storiesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(btnAddStory)
+                                .addGap(35, 35, 35)
+                                .addComponent(btnNotifications, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(6, 6, 6)
+                        .addComponent(logout)
+                        .addGap(15, 15, 15))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(friendsPostsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(postsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(friendsStoriesScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
-                        .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(80, 80, 80))))
+                            .addComponent(friendsStoriesScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(storiesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(140, 140, 140))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(notificationScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(37, 37, 37))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -300,27 +332,31 @@ public class Newsfeed extends javax.swing.JFrame {
                             .addComponent(logout)
                             .addComponent(btnRefresh))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(manageFriends)
-                    .addComponent(searchButton)
-                    .addComponent(btnVisitProfile)
-                    .addComponent(btnAddPost)
-                    .addComponent(btnAddStory))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(manageFriends)
+                        .addComponent(searchButton)
+                        .addComponent(btnVisitProfile)
+                        .addComponent(btnAddPost)
+                        .addComponent(btnAddStory))
+                    .addComponent(btnNotifications))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(storiesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(friendsStoriesScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                         .addComponent(postsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(friendsPostsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(friendsPostsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(notificationScrollPane)
+                        .addGap(18, 18, 18)
                         .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(183, 183, 183)))
-                .addContainerGap())
+                        .addGap(194, 194, 194))))
         );
 
         pack();
@@ -402,7 +438,7 @@ public class Newsfeed extends javax.swing.JFrame {
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
 
         progressBar.setVisible(true);
-        
+
         SwingWorker<Void, Void> worker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() throws Exception {
@@ -421,9 +457,19 @@ public class Newsfeed extends javax.swing.JFrame {
         worker.execute();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
+    private void btnNotificationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificationsActionPerformed
+        if (notificationScrollPane.isVisible()) {
+            notificationScrollPane.setVisible(false);
+        } else {
+            notificationScrollPane.setVisible(true);
+        }
+        
+    }//GEN-LAST:event_btnNotificationsActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddPost;
     private javax.swing.JButton btnAddStory;
+    private javax.swing.JButton btnNotifications;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnVisitProfile;
     private javax.swing.JPanel friendsPostsPanel;
@@ -433,6 +479,8 @@ public class Newsfeed extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton logout;
     private javax.swing.JButton manageFriends;
+    private Frontend.notificationPanel notificationPanel1;
+    private javax.swing.JScrollPane notificationScrollPane;
     private javax.swing.JLabel postsLabel;
     private javax.swing.JProgressBar progressBar;
     private javax.swing.JButton searchButton;
