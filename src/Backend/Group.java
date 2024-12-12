@@ -93,6 +93,10 @@ public class Group {
     public ArrayList<User> getAdmins() {
         return admins;
     }
+
+    public ArrayList<Post> getPosts() {
+        return posts;
+    }
    
 
   

@@ -22,7 +22,7 @@ public class GroupDataBase {
     public static GroupDataBase database=null;
     UserDataBase userData=UserDataBase.getDatabase();
     GroupManagement manager=new GroupManagement();
-    
+    PostDataBase postData=PostDataBase.getInstance();
      private GroupDataBase() {
         groups=ReadGroupsfromFile();
     }
@@ -67,6 +67,24 @@ public class GroupDataBase {
                         manager.promoteToAdmin(admin, g.getName());
                     }
                 }    
+                
+              /* JSONArray postsArray = groupJson.optJSONArray("posts");
+                if (postsArray != null) {
+                    for (int j = 0; j < postsArray.length(); j++) {
+                        Post post =postData.getContentById(postsArray.getString(j));
+                       
+                manager.addPost(post,g.getName()):
+                        
+                    }
+                }  */    
+                
+                
+                
+                
+                
+                
+                
+                
                
                 groups.add(g);   
             }  
@@ -102,6 +120,14 @@ public class GroupDataBase {
                 adminsArray.put(admin.getUserId());
             }
             j.put("admins", adminsArray);
+            
+            
+            JSONArray postsArray = new JSONArray();
+            for (Post post : g.getPosts()) {
+                postsArray.put(post.getContentID());
+            }
+            j.put("posts", postsArray);
+          
 
             groupsArray.put(j);
        

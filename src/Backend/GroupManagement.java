@@ -97,15 +97,15 @@ else if(member.getUserId().equals(group.getPrimaryAdminId())){
     }
     
     
-   /* public void addPosttoGroup(Post p)
+    public void addPosttoGroup(Post p,String groupName)
     
     {
     User currentUser = UserDataBase.getCurrentUser();
-      ArrayList<Posts>posts=database.getAllposts();
+      ArrayList<Post>posts=postData.getPosts();
       posts.add(p);
   
     }
-*/
+
    
     
     
