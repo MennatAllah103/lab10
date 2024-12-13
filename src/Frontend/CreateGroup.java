@@ -200,6 +200,8 @@ User user = UserDataBase.getCurrentUser();
             ImageIcon scaledIcon = new ImageIcon(scaledImage);
             photoLabel.setIcon(scaledIcon);
         }
+        
+      
     }//GEN-LAST:event_IMGbtnActionPerformed
 
   

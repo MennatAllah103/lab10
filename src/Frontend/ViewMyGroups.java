@@ -19,8 +19,9 @@ import javax.swing.JOptionPane;
  * @author yaras
  */
 public class ViewMyGroups extends javax.swing.JFrame {
-
-    User user = UserDataBase.getCurrentUser();
+    
+    UserDataBase userDB = UserDataBase.getDatabase();
+    User user = userDB.getCurrentUser();
     GroupDataBase GDB = GroupDataBase.getInstance();
     GroupManagement groupmanage = new GroupManagement(GDB);
     Newsfeed newsfeed;
@@ -149,7 +150,7 @@ public class ViewMyGroups extends javax.swing.JFrame {
      
     if(group.getPrimaryAdminId().equals(user.getUserId()))
     {
-        primaryAdminFrame primaryFrame = new primaryAdminFrame();
+        primaryAdminFrame primaryFrame = new primaryAdminFrame(this,group);
         setVisible(false);
         primaryFrame.setVisible(true);
     
