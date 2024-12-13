@@ -3,16 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/github/lab10/lab10/src/Frontend/AddStoryFront.java</file>
-            <file>file:/C:/github/lab10/lab10/src/Backend/StoryDataBase.java</file>
-            <file>file:/C:/github/lab10/lab10/src/Frontend/EditProfile.java</file>
-            <file>file:/C:/github/lab10/lab10/src/Backend/Story.java</file>
-            <file>file:/C:/github/lab10/lab10/src/Frontend/Newsfeed.java</file>
-            <file>file:/C:/github/lab10/lab10/src/Frontend/ChangePassword.java</file>
-            <file>file:/C:/github/lab10/lab10/src/Backend/UserDataBase.java</file>
-            <file>file:/C:/github/lab10/lab10/src/Backend/Post.java</file>
-            <file>file:/C:/github/lab10/lab10/src/Backend/Request.java</file>
-            <file>file:/C:/github/lab10/lab10/src/Backend/Content.java</file>
+            <file>file:/C:/Users/daree/Documents/GitHub/lab10/src/Frontend/CreateGroup.java</file>
+            <file>file:/C:/Users/daree/Documents/GitHub/lab10/src/Backend/Group.java</file>
+            <file>file:/C:/Users/daree/Documents/GitHub/lab10/src/Frontend/primaryAdminManageMembers.java</file>
+            <file>file:/C:/Users/daree/Documents/GitHub/lab10/src/Backend/GroupRequestDatabase.java</file>
+            <file>file:/C:/Users/daree/Documents/GitHub/lab10/src/Backend/GroupDataBase.java</file>
+            <file>file:/C:/Users/daree/Documents/GitHub/lab10/src/Backend/GroupManagement.java</file>
+            <file>file:/C:/Users/daree/Documents/GitHub/lab10/src/Frontend/primaryAdminFrame.java</file>
+            <file>file:/C:/Users/daree/Documents/GitHub/lab10/src/Frontend/Newsfeed.java</file>
+            <file>file:/C:/Users/daree/Documents/GitHub/lab10/src/Frontend/ViewMyGroups.java</file>
+            <file>file:/C:/Users/daree/Documents/GitHub/lab10/src/Frontend/SearchFrame.java</file>
+            <file>file:/C:/Users/daree/Documents/GitHub/lab10/src/Backend/GroupRequests.java</file>
+            <file>file:/C:/Users/daree/Documents/GitHub/lab10/src/Frontend/Home.java</file>
+            <file>file:/C:/Users/daree/Documents/GitHub/lab10/src/Frontend/ViewRequests.java</file>
+            <file>file:/C:/Users/daree/Documents/GitHub/lab10/src/Frontend/ViewProfile.java</file>
         </group>
     </open-files>
 </project-private>

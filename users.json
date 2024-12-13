@@ -8,7 +8,7 @@
         "userId": "1fd7d48f-5798-4a85-b113-7dbcc64fcbc5",
         "email": "menna@gmail.com",
         "username": "menna",
-        "status": "online"
+        "status": "offline"
     },
     {
         "password": "WZRHGrsBESr8wYFZ9sx0tPURuZgG2lmzyvWpwXPKz8U=",
@@ -111,9 +111,9 @@
     },
     {
         "password": "pmWkWSBCL51Bfkhn79xPuKBKHz//H6B+mY6G9/eieuM=",
-        "profilePhoto": "defaultProfilePhoto.jpg",
-        "coverPhoto": "defaultCoverPhoto.jpg",
-        "bio": "",
+        "profilePhoto": "C:\\Users\\daree\\Documents\\WhatsApp Image 2024-12-05 at 16.01.27_3bd1b165.jpg",
+        "coverPhoto": "C:\\Users\\daree\\Documents\\coverPhoto.jpg",
+        "bio": "not happy",
         "dateOfBirth": "2024-12-05",
         "userId": "2c2d8783-cfba-42fe-b330-954c047f1753",
         "email": "n@gmail.com",
@@ -122,9 +122,9 @@
     },
     {
         "password": "pmWkWSBCL51Bfkhn79xPuKBKHz//H6B+mY6G9/eieuM=",
-        "profilePhoto": "defaultProfilePhoto.jpg",
-        "coverPhoto": "defaultCoverPhoto.jpg",
-        "bio": "",
+        "profilePhoto": "C:\\Users\\daree\\Documents\\coverPhoto.jpg",
+        "coverPhoto": "C:\\Users\\daree\\Documents\\coverPhoto.jpg",
+        "bio": "its Lina",
         "dateOfBirth": "2024-12-09",
         "userId": "47d5973d-d4c6-4605-bcd5-694eb2339b6e",
         "email": "Lina@gmail.com",
@@ -173,7 +173,7 @@
         "userId": "c6c8668a-84bc-4196-870d-2e988d9e0d45",
         "email": "hi@hotmail.com",
         "username": "hi",
-        "status": "online"
+        "status": "offline"
     },
     {
         "password": "A6xnQhbz4Vx2HuGl4lXwZ5U2I8iziLRFnhP5eNfIRvQ=",
