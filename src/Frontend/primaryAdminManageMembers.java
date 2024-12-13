@@ -23,10 +23,10 @@ public class primaryAdminManageMembers extends javax.swing.JFrame {
     /**
      * Creates new form primaryAdminManageMembers
      */
-    public primaryAdminManageMembers(primaryAdminFrame primaryFrame) {
+    public primaryAdminManageMembers(primaryAdminFrame primaryFrame,Group group) {
         initComponents();
         this.primaryFrame=primaryFrame;
-         this.group = GDB.getCurrentGroup();
+         this.group = group;
         filllist();
         
     }
@@ -36,7 +36,7 @@ public class primaryAdminManageMembers extends javax.swing.JFrame {
      public void filllist()
  {
      
-     this.group = GDB.getCurrentGroup();
+     group = GDB.getCurrentGroup();
       ArrayList<String> membersIDs= group.getMembersIDs();
       DefaultListModel<String> model = new DefaultListModel();
 

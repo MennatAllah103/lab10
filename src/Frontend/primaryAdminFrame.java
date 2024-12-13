@@ -223,7 +223,7 @@ public class primaryAdminFrame extends javax.swing.JFrame {
 
     private void manageMembersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageMembersActionPerformed
         // TODO add your handling code here:
-        primaryAdminManageMembers  manageMembersPrimary = new primaryAdminManageMembers(this);
+        primaryAdminManageMembers  manageMembersPrimary = new primaryAdminManageMembers(this,group);
         setVisible(false);
         manageMembersPrimary.setVisible(true);
         
