@@ -266,6 +266,10 @@ public class AdminFrame extends javax.swing.JFrame {
 
     private void manageMembersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageMembersActionPerformed
         // TODO add your handling code here:
+    AdminManageRequests manageRequetsFrame = new AdminManageRequests(group, this);
+   manageRequetsFrame.setVisible(true);
+    this.setVisible(false);
+        
     }//GEN-LAST:event_manageMembersActionPerformed
 
     private void managePostsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_managePostsActionPerformed
