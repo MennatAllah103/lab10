@@ -115,5 +115,15 @@
         "photo": "defaultgroupphoto.png",
         "posts": [],
         "admins": []
+    },
+    {
+        "PrimaryAdminId": "2c2d8783-cfba-42fe-b330-954c047f1753",
+        "groupId": "dcda9863-32c4-4390-a884-d464644253f3",
+        "members": ["446c0781-b3f7-48c4-a4c9-88f0c24e815f"],
+        "name": "xxx",
+        "description": "No description provided.",
+        "photo": "defaultgroupphoto.png",
+        "posts": [],
+        "admins": ["47d5973d-d4c6-4605-bcd5-694eb2339b6e"]
     }
 ]
