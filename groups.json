@@ -38,31 +38,13 @@
     },
     {
         "PrimaryAdminId": "2c2d8783-cfba-42fe-b330-954c047f1753",
-        "groupId": "935cd641-86a3-4169-84f6-ea30ae4bf0e4",
-        "members": [],
-        "name": "group1",
-        "description": "nnn",
-        "posts": [],
-        "admins": []
-    },
-    {
-        "PrimaryAdminId": "2c2d8783-cfba-42fe-b330-954c047f1753",
         "groupId": "8b89ee19-ce00-4cc1-bdcc-fd38c0deb719",
         "members": [],
         "name": "group2",
         "description": "nnn",
         "photo": "C:\\Users\\daree\\Documents\\coverPhoto.jpg",
         "posts": [],
-        "admins": []
-    },
-    {
-        "PrimaryAdminId": "2c2d8783-cfba-42fe-b330-954c047f1753",
-        "groupId": "844d7c9c-ad8c-43cf-9847-1a428269b633",
-        "members": [],
-        "name": "group3",
-        "description": "123",
-        "posts": [],
-        "admins": []
+        "admins": ["47d5973d-d4c6-4605-bcd5-694eb2339b6e"]
     },
     {
         "PrimaryAdminId": "1fd7d48f-5798-4a85-b113-7dbcc64fcbc5",

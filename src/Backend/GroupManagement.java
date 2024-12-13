@@ -150,9 +150,8 @@ public class GroupManagement {
     public void removeMember(String UserId, String groupName) {
       
         Group group = groupDB.getGroupByname(groupName);
-  
         ArrayList<String> membersIDs = group.getMembersIDs();
-      
+     
     if(membersIDs.contains(UserId))
     {
         membersIDs.remove(UserId);

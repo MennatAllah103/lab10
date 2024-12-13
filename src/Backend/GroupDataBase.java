@@ -24,6 +24,7 @@ public class GroupDataBase {
     public static GroupDataBase groupDB = null;
     UserDataBase userDB = UserDataBase.getDatabase();
     PostDataBase postDB = PostDataBase.getInstance();
+    private Group CurrentGroup;
   
 
     private GroupDataBase() {
@@ -169,5 +170,15 @@ public class GroupDataBase {
         }
         return null;
     }
-       
+   
+         public Group getCurrentGroup()
+         {
+             return CurrentGroup;
+         }
+
+    public void setCurrentGroup(Group CurrentGroup) {
+        this.CurrentGroup = CurrentGroup;
+    }
+         
+     
 }

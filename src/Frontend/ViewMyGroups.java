@@ -147,6 +147,7 @@ public class ViewMyGroups extends javax.swing.JFrame {
      {
        String groupName=list.getSelectedValue();
        Group group = GDB.getGroupByname(groupName);
+      GDB.setCurrentGroup(group);
      
     if(group.getPrimaryAdminId().equals(user.getUserId()))
     {

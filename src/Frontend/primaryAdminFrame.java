@@ -65,7 +65,7 @@ public class primaryAdminFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        manageMembers = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         deletegroup = new javax.swing.JButton();
         groupNameLabel = new javax.swing.JLabel();
@@ -88,10 +88,10 @@ public class primaryAdminFrame extends javax.swing.JFrame {
 
         jButton1.setText("Manage Admins");
 
-        jButton2.setText("Manage Members");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        manageMembers.setText("Manage Members");
+        manageMembers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                manageMembersActionPerformed(evt);
             }
         });
 
@@ -152,7 +152,7 @@ public class primaryAdminFrame extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(manageMembers)
                         .addGap(18, 18, 18)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 323, Short.MAX_VALUE)
@@ -209,7 +209,7 @@ public class primaryAdminFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(backbtn)
-                    .addComponent(jButton2)
+                    .addComponent(manageMembers)
                     .addComponent(jButton1))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
@@ -217,13 +217,13 @@ public class primaryAdminFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void manageMembersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageMembersActionPerformed
         // TODO add your handling code here:
-        primaryAdminManageMembers  manageMembersPrimary = new primaryAdminManageMembers(this,group);
+        primaryAdminManageMembers  manageMembersPrimary = new primaryAdminManageMembers(this);
         setVisible(false);
         manageMembersPrimary.setVisible(true);
         
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_manageMembersActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
@@ -232,7 +232,9 @@ public class primaryAdminFrame extends javax.swing.JFrame {
     private void deletegroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletegroupActionPerformed
         // TODO add your handling code here:
         groupmanage.deleteGroup(group);
+         viewG.filllist();
         setVisible(false);
+        viewG.setVisible(true);
         
         
     }//GEN-LAST:event_deletegroupActionPerformed
@@ -241,6 +243,7 @@ public class primaryAdminFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         setVisible(false);
         viewG.setVisible(true);
+      
     }//GEN-LAST:event_backbtnActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -262,12 +265,12 @@ public class primaryAdminFrame extends javax.swing.JFrame {
     private javax.swing.JLabel groupPhoto;
     private javax.swing.JLabel groupnameLabel;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton manageMembers;
     // End of variables declaration//GEN-END:variables
 }

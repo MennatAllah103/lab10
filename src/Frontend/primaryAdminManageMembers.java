@@ -18,14 +18,15 @@ public class primaryAdminManageMembers extends javax.swing.JFrame {
      UserDataBase userDB = UserDataBase.getDatabase();
     primaryAdminFrame primaryFrame;
     GroupManagement groupmanage = new GroupManagement();
-    Group group;
+    GroupDataBase GDB= GroupDataBase.getInstance();
+    Group group ;
     /**
      * Creates new form primaryAdminManageMembers
      */
-    public primaryAdminManageMembers(primaryAdminFrame primaryFrame,Group group) {
+    public primaryAdminManageMembers(primaryAdminFrame primaryFrame) {
         initComponents();
         this.primaryFrame=primaryFrame;
-        this.group=group;
+         this.group = GDB.getCurrentGroup();
         filllist();
         
     }
@@ -34,6 +35,8 @@ public class primaryAdminManageMembers extends javax.swing.JFrame {
     
      public void filllist()
  {
+     
+     this.group = GDB.getCurrentGroup();
       ArrayList<String> membersIDs= group.getMembersIDs();
       DefaultListModel<String> model = new DefaultListModel();
 
@@ -45,6 +48,7 @@ public class primaryAdminManageMembers extends javax.swing.JFrame {
      
         list.setModel(model);
         jScrollPane1.setViewportView(list);
+        
 
      }
 
@@ -66,7 +70,7 @@ public class primaryAdminManageMembers extends javax.swing.JFrame {
         backbtn = new javax.swing.JButton();
         addmemberbtn = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -162,7 +166,7 @@ public class primaryAdminManageMembers extends javax.swing.JFrame {
    
        else
      {
-          JOptionPane.showMessageDialog(this, "You Should Select a Group to view", "  Message ", JOptionPane.PLAIN_MESSAGE);
+          JOptionPane.showMessageDialog(this, "You Should Select a member to remove", "  Message ", JOptionPane.PLAIN_MESSAGE);
      }
         
     }//GEN-LAST:event_removebtnActionPerformed
@@ -186,10 +190,8 @@ public class primaryAdminManageMembers extends javax.swing.JFrame {
      {
        String memberName=list.getSelectedValue();
       User Member = userDB.getUserByUsername(memberName);
-      groupmanage.removeMember(Member.getUserId(),group.getGroupName());
-        ArrayList<String> adminsIDs= group.getAdminsIDs();
-        adminsIDs.add(Member.getUserId());
-        filllist();
+      groupmanage.promoteToAdmin(Member.getUserId(),group.getGroupName());
+       filllist();
        
      }
    
@@ -230,6 +232,8 @@ public class primaryAdminManageMembers extends javax.swing.JFrame {
             {
                    String MemberId = member.getUserId();
                    ArrayList<String> membersIDs= group.getMembersIDs();
+                   groupmanage.addMember(MemberId,group.getGroupName());
+                   filllist();
                    
 
             }
