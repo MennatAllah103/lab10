@@ -34,11 +34,11 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-                              <Component id="jLabel2" min="-2" pref="383" max="-2" attributes="0"/>
+                              <Component id="textLabel" min="-2" pref="383" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
-                              <Component id="jLabel4" min="-2" pref="370" max="-2" attributes="0"/>
+                              <Component id="photoLabel" min="-2" pref="370" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -62,12 +62,12 @@
               <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel1" alignment="3" min="-2" pref="58" max="-2" attributes="0"/>
-                  <Component id="jLabel2" alignment="3" min="-2" pref="58" max="-2" attributes="0"/>
+                  <Component id="textLabel" alignment="3" min="-2" pref="58" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel3" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
-                  <Component id="jLabel4" alignment="3" min="-2" pref="148" max="-2" attributes="0"/>
+                  <Component id="photoLabel" alignment="3" min="-2" pref="148" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="32" max="32767" attributes="0"/>
               <Component id="jButton1" min="-2" max="-2" attributes="0"/>
@@ -89,7 +89,7 @@
         <Property name="text" type="java.lang.String" value="Edit Text"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel2">
+    <Component class="javax.swing.JLabel" name="textLabel">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
@@ -99,7 +99,7 @@
         <Property name="text" type="java.lang.String" value="Edit Image"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel4">
+    <Component class="javax.swing.JLabel" name="photoLabel">
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>

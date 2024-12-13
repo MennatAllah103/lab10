@@ -218,7 +218,7 @@ public class PrimaryAdminManagePosts extends javax.swing.JFrame {
         
         if (postToEdit != null) {
           
-           PrimaryEditpost edit = new PrimaryEditPost(this,postToEdit);
+           PrimaryEditPost edit = new PrimaryEditPost(this,postToEdit);
             edit.setVisible(true);
             setVisible(false);
            
