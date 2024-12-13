@@ -27,11 +27,11 @@ public class ViewGroupFrame extends javax.swing.JFrame {
     /**
      * Creates new form ViewGroupFrame
      */
-    SearchFrame frame ;
+    //SearchFrame frame ;
     Group group;
-    public ViewGroupFrame(SearchFrame currentFrame, Group group) {
+    public ViewGroupFrame(Group group) {
         initComponents();
-        this.frame=frame;
+        //this.frame=frame;
         this.group=group;
         
           String groupName = group.getGroupName();
@@ -47,14 +47,32 @@ public class ViewGroupFrame extends javax.swing.JFrame {
         loadGroupPhoto();
         loadPosts();
     }
-     private void loadGroupPhoto()
+   /*  private void loadGroupPhoto()
     {
         
             groupPhoto.setIcon(new ImageIcon(new ImageIcon(group.getGroupPhoto())
                     .getImage().getScaledInstance(groupPhoto.getWidth(), groupPhoto.getHeight(), java.awt.Image.SCALE_SMOOTH)));
         
     }
-     
+     */
+    
+    private void loadGroupPhoto() {
+    // Add a ComponentListener to ensure the component is ready before using its dimensions
+    groupPhoto.addComponentListener(new java.awt.event.ComponentAdapter() {
+        @Override
+        public void componentResized(java.awt.event.ComponentEvent e) {
+            // Ensure the dimensions are non-zero
+            if (groupPhoto.getWidth() > 0 && groupPhoto.getHeight() > 0) {
+                groupPhoto.setIcon(new ImageIcon(
+                    new ImageIcon(group.getGroupPhoto())
+                        .getImage()
+                        .getScaledInstance(groupPhoto.getWidth(), groupPhoto.getHeight(), java.awt.Image.SCALE_SMOOTH)
+                ));
+            }
+        }
+    });
+}
+
         private void loadPosts() {
     jPanel1.removeAll(); 
 
