@@ -20,8 +20,8 @@ public class GroupManagement {
     ArrayList<GroupRequests> requests = requestDatabase.getALLRequests();
     PostDataBase postDB = PostDataBase.getInstance();
 
-    public GroupManagement(GroupDataBase database) {
-        this.groupDB = database;
+    public GroupManagement() {
+     
     }
 
       public void addGroup(Group g) {

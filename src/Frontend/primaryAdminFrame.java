@@ -25,6 +25,7 @@ public class primaryAdminFrame extends javax.swing.JFrame {
     ViewMyGroups viewG;
     Group group;
     UserDataBase userDB = UserDataBase.getDatabase();
+    GroupManagement groupmanage = new GroupManagement();
     User user = userDB.getCurrentUser();
     public primaryAdminFrame(ViewMyGroups viewG,Group group) {
         initComponents();
@@ -53,42 +54,7 @@ public class primaryAdminFrame extends javax.swing.JFrame {
         
     }
 
-    
-   /*  private void loadPosts() {
-        jPanel1.removeAll();
-
-        jPanel1.setLayout(new BoxLayout(jPanel1, BoxLayout.Y_AXIS));
-        PostDataBase postDatabase = PostDataBase.getInstance();
-        ArrayList<Post> userPosts = postDatabase.ViewUserPosts(u.getUserId());
-        jScrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-
-        for (Post post : userPosts) {
-            JPanel postPanel = new JPanel();
-            postPanel.setLayout(new BoxLayout(postPanel, BoxLayout.Y_AXIS));
-            postPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-
-            JLabel contentLabel = new JLabel(post.getContent());
-            postPanel.add(contentLabel);
-
-            if (post.getImagePath() != null && !post.getImagePath().isEmpty()) {
-                JLabel imageLabel = new JLabel(new ImageIcon(post.getImagePath()));
-                    postPanel.add(imageLabel);
-            }
-
-            postsPanel.add(postPanel);
-           
-        }
-        
-        jScrollPane1.setViewportView(postsPanel);
-        postsPanel.setPreferredSize(new Dimension(400, 800));
-
-        postsPanel.revalidate();
-        postsPanel.repaint();
-        
-
-    }
-    */
+  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -101,7 +67,7 @@ public class primaryAdminFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        deletegroup = new javax.swing.JButton();
         groupNameLabel = new javax.swing.JLabel();
         groupPhoto = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -136,10 +102,10 @@ public class primaryAdminFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("Delete group");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        deletegroup.setText("Delete group");
+        deletegroup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                deletegroupActionPerformed(evt);
             }
         });
 
@@ -209,7 +175,7 @@ public class primaryAdminFrame extends javax.swing.JFrame {
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(43, 43, 43)
-                                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(deletegroup, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(29, 29, 29))))
         );
@@ -225,7 +191,7 @@ public class primaryAdminFrame extends javax.swing.JFrame {
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton3)
-                            .addComponent(jButton4))
+                            .addComponent(deletegroup))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -259,10 +225,13 @@ public class primaryAdminFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void deletegroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletegroupActionPerformed
         // TODO add your handling code here:
+        groupmanage.deleteGroup(group);
+        setVisible(false);
         
-    }//GEN-LAST:event_jButton4ActionPerformed
+        
+    }//GEN-LAST:event_deletegroupActionPerformed
 
     private void backbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backbtnActionPerformed
         // TODO add your handling code here:
@@ -283,6 +252,7 @@ public class primaryAdminFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backbtn;
+    private javax.swing.JButton deletegroup;
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JLabel groupNameLabel;
     private javax.swing.JLabel groupPhoto;
@@ -290,7 +260,6 @@ public class primaryAdminFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

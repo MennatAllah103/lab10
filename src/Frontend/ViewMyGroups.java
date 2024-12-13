@@ -23,7 +23,7 @@ public class ViewMyGroups extends javax.swing.JFrame {
     UserDataBase userDB = UserDataBase.getDatabase();
     User user = userDB.getCurrentUser();
     GroupDataBase GDB = GroupDataBase.getInstance();
-    GroupManagement groupmanage = new GroupManagement(GDB);
+    GroupManagement groupmanage = new GroupManagement();
     Newsfeed newsfeed;
 
     /**

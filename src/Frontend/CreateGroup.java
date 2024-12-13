@@ -19,7 +19,7 @@ public class CreateGroup extends javax.swing.JFrame {
 User user = UserDataBase.getCurrentUser();
  GroupDataBase GDB = GroupDataBase.getInstance();
  private String selectedImagePath;
- GroupManagement groupmanage =new GroupManagement(GDB);
+ GroupManagement groupmanage =new GroupManagement();
  Newsfeed newsfeed;
     /**
      * Creates new form CreateGroup
