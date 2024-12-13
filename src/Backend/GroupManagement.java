@@ -254,4 +254,20 @@ public class GroupManagement {
             System.out.println("User is not a member of this group.");
         }
     }
+    
+    
+    public ArrayList<Group> getSuggestedGroups (String userID)
+    {
+        ArrayList<Group> allgroups= groupDB.getGroups();
+        ArrayList<Group> suggestGroups = new ArrayList<>();
+        
+        for(Group g : allgroups)
+        {
+            if(!(g.getMembersIDs().contains(userID)||g.getAdminsIDs().contains(userID)||g.getPrimaryAdminId().equals(userID)))
+            {
+                suggestGroups.add(g);
+            }
+        }
+        return suggestGroups; 
+    }
 }
