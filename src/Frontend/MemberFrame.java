@@ -124,6 +124,11 @@ public class MemberFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         BackBtn.setText("Back");
+        BackBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BackBtnActionPerformed(evt);
+            }
+        });
 
         AddBtn.setText("Add Post");
         AddBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -218,10 +223,16 @@ public class MemberFrame extends javax.swing.JFrame {
 
     private void AddBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddBtnActionPerformed
         // TODO add your handling code here:
-        AddPostGroup a = new AddPostGroup();
+        AddPostGroup a = new AddPostGroup(this);
         a.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_AddBtnActionPerformed
+
+    private void BackBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackBtnActionPerformed
+        // TODO add your handling code here:
+        setVisible(false);
+        viewG.setVisible(true);
+    }//GEN-LAST:event_BackBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

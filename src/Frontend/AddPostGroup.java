@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,7 +23,7 @@ public class AddPostGroup extends javax.swing.JFrame {
     MemberFrame m;
     Group group;
    GroupManagement GM= new GroupManagement();
-    public AddPostGroup() {
+    public AddPostGroup(MemberFrame m) {
         initComponents();
         this.m = m;
     }
@@ -163,6 +164,7 @@ public class AddPostGroup extends javax.swing.JFrame {
         UserDataBase currentUserDb = UserDataBase.getDatabase();
         User currentUser = currentUserDb.getCurrentUser();
         GroupDataBase currentGroupDB =GroupDataBase.getInstance();
+        PostDataBase PDB =PostDataBase.getInstance();
         Group currentGroup = currentGroupDB.getCurrentGroup();
         if (currentUser == null) {
             JOptionPane.showMessageDialog(this, "No user is currently logged in.", "Message", JOptionPane.ERROR_MESSAGE);
@@ -179,6 +181,7 @@ public class AddPostGroup extends javax.swing.JFrame {
         p.setContentID(UUID.randomUUID().toString());
         p.setTimestamp(LocalDateTime.now());
         p.setAuthorID(currentUser.getUserId());
+        PDB.addPost(p);
         String postID= p.getContentID();
         String grpName = currentGroup.getGroupName();
         GM.addPosttoGroup(postID,grpName);
