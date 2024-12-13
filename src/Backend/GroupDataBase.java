@@ -149,4 +149,25 @@ public class GroupDataBase {
     {
         return groups;
     }
+    
+    
+        public Group getGroupById(String groupId) {
+        for (Group g : groups) {
+            if (g.getGroupId().equals(groupId)) {
+                return g;
+            }
+        }
+        return null;
+    }
+      
+      
+         public Group getGroupByname(String name) {
+        for (Group g : groups) {
+            if (g.getGroupName().equals(name)) {
+                return g;
+            }
+        }
+        return null;
+    }
+       
 }
