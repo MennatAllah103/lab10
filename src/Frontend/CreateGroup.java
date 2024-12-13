@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Frontend;
+
 import Backend.Group;
 import Backend.*;
 import Backend.User;
@@ -13,22 +14,25 @@ import java.util.UUID;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author yaras
  */
 public class CreateGroup extends javax.swing.JFrame {
-User user = UserDataBase.getCurrentUser();
- GroupDataBase GDB = GroupDataBase.getInstance();
- private String selectedImagePath;
- GroupManagement groupmanage =new GroupManagement();
- Newsfeed newsfeed;
+
+    User user = UserDataBase.getCurrentUser();
+    GroupDataBase GDB = GroupDataBase.getInstance();
+    private String selectedImagePath;
+    GroupManagement groupmanage = new GroupManagement();
+    Newsfeed newsfeed;
+
     /**
      * Creates new form CreateGroup
      */
     public CreateGroup(Newsfeed newsfeed) {
         initComponents();
-        this.newsfeed=newsfeed;
+        this.newsfeed = newsfeed;
     }
 
     /**
@@ -154,52 +158,43 @@ User user = UserDataBase.getCurrentUser();
 
     private void CreateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateBtnActionPerformed
         // TODO add your handling code here:
-        System.out.println(user.getUsername());     
+        //System.out.println(user.getUsername());     
         String name = nameTXT.getText();
 
         if (name.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Group name cannot be empty. Please enter a valid name.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-        return; 
-    }
-        for(Group group: GDB.getGroups()){
-           if(group.getGroupName().equals(name))
-         {
-            JOptionPane.showMessageDialog(this, "A group with this name already exists. Please choose a different name.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Group name cannot be empty. Please enter a valid name.", "Validation Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        for (Group group : GDB.getGroups()) {
+            if (group.getGroupName().equals(name)) {
+                JOptionPane.showMessageDialog(this, "A group with this name already exists. Please choose a different name.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
         }
-       Group.GroupBuilder builder = new Group.GroupBuilder().setGroupName(name)
-               .setGroupId(UUID.randomUUID().toString())
-               .setPrimaryAdminId(user.getUserId());
-                 
+        Group.GroupBuilder builder = new Group.GroupBuilder().setGroupName(name)
+                .setGroupId(UUID.randomUUID().toString())
+                .setPrimaryAdminId(user.getUserId());
 
-       if (selectedImagePath != null && !selectedImagePath.isEmpty())
-       {
-           builder.setGroupPhoto(selectedImagePath);
-       
-       }
-       else {
-        String defaultImagePath = "defaultgroupphoto.png";
-        builder.setGroupPhoto(defaultImagePath);
-    }   
-       
-       
-       
-       
-        String description = descriptionTXT.getText();
-       if(description != null && !description.isEmpty())
-       {
-          builder.setDescription(description);
+        if (selectedImagePath != null && !selectedImagePath.isEmpty()) {
+            builder.setGroupPhoto(selectedImagePath);
+
+        } else {
+            String defaultImagePath = "defaultgroupphoto.png";
+            builder.setGroupPhoto(defaultImagePath);
         }
-        else {
-        builder.setDescription("No description provided.");
-    }
-       Group group = builder.build();
-       groupmanage.addGroup(group);
-      
+
+        String description = descriptionTXT.getText();
+        if (description != null && !description.isEmpty()) {
+            builder.setDescription(description);
+        } else {
+            builder.setDescription("No description provided.");
+        }
+        Group group = builder.build();
+        groupmanage.addGroup(group);
+        JOptionPane.showMessageDialog(this, "Your group has been created.");
         setVisible(false);
         newsfeed.setVisible(true);
-    
+
     }//GEN-LAST:event_CreateBtnActionPerformed
 
     private void descriptionTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descriptionTXTActionPerformed
@@ -212,7 +207,7 @@ User user = UserDataBase.getCurrentUser();
 
     private void IMGbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IMGbtnActionPerformed
         // TODO add your handling code here:
-         JFileChooser fileChooser = new JFileChooser();
+        JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Select an Image");
         fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image Files", "jpg", "png", "jpeg"));
 
@@ -225,11 +220,10 @@ User user = UserDataBase.getCurrentUser();
             ImageIcon scaledIcon = new ImageIcon(scaledImage);
             photoLabel.setIcon(scaledIcon);
         }
-        
-      
+
+
     }//GEN-LAST:event_IMGbtnActionPerformed
 
-  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CreateBtn;

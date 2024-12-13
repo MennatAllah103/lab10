@@ -22,45 +22,43 @@ public class primaryAdminManageAdmins extends javax.swing.JFrame {
     UserDataBase userDB = UserDataBase.getDatabase();
     primaryAdminFrame primaryFrame;
     GroupManagement groupmanage = new GroupManagement();
-    GroupDataBase GDB= GroupDataBase.getInstance();
-    Group group ;
+    GroupDataBase GDB = GroupDataBase.getInstance();
+    Group group;
+
     /**
      * Creates new form primaryAdminFrame
      */
     public primaryAdminManageAdmins(primaryAdminFrame primaryFrame) {
         initComponents();
-           this.primaryFrame=primaryFrame;
-         this.group = GDB.getCurrentGroup();
-         filllist();
+        this.primaryFrame = primaryFrame;
+        this.group = GDB.getCurrentGroup();
+        filllist();
     }
 
-    
-        public void filllist()
- {
-     
-     this.group = GDB.getCurrentGroup();
-      ArrayList<String> adminsIDs= group.getAdminsIDs();
-      DefaultListModel<String> model = new DefaultListModel();
+    public void filllist() {
 
-     for (String ID : adminsIDs)
-     {
-                User Admin = userDB.getUserById(ID);
-                String adminName = Admin.getUsername();
-                model.addElement(adminName);
-   
+        // this.group = GDB.getCurrentGroup();
+        ArrayList<String> adminsIDs = group.getAdminsIDs();
+        DefaultListModel<String> model = new DefaultListModel();
 
-     }
-     
-      if (model.isEmpty()) {
-        list.setModel(new DefaultListModel<>());
-        jScrollPane1.setViewportView(list);
-    } else {
- 
-        list.setModel(model);
-        jScrollPane1.setViewportView(list);
+        for (String ID : adminsIDs) {
+            User Admin = userDB.getUserById(ID);
+            String adminName = Admin.getUsername();
+            model.addElement(adminName);
+
+        }
+
+        if (model.isEmpty()) {
+            list.setModel(new DefaultListModel<>());
+            jScrollPane1.setViewportView(list);
+        } else {
+
+            list.setModel(model);
+            jScrollPane1.setViewportView(list);
+        }
+
     }
 
-}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -138,21 +136,17 @@ public class primaryAdminManageAdmins extends javax.swing.JFrame {
 
     private void demotebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_demotebtnActionPerformed
         // TODO add your handling code here:
-        
-      int index= list.getSelectedIndex();
-      if(index>-1)
-     {
-       String memberName=list.getSelectedValue();
-      User Member = userDB.getUserByUsername(memberName);
-      groupmanage.DemoteFromAdmin(Member.getUserId(),group.getGroupName());
-       filllist();
-       
-     }
-   
-       else
-     {
-          JOptionPane.showMessageDialog(this, "You Should Select an admin to demote", "  Message ", JOptionPane.PLAIN_MESSAGE);
-     }
+
+        int index = list.getSelectedIndex();
+        if (index > -1) {
+            String memberName = list.getSelectedValue();
+            User Member = userDB.getUserByUsername(memberName);
+            groupmanage.DemoteFromAdmin(Member.getUserId(), group.getGroupName());
+            filllist();
+
+        } else {
+            JOptionPane.showMessageDialog(this, "You Should Select an admin to demote", "  Message ", JOptionPane.PLAIN_MESSAGE);
+        }
     }//GEN-LAST:event_demotebtnActionPerformed
 
     private void backtbnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backtbnActionPerformed
@@ -163,11 +157,10 @@ public class primaryAdminManageAdmins extends javax.swing.JFrame {
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         // TODO add your handling code here:
-                setVisible(false);
+        setVisible(false);
         primaryFrame.setVisible(true);
     }//GEN-LAST:event_formWindowClosed
 
-  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backtbn;
