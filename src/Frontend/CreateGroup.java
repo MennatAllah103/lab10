@@ -8,9 +8,11 @@ import Backend.*;
 import Backend.User;
 import Backend.UserDataBase;
 import java.awt.Image;
+import java.util.ArrayList;
 import java.util.UUID;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 /**
  *
  * @author yaras
@@ -152,8 +154,20 @@ User user = UserDataBase.getCurrentUser();
 
     private void CreateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateBtnActionPerformed
         // TODO add your handling code here:
-        System.out.println(user.getUsername());
+        System.out.println(user.getUsername());     
         String name = nameTXT.getText();
+
+        if (name.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Group name cannot be empty. Please enter a valid name.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        return; 
+    }
+        for(Group group: GDB.getGroups()){
+           if(group.getGroupName().equals(name))
+         {
+            JOptionPane.showMessageDialog(this, "A group with this name already exists. Please choose a different name.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        }
        Group.GroupBuilder builder = new Group.GroupBuilder().setGroupName(name)
                .setGroupId(UUID.randomUUID().toString())
                .setPrimaryAdminId(user.getUserId());
@@ -164,11 +178,22 @@ User user = UserDataBase.getCurrentUser();
            builder.setGroupPhoto(selectedImagePath);
        
        }
+       else {
+        String defaultImagePath = "defaultgroupphoto.png";
+        builder.setGroupPhoto(defaultImagePath);
+    }   
+       
+       
+       
+       
         String description = descriptionTXT.getText();
        if(description != null && !description.isEmpty())
        {
           builder.setDescription(description);
         }
+        else {
+        builder.setDescription("No description provided.");
+    }
        Group group = builder.build();
        groupmanage.addGroup(group);
       
