@@ -44,7 +44,7 @@
         "description": "No description provided.",
         "photo": "defaultgroupphoto.png",
         "posts": [],
-        "admins": []
+        "admins": ["b85ef99e-c0be-42d2-8ae0-3fa519f00e37"]
     },
     {
         "PrimaryAdminId": "0bf86395-e1c3-44a0-aa15-106694f3d5ee",
@@ -79,7 +79,54 @@
         "name": "group1",
         "description": "xxx",
         "photo": "defaultgroupphoto.png",
-        "posts": ["5eb9761c-6022-45ae-b0a5-9de7722caa51"],
+        "posts": [
+            "5eb9761c-6022-45ae-b0a5-9de7722caa51",
+            "d90a37d4-66cb-4adc-80d2-b777aa69e02e"
+        ],
+        "admins": ["47d5973d-d4c6-4605-bcd5-694eb2339b6e"]
+    },
+    {
+        "PrimaryAdminId": "2c2d8783-cfba-42fe-b330-954c047f1753",
+        "groupId": "49ba3d14-89df-4ea5-86bc-8aea86785ed6",
+        "members": ["47d5973d-d4c6-4605-bcd5-694eb2339b6e"],
+        "name": "dareengroup",
+        "description": "gajsgdsgsdgi",
+        "photo": "C:\\Users\\daree\\Documents\\coverPhoto.jpg",
+        "posts": [],
+        "admins": ["446c0781-b3f7-48c4-a4c9-88f0c24e815f"]
+    },
+    {
+        "PrimaryAdminId": "b85ef99e-c0be-42d2-8ae0-3fa519f00e37",
+        "groupId": "ebfe787f-6f06-4b8e-8712-7820cfd51c48",
+        "members": ["0bf86395-e1c3-44a0-aa15-106694f3d5ee"],
+        "name": "salma new days",
+        "description": "salma girls",
+        "photo": "C:\\Users\\yaras\\Downloads\\cozy-cartoon-family-home-illustration.png",
+        "posts": [
+            "617ee2b8-bf83-4259-8ed8-49b4422627b0",
+            "bee94af0-e102-4904-8dca-4dba10ce6236",
+            "69fc0b89-baab-4929-8014-557ce8856f37"
+        ],
+        "admins": []
+    },
+    {
+        "PrimaryAdminId": "0bf86395-e1c3-44a0-aa15-106694f3d5ee",
+        "groupId": "eaf5ed82-6a7f-4490-9af3-ea5846fd9507",
+        "members": [],
+        "name": "yayayayaya",
+        "description": "No description provided.",
+        "photo": "defaultgroupphoto.png",
+        "posts": [],
+        "admins": []
+    },
+    {
+        "PrimaryAdminId": "2c2d8783-cfba-42fe-b330-954c047f1753",
+        "groupId": "dcda9863-32c4-4390-a884-d464644253f3",
+        "members": ["446c0781-b3f7-48c4-a4c9-88f0c24e815f"],
+        "name": "xxx",
+        "description": "No description provided.",
+        "photo": "defaultgroupphoto.png",
+        "posts": [],
         "admins": ["47d5973d-d4c6-4605-bcd5-694eb2339b6e"]
     }
 ]
