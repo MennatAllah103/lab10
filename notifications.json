@@ -19,12 +19,5 @@
         "type": "New Post",
         "message": "Alice has posted a new update.",
         "userId": "USER-003"
-    },
-    {
-        "timeStamp": "2024-12-13T03:02:54.852024800",
-        "notificationId": "NOTIF-1734051774850",
-        "type": "Friend Request",
-        "message": "fai1205 sent you a friend request!",
-        "userId": "c6c8668a-84bc-4196-870d-2e988d9e0d45"
     }
 ]

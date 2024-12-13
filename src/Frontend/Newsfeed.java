@@ -15,16 +15,7 @@ import Backend.StoryDataBase;
 import Backend.User;
 import Backend.UserDataBase;
 import Backend.UserLog;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -32,15 +23,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingWorker;
+import javax.swing.*;
 
 /**
  *
@@ -58,6 +41,7 @@ public class Newsfeed extends javax.swing.JFrame {
     Management manage = new Management();
     NotificationManager notifManager = new NotificationManager();
     Management friendManager = new Management();
+    ArrayList<Notification> notifications;
 
     public Newsfeed() {
         initComponents();
@@ -73,93 +57,99 @@ public class Newsfeed extends javax.swing.JFrame {
     public void populateNotificationPanel() {
         notificationPanel1.removeAll();
 
-        ArrayList<Notification> notifications = notifManager.getNotificationsForUser(user.getUserId());
+        if (notifications != null && !notifications.isEmpty()) {
 
-        for (Notification notification : notifications) {
+            for (Notification notification : notifications) {
 
-            JPanel notificationItemPanel = new JPanel();
-            notificationItemPanel.setLayout(new BoxLayout(notificationItemPanel, BoxLayout.X_AXIS));
+                JPanel notificationItemPanel = new JPanel(); // main panel
+                notificationItemPanel.setLayout(new BoxLayout(notificationItemPanel, BoxLayout.X_AXIS));
 
-           notificationItemPanel.setPreferredSize(new Dimension(33, 78));
-           notificationItemPanel.setOpaque(false);
+                notificationItemPanel.setPreferredSize(new Dimension(33, 78));
+                notificationItemPanel.setOpaque(false); // so that scroll pane's background shows
 
-            JLabel profilePicLabel = new JLabel();
+                JLabel profilePicLabel; // pfp label declared
 
-            if (notification.getType().equalsIgnoreCase("Friend Request")) {
-                ArrayList<Request> requests = friendManager.getUserReceivedRequests(user.getUserId());
-                final Request[] currentRequest = new Request[1];
+                if (notification.getType().equalsIgnoreCase("Friend Request")) {
 
-                for (Request request : requests) {
-                    if (request.getReceiverID().equals(user.getUserId())) {
-                        currentRequest[0] = request;
-                        break;
+                    ArrayList<Request> requests = friendManager.getUserReceivedRequests(user.getUserId());
+                    final Request[] currentRequest = new Request[1];
+                    for (Request request : requests) { //get request that matches current user's id
+                        if (request.getReceiverID().equals(user.getUserId())) {
+                            currentRequest[0] = request;
+                            break;
+                        }
                     }
+                    if (currentRequest[0] != null) {
+                        try {
+                            String senderId = currentRequest[0].getSenderID(); // get sender id
+                            User sender = database.getUserById(senderId);
+                            String profilePicPath = sender.getProfilePhoto();
+                            ImageIcon icon = new ImageIcon(profilePicPath);
+
+                            BufferedImage image = ImageIO.read(new File(profilePicPath));
+                            BufferedImage circleImage = makeCircularImage(image);
+                            profilePicLabel = new JLabel(new ImageIcon(circleImage)); // pfp initialized with circular iamge
+                            profilePicLabel.setPreferredSize(new Dimension(50, 50));
+                            profilePicLabel.setMaximumSize(new Dimension(50, 50));
+                            profilePicLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
+                        } catch (Exception e) {
+                            profilePicLabel = new JLabel("No Image");
+                        }
+
+                        notificationItemPanel.add(profilePicLabel); // pfp added to main panel
+
+                        JPanel messagePanel = new JPanel(); // will hold the notif message, time stamp labels and button panel
+                        messagePanel.setOpaque(false);
+                        messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.Y_AXIS));
+                        messagePanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
+                        JLabel notificationLabel = new JLabel(notification.getMessage()); // actual message
+                        messagePanel.add(notificationLabel);
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
+                        String formattedTimestamp = notification.getTimeStamp().format(formatter);
+                        JLabel timestampLabel = new JLabel("Received at: " + formattedTimestamp);
+                        messagePanel.add(timestampLabel);
+
+                        JPanel buttonPanel = new JPanel(); // will hold the buttons
+                        buttonPanel.setOpaque(false);
+                        JButton acceptButton = new JButton("Accept");
+                        JButton declineButton = new JButton("Decline");
+
+                        acceptButton.addActionListener(e -> {
+                            friendManager.acceptrequest(currentRequest[0]);
+                            notifManager.deleteNotification(notification);
+                            notificationPanel1.remove(notificationItemPanel);
+                            notificationPanel1.revalidate();
+                            notificationPanel1.repaint();
+                            JOptionPane.showMessageDialog(null, "Friend Request Accepted.");
+                        });
+
+                        declineButton.addActionListener(e -> {
+                            friendManager.declinerequest(currentRequest[0]);
+                            notifManager.deleteNotification(notification);
+                            notificationPanel1.remove(notificationItemPanel);
+                            notificationPanel1.revalidate();
+                            notificationPanel1.repaint();
+                            JOptionPane.showMessageDialog(null, "Friend Request Declined.");
+                        });
+
+                        buttonPanel.add(acceptButton);
+                        buttonPanel.add(declineButton);
+                        messagePanel.add(buttonPanel);
+
+                        notificationItemPanel.add(messagePanel);
+                    }
+                } else if (notification.getType().equalsIgnoreCase("New group post")) {
+                    // need to get pfp of user that posted in group
+                    // timestamp + message
+                    // check if current user is primary admin, admin, or member
+                    // view button that opens appropriate frame
                 }
 
-                if (currentRequest[0] != null) {
-                    try {
-                        String senderId = currentRequest[0].getSenderID();
-                        User sender = database.getUserById(senderId);
-                        String profilePicPath = sender.getProfilePhoto();
-                        ImageIcon icon = new ImageIcon(profilePicPath);
-
-                        BufferedImage image = ImageIO.read(new File(profilePicPath));
-                        BufferedImage circleImage = makeCircularImage(image);
-                        profilePicLabel = new JLabel(new ImageIcon(circleImage));
-                        profilePicLabel.setPreferredSize(new Dimension(50, 50));
-                        profilePicLabel.setMaximumSize(new Dimension(50, 50));
-                        profilePicLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
-                    } catch (Exception e) {
-                        profilePicLabel = new JLabel("No Image");
-                    }
-
-                    notificationItemPanel.add(profilePicLabel);
-
-                    JPanel messagePanel = new JPanel();
-                    messagePanel.setOpaque(false);
-                    messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.Y_AXIS));
-                    messagePanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
-
-                    JLabel notificationLabel = new JLabel(notification.getMessage());
-                    messagePanel.add(notificationLabel);
-
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
-                    String formattedTimestamp = notification.getTimeStamp().format(formatter);
-                    JLabel timestampLabel = new JLabel("Received at: " + formattedTimestamp);
-                    messagePanel.add(timestampLabel);
-
-                    JPanel buttonPanel = new JPanel();
-                    buttonPanel.setOpaque(false);
-                    JButton acceptButton = new JButton("Accept");
-                    JButton declineButton = new JButton("Decline");
-
-                    acceptButton.addActionListener(e -> {
-                        friendManager.acceptrequest(currentRequest[0]);
-                        notifManager.deleteNotification(notification);
-                        notificationPanel1.remove(notificationItemPanel);
-                        notificationPanel1.revalidate();
-                        notificationPanel1.repaint();
-                        JOptionPane.showMessageDialog(null, "Friend Request Accepted.");
-                    });
-
-                    declineButton.addActionListener(e -> {
-                        friendManager.declinerequest(currentRequest[0]);
-                        notifManager.deleteNotification(notification);
-                        notificationPanel1.remove(notificationItemPanel);
-                        notificationPanel1.revalidate();
-                        notificationPanel1.repaint();
-                        JOptionPane.showMessageDialog(null, "Friend Request Declined.");
-                    });
-
-                    buttonPanel.add(acceptButton);
-                    buttonPanel.add(declineButton);
-                    messagePanel.add(buttonPanel);
-
-                    notificationItemPanel.add(messagePanel);
-                }
+                notificationPanel1.add(notificationItemPanel);
             }
-
-            notificationPanel1.add(notificationItemPanel);
+        } else {
+            JLabel noNotificationsLabel = new JLabel("No notifications available.");
+            notificationPanel1.add(noNotificationsLabel);
         }
 
         notificationPanel1.setLayout(new BoxLayout(notificationPanel1, BoxLayout.Y_AXIS));
@@ -170,15 +160,13 @@ public class Newsfeed extends javax.swing.JFrame {
     private BufferedImage makeCircularImage(BufferedImage source) {
         int diameter = Math.min(source.getWidth(), source.getHeight());
 
-      
-        int targetDiameter = 50; 
+        int targetDiameter = 50;
         BufferedImage resizedImage = new BufferedImage(targetDiameter, targetDiameter, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2dResize = resizedImage.createGraphics();
         g2dResize.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         g2dResize.drawImage(source, 0, 0, targetDiameter, targetDiameter, null);
         g2dResize.dispose();
 
-   
         BufferedImage circleImage = new BufferedImage(targetDiameter, targetDiameter, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = circleImage.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -342,11 +330,11 @@ public class Newsfeed extends javax.swing.JFrame {
         friendsStoriesPanel.setLayout(friendsStoriesPanelLayout);
         friendsStoriesPanelLayout.setHorizontalGroup(
             friendsStoriesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 424, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         friendsStoriesPanelLayout.setVerticalGroup(
             friendsStoriesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 212, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         friendsStoriesScrollPane.setViewportView(friendsStoriesPanel);
@@ -355,11 +343,11 @@ public class Newsfeed extends javax.swing.JFrame {
         friendsPostsPanel.setLayout(friendsPostsPanelLayout);
         friendsPostsPanelLayout.setHorizontalGroup(
             friendsPostsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 346, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         friendsPostsPanelLayout.setVerticalGroup(
             friendsPostsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 195, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         friendsPostsScrollPane.setViewportView(friendsPostsPanel);
@@ -430,44 +418,43 @@ public class Newsfeed extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(manageFriends)
                             .addComponent(btnRefresh))
+                        .addGap(21, 21, 21)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnVisitProfile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(2, 2, 2)
-                                .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(72, 72, 72)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(21, 21, 21)
+                                .addComponent(btnAddPost)
+                                .addGap(22, 22, 22)
+                                .addComponent(btnAddStory)
+                                .addGap(21, 21, 21)
+                                .addComponent(jButton2)
+                                .addGap(21, 21, 21)
+                                .addComponent(jButton1))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(68, 68, 68)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(logout)
                                 .addGap(15, 15, 15))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(29, 29, 29)
-                                .addComponent(btnVisitProfile)
-                                .addGap(133, 133, 133)
-                                .addComponent(btnAddStory)
-                                .addGap(41, 41, 41)
-                                .addComponent(jButton2)
-                                .addGap(36, 36, 36)
-                                .addComponent(jButton1)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGap(21, 21, 21)
+                                .addComponent(btnNotifications, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnAddPost)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(friendsPostsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(postsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(friendsStoriesScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(storiesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(btnNotifications, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(notificationScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(26, 26, 26))))))
+                            .addComponent(friendsPostsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(postsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(friendsStoriesScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(storiesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(notificationScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -492,25 +479,24 @@ public class Newsfeed extends javax.swing.JFrame {
                         .addComponent(btnAddStory)
                         .addComponent(jButton1)
                         .addComponent(jButton2))
-                    .addComponent(btnNotifications))
-                .addGap(29, 29, 29)
+                    .addComponent(btnNotifications, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(notificationScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
+                        .addGap(14, 14, 14)
                         .addComponent(storiesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(friendsStoriesScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                         .addComponent(postsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(friendsPostsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addGap(30, 30, 30))))
         );
 
         pack();
@@ -599,6 +585,8 @@ public class Newsfeed extends javax.swing.JFrame {
 
                 loadFriendsPosts();
                 loadFriendsStories();
+                notifications = notifManager.getNotificationsForUser(user.getUserId());
+
                 return null;
             }
 
@@ -628,15 +616,15 @@ public class Newsfeed extends javax.swing.JFrame {
         setVisible(false);
         ViewMyGroups viewgroups = new ViewMyGroups(this);
         viewgroups.setVisible(true);
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         setVisible(false);
-        CreateGroup createG= new CreateGroup(this);
+        CreateGroup createG = new CreateGroup(this);
         createG.setVisible(true);
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
