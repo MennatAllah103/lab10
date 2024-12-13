@@ -23,13 +23,15 @@ public class ViewMyGroups extends javax.swing.JFrame {
     User user = UserDataBase.getCurrentUser();
     GroupDataBase GDB = GroupDataBase.getInstance();
     GroupManagement groupmanage = new GroupManagement(GDB);
+    Newsfeed newsfeed;
 
     /**
      * Creates new form ViewGroups
      */
-    public ViewMyGroups() {
+    public ViewMyGroups( Newsfeed newsfeed) {
       
      initComponents();
+     this.newsfeed=newsfeed;
      filllist();
        
 }
@@ -133,9 +135,8 @@ public class ViewMyGroups extends javax.swing.JFrame {
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
         // TODO add your handling code here:
-        Newsfeed n = new Newsfeed();
-        n.setVisible(true);
         setVisible(false);
+        newsfeed.setVisible(true);
     }//GEN-LAST:event_backActionPerformed
 
     private void viewGroupbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewGroupbtnActionPerformed
@@ -146,11 +147,31 @@ public class ViewMyGroups extends javax.swing.JFrame {
        String groupName=list.getSelectedValue();
        Group group = GDB.getGroupByname(groupName);
      
+    if(group.getPrimaryAdminId().equals(user.getUserId()))
+    {
+        primaryAdminFrame primaryFrame = new primaryAdminFrame();
+        setVisible(false);
+        primaryFrame.setVisible(true);
     
+     }
+    else if(group.getAdminsIDs().contains(user.getUserId()))
+    {
+        AdminFrame  adminFrame = new AdminFrame();
+         setVisible(false);
+        adminFrame.setVisible(true);
+        
+    }
+     else if(group.getMembersIDs().contains(user.getUserId()))
+    {
+          MemberFrame  memberFrame = new MemberFrame();
+         setVisible(false);
+        memberFrame.setVisible(true);
+        
+        
+    }
     
     
      }
-     
      else
      {
           JOptionPane.showMessageDialog(this, "You Should Select a Group to view", "  Message ", JOptionPane.PLAIN_MESSAGE);
