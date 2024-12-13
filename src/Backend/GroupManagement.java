@@ -230,33 +230,17 @@ public class GroupManagement {
   adminsIds.remove(adminID);
   membersIds.add(adminID);
  groupDB.saveGroupToFile(groups);
-    }
-
-  /*  public void deleteGroup(String groupName) {
-        User currentuser = UserDataBase.getCurrentUser();
-        Group group = groupDB.getGroupByname(groupName);
-        /*if (group ==null ) {
-          System.out.println("Group is null");
-        }
-        else if(!currentuser.getUserId().equals(group.getPrimaryAdminId()))
-            System.out.println("Current user not primary admin,can't delete group");
-        else{
-        groupDB.getGroups().remove(group);
-        groupDB.saveGroupToFile(groups);
-        //}  
-    }    
-    */ 
-        
-        
-        /*
+    }       
+      
     public void acceptrequest(GroupRequests request) {
         String memberId = request.getMemberId();
         String groupId = request.getGroupId();
-        User newMember = userData.getUserById(memberId);
+        User newMember = userDB.getUserById(memberId);
         Group group = groupDB.getGroupById(groupId);
         addGroup(group);
-        ArrayList<User> members = group.getMembers();
-        members.add(newMember);
+        ArrayList<String> membersIDs = group.getMembersIDs();
+        membersIDs.add(memberId);
+        groupDB.saveGroupToFile(groups);
         requests.remove(request);
         requestDatabase.saveFile(requests);
 
@@ -270,8 +254,7 @@ public class GroupManagement {
 
     public void deleterequest(GroupRequests request) {
         requests.remove(request);
-
         requestDatabase.saveFile(requests);
     }
-*/
+
 }
