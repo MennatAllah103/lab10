@@ -15,50 +15,47 @@ import javax.swing.JOptionPane;
  */
 public class primaryAdminManageMembers extends javax.swing.JFrame {
 
-     UserDataBase userDB = UserDataBase.getDatabase();
+    UserDataBase userDB = UserDataBase.getDatabase();
     primaryAdminFrame primaryFrame;
     GroupManagement groupmanage = new GroupManagement();
-    GroupDataBase GDB= GroupDataBase.getInstance();
-    Group group ;
+    GroupDataBase GDB = GroupDataBase.getInstance();
+    Group group;
+
     /**
      * Creates new form primaryAdminManageMembers
      */
-    public primaryAdminManageMembers(primaryAdminFrame primaryFrame,Group group) {
+    public primaryAdminManageMembers(primaryAdminFrame primaryFrame, Group group) {
         initComponents();
-        this.primaryFrame=primaryFrame;
-         this.group = group;
+        this.primaryFrame = primaryFrame;
+        this.group = group;
         filllist();
-        
+
     }
 
-    
-    
-     public void filllist()
- {
-     
-     group = GDB.getCurrentGroup();
-      ArrayList<String> membersIDs= group.getMembersIDs();
-      DefaultListModel<String> model = new DefaultListModel();
+    public void filllist() {
 
-     for (String ID : membersIDs)
-     {
-                User Member = userDB.getUserById(ID);
-                String memberName = Member.getUsername();
-                model.addElement(memberName);
-   
+        // group = GDB.getCurrentGroup();
+        ArrayList<String> membersIDs = group.getMembersIDs();
+        DefaultListModel<String> model = new DefaultListModel();
 
-     }
-     
-      if (model.isEmpty()) {
-        list.setModel(new DefaultListModel<>());
-        jScrollPane1.setViewportView(list);
-    } else {
- 
-        list.setModel(model);
-        jScrollPane1.setViewportView(list);
+        for (String ID : membersIDs) {
+            User Member = userDB.getUserById(ID);
+            String memberName = Member.getUsername();
+            model.addElement(memberName);
+
+        }
+
+        if (model.isEmpty()) {
+            list.setModel(new DefaultListModel<>());
+            jScrollPane1.setViewportView(list);
+        } else {
+
+            list.setModel(model);
+            jScrollPane1.setViewportView(list);
+        }
+
     }
 
-}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -160,21 +157,17 @@ public class primaryAdminManageMembers extends javax.swing.JFrame {
 
     private void removebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removebtnActionPerformed
         // TODO add your handling code here:
-         int index= list.getSelectedIndex();
-      if(index>-1)
-     {
-       String memberName=list.getSelectedValue();
-       User Member = userDB.getUserByUsername(memberName);
-      groupmanage.removeMember(Member.getUserId(),group.getGroupName());
-        filllist();
-       
-     }
-   
-       else
-     {
-          JOptionPane.showMessageDialog(this, "You Should Select a member to remove", "  Message ", JOptionPane.PLAIN_MESSAGE);
-     }
-        
+        int index = list.getSelectedIndex();
+        if (index > -1) {
+            String memberName = list.getSelectedValue();
+            User Member = userDB.getUserByUsername(memberName);
+            groupmanage.removeMember(Member.getUserId(), group.getGroupName());
+            filllist();
+
+        } else {
+            JOptionPane.showMessageDialog(this, "You Should Select a member to remove", "  Message ", JOptionPane.PLAIN_MESSAGE);
+        }
+
     }//GEN-LAST:event_removebtnActionPerformed
 
     private void backbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backbtnActionPerformed
@@ -191,63 +184,51 @@ public class primaryAdminManageMembers extends javax.swing.JFrame {
 
     private void promotebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_promotebtnActionPerformed
         // TODO add your handling code here:
-             int index= list.getSelectedIndex();
-      if(index>-1)
-     {
-       String memberName=list.getSelectedValue();
-      User Member = userDB.getUserByUsername(memberName);
-      groupmanage.promoteToAdmin(Member.getUserId(),group.getGroupName());
-       filllist();
-       
-     }
-   
-       else
-     {
-          JOptionPane.showMessageDialog(this, "You Should Select a Member to promote", "  Message ", JOptionPane.PLAIN_MESSAGE);
-     }
-       
-        
+        int index = list.getSelectedIndex();
+        if (index > -1) {
+            String memberName = list.getSelectedValue();
+            User Member = userDB.getUserByUsername(memberName);
+            groupmanage.promoteToAdmin(Member.getUserId(), group.getGroupName());
+            filllist();
+
+        } else {
+            JOptionPane.showMessageDialog(this, "You Should Select a Member to promote", "  Message ", JOptionPane.PLAIN_MESSAGE);
+        }
+
+
     }//GEN-LAST:event_promotebtnActionPerformed
 
     private void addmemberbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addmemberbtnActionPerformed
         // TODO add your handling code here
-        String usernametoadd = JOptionPane.showInputDialog("Enter username:"); 
+        String usernametoadd = JOptionPane.showInputDialog("Enter username:");
         //lw cancel aw close
         if (usernametoadd == null) {
 
-          return;
-        }
-        //lw a5tar ok mn8er ma yd5l
-      else  if (usernametoadd.trim().isEmpty()) {
+            return;
+        } //lw a5tar ok mn8er ma yd5l
+        else if (usernametoadd.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "You should enter a username", "Message", JOptionPane.PLAIN_MESSAGE);
-         
-        }
-      
-      //lw d5l username
-      else 
-        {
+
+        } //lw d5l username
+        else {
             User member = userDB.getUserByUsername(usernametoadd); //hageb User mn username
-             //check lw user mawgod asln
+            //check lw user mawgod asln
             if (member == null) {
                 JOptionPane.showMessageDialog(this, "User not found!", "Message", JOptionPane.PLAIN_MESSAGE); // lw mafesh User bl name dah
-               
-            } 
-            // if user found
+
+            } // if user found
             // get id of the receiver of the req
-            else if (member != null)
-            {
-                   String MemberId = member.getUserId();
-                   ArrayList<String> membersIDs= group.getMembersIDs();
-                   groupmanage.addMember(MemberId,group.getGroupName());
-                   filllist();
-                   
+            else if (member != null) {
+                String MemberId = member.getUserId();
+                ArrayList<String> membersIDs = group.getMembersIDs();
+                groupmanage.addMember(MemberId, group.getGroupName());
+                filllist();
 
             }
 
-        } 
+        }
     }//GEN-LAST:event_addmemberbtnActionPerformed
 
-  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addmemberbtn;

@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,10 +22,13 @@ public class AddPostGroup extends javax.swing.JFrame {
     private String selectedImagePath;
     MemberFrame m;
     Group group;
-   GroupManagement GM= new GroupManagement();
-    public AddPostGroup() {
+    GroupManagement GM = new GroupManagement();
+
+    public AddPostGroup(MemberFrame m, Group group) {
         initComponents();
         this.m = m;
+        this.group = group;
+
     }
 
     /**
@@ -162,8 +166,9 @@ public class AddPostGroup extends javax.swing.JFrame {
         FactoryContent F = new FactoryContent();
         UserDataBase currentUserDb = UserDataBase.getDatabase();
         User currentUser = currentUserDb.getCurrentUser();
-        GroupDataBase currentGroupDB =GroupDataBase.getInstance();
-        Group currentGroup = currentGroupDB.getCurrentGroup();
+        //GroupDataBase currentGroupDB =GroupDataBase.getInstance();
+        PostDataBase PDB = PostDataBase.getInstance();
+        // Group currentGroup = currentGroupDB.getCurrentGroup();
         if (currentUser == null) {
             JOptionPane.showMessageDialog(this, "No user is currently logged in.", "Message", JOptionPane.ERROR_MESSAGE);
             return;
@@ -179,17 +184,19 @@ public class AddPostGroup extends javax.swing.JFrame {
         p.setContentID(UUID.randomUUID().toString());
         p.setTimestamp(LocalDateTime.now());
         p.setAuthorID(currentUser.getUserId());
-        String postID= p.getContentID();
-        String grpName = currentGroup.getGroupName();
-        GM.addPosttoGroup(postID,grpName);
-        JOptionPane.showMessageDialog(this, "Post shared successfully." ,"Message",JOptionPane.PLAIN_MESSAGE);
-
+        PDB.addPost(p);
+        String postID = p.getContentID();
+        //String grpName = currentGroup.getGroupName();
+        GM.addPosttoGroup(postID, group.getGroupName());
+        JOptionPane.showMessageDialog(this, "Post shared successfully.", "Message", JOptionPane.PLAIN_MESSAGE);
+        m.setVisible(true);
+        setVisible(false);
     }//GEN-LAST:event_ShareBtnActionPerformed
 
     private void CancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelBtnActionPerformed
 
         m.setVisible(true);
-          setVisible(false);
+        setVisible(false);
     }//GEN-LAST:event_CancelBtnActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -198,7 +205,7 @@ public class AddPostGroup extends javax.swing.JFrame {
         setVisible(false);
     }//GEN-LAST:event_formWindowClosed
 
-  
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CancelBtn;
     private javax.swing.JTextArea EnteredText;

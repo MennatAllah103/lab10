@@ -12,23 +12,28 @@ import Backend.UserLog;
  * @author daree
  */
 public class Home extends javax.swing.JFrame {
+
     private static Home instance = null;
-     UserLog log=new UserLog(UserDataBase.getDatabase());
+    UserLog log = new UserLog(UserDataBase.getDatabase());
     private UserLogin logging;
+
     /**
      * Creates new form Home
      */
     private Home() {
         initComponents();
-        
+
     }
 
-   public static Home getInstance() {
-        if (instance == null)   // If the instance doesn't exist, create it
+    public static Home getInstance() {
+        if (instance == null) // If the instance doesn't exist, create it
+        {
             instance = new Home();
-        
+        }
+
         return instance;  // Return the single instance
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -108,56 +113,55 @@ public class Home extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void signupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupActionPerformed
-   
-   // Create a new UserSignup frame and pass the necessary arguments
-    UserSignup userSignupFrame = new UserSignup(log, logging,this); // Pass the required objects
-    userSignupFrame.setVisible(true);
-    
-    // Hide the current frame
-    setVisible(false);
-        
-        
-        
+
+        // Create a new UserSignup frame and pass the necessary arguments
+        UserSignup userSignupFrame = new UserSignup(log, logging, this); // Pass the required objects
+        userSignupFrame.setVisible(true);
+
+        // Hide the current frame
+        setVisible(false);
+
+
     }//GEN-LAST:event_signupActionPerformed
 
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
         // TODO add your handling code here:
-         UserLogin userloginframe = new UserLogin(log,this);
-         userloginframe.setVisible(true);
-         setVisible(false);
-        
+        UserLogin userloginframe = new UserLogin(log, this);
+        userloginframe.setVisible(true);
+        setVisible(false);
+
     }//GEN-LAST:event_loginActionPerformed
-public static void main(String args[]) {
-    /* Set the Nimbus look and feel */
-    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-    try {
-        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-            if ("Nimbus".equals(info.getName())) {
-                javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                break;
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
             }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-    } catch (ClassNotFoundException ex) {
-        java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (InstantiationException ex) {
-        java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (IllegalAccessException ex) {
-        java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-        java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                Home home = Home.getInstance(); // Use the singleton instance
+                home.setVisible(true); // Make the frame visible
+            }
+        });
     }
-    //</editor-fold>
 
-    /* Create and display the form */
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-            Home home = Home.getInstance(); // Use the singleton instance
-            home.setVisible(true); // Make the frame visible
-        }
-    });
-}
 
-   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
