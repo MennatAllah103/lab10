@@ -183,49 +183,55 @@ public class GroupManagement {
                
 
     }
-    
-    //u can use GetPostById() aly fy postDB
-/*
     //PrimaryAdmin
-    public void promoteToAdmin(User member, String groupName) {
-        User currentuser = UserDataBase.getCurrentUser();
-        Group group = groupDB.getGroupByname(groupName);
-        /* if (group == null) {
-        System.out.println("Group not found");
-        return false;
-    }
-        ArrayList<User> members = group.getMembers();
-        ArrayList<User> admins = group.getAdmins();
-
-        /* if(members.contains(member) && !admins.contains(member) && currentuser.getUserId().equals(group.getAdminId()))
+    public void promoteToAdmin(String memberID, String groupName) {
+ 
+     Group group = groupDB.getGroupByname(groupName);
+    if (group == null)
     {
-        admins.add(member);
-        groupDB.saveGroupToFile(groups);
-        //return true;}
-
-        //else return false;
-    }
-
-    public void DemoteFromAdmin(User admin, String groupName) {
-        User currentuser = UserDataBase.getCurrentUser();
-        Group group = groupDB.getGroupByname(groupName);
-        /*if (group == null) {
         System.out.println("Group not found");
-        return false;
+       return;
     }
-        ArrayList<User> admins = group.getAdmins();
+   
+    else
+ {
 
-        //if(admins.contains(admin)&& currentuser.getUserId().equals(group.getPrimaryAdminId()))
-        // {
-        admins.remove(admin);
-        groupDB.saveGroupToFile(groups);
-        // return true;}
+  ArrayList<String> membersIds = group.getMembersIDs();
+  ArrayList<String> adminsIds= group.getAdminsIDs();
+  
+  
+    if(membersIds.contains(memberID) && !adminsIds.contains(memberID) )
+    {
 
-        //else{ System.out.println("Current user is not primary admin,can't demote admin");
-        //return false;}
+       membersIds.remove(memberID);
+      adminsIds.add(memberID);
+      groupDB.saveGroupToFile(groups);
+   
+    }
+}
+    
+    
+
     }
 
-    public void deleteGroup(String groupName) {
+    public void DemoteFromAdmin(String adminID, String groupName) {
+      
+     Group group = groupDB.getGroupByname(groupName);
+      if (group == null) {
+        System.out.println("Group not found");
+        return;
+    }
+  ArrayList<String> membersIds = group.getMembersIDs();
+  ArrayList<String> adminsIds= group.getAdminsIDs();
+
+  if(adminsIds.contains(adminID))
+     
+  adminsIds.remove(adminID);
+  membersIds.add(adminID);
+ groupDB.saveGroupToFile(groups);
+    }
+
+  /*  public void deleteGroup(String groupName) {
         User currentuser = UserDataBase.getCurrentUser();
         Group group = groupDB.getGroupByname(groupName);
         /*if (group ==null ) {
