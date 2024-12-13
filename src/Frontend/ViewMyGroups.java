@@ -72,7 +72,7 @@ public class ViewMyGroups extends javax.swing.JFrame {
         list = new javax.swing.JList<>();
         viewGroupbtn = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("             Your Groups");
@@ -157,7 +157,7 @@ public class ViewMyGroups extends javax.swing.JFrame {
      }
     else if(group.getAdminsIDs().contains(user.getUserId()))
     {
-        AdminFrame  adminFrame = new AdminFrame();
+        AdminFrame  adminFrame = new AdminFrame(this,group);
          setVisible(false);
         adminFrame.setVisible(true);
         

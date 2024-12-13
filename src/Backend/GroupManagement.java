@@ -180,7 +180,7 @@ public class GroupManagement {
      ArrayList<Post> posts = postDB.getPosts();
      Post post = postDB.GetPostById(postId);
         postDB.deletePost(post);
-               
+        groupDB.saveGroupToFile(groups);
 
     }
     
