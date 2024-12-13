@@ -455,7 +455,7 @@ public class Newsfeed extends javax.swing.JFrame {
 
     private void CreateGrpBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateGrpBtnActionPerformed
         // TODO add your handling code here:
-        CreateGroup CG = new CreateGroup();
+        CreateGroup CG = new CreateGroup(this);
         CG.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_CreateGrpBtnActionPerformed

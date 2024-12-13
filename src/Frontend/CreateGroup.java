@@ -20,11 +20,13 @@ User user = UserDataBase.getCurrentUser();
  GroupDataBase GDB = GroupDataBase.getInstance();
  private String selectedImagePath;
  GroupManagement groupmanage =new GroupManagement(GDB);
+ Newsfeed newsfeed;
     /**
      * Creates new form CreateGroup
      */
-    public CreateGroup() {
+    public CreateGroup(Newsfeed newsfeed) {
         initComponents();
+        this.newsfeed=newsfeed;
     }
 
     /**
@@ -169,9 +171,9 @@ User user = UserDataBase.getCurrentUser();
         }
        Group group = builder.build();
        groupmanage.addGroup(group);
-        ViewGroup v = new ViewGroup();
+      
         setVisible(false);
-        v.setVisible(true);
+        newsfeed.setVisible(true);
     
     }//GEN-LAST:event_CreateBtnActionPerformed
 
