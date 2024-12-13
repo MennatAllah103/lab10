@@ -47,6 +47,8 @@
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="btnRefresh" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
+                      <Component id="CreateGrpBtn" min="-2" pref="156" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" pref="173" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="143" max="-2" attributes="0"/>
                       <Component id="logout" min="-2" max="-2" attributes="0"/>
@@ -56,8 +58,7 @@
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="storiesLabel" min="-2" pref="59" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="CreateGrpBtn" min="-2" pref="156" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="manageFriends" min="-2" max="-2" attributes="0"/>
@@ -91,7 +92,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="logout" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnRefresh" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="btnRefresh" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="CreateGrpBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
               </Group>
@@ -105,10 +109,7 @@
                   <Component id="GrpBtn" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="storiesLabel" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
-                  <Component id="CreateGrpBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="storiesLabel" min="-2" pref="24" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="friendsStoriesScrollPane" min="-2" pref="197" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
