@@ -185,6 +185,7 @@ public class AdminEditPost extends javax.swing.JFrame {
         // TODO add your handling code here:
        
         manage.setVisible(true);
+        this.dispose();
          
         
     }//GEN-LAST:event_backActionPerformed
