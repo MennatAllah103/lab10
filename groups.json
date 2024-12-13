@@ -49,7 +49,7 @@
     {
         "PrimaryAdminId": "0bf86395-e1c3-44a0-aa15-106694f3d5ee",
         "groupId": "efe9837a-4fcb-42a4-86d1-1bf9f1df4606",
-        "members": ["b85ef99e-c0be-42d2-8ae0-3fa519f00e37"],
+        "members": [],
         "name": "new name",
         "description": "No description provided.",
         "photo": "defaultgroupphoto.png",

@@ -4,7 +4,7 @@
  */
 package Frontend;
 
-import Backend.Group;
+import Backend.*;
 import Backend.GroupManagement;
 import Backend.Post;
 import Backend.PostDataBase;
@@ -20,6 +20,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 //import java.awt.Font;
@@ -39,6 +40,8 @@ public class MemberFrame extends javax.swing.JFrame {
     UserDataBase userDB = UserDataBase.getDatabase();
     GroupManagement groupmanage = new GroupManagement();
     User user = userDB.getCurrentUser();
+    GroupDataBase currentGroupDB = GroupDataBase.getInstance();
+    Group currentGroup = currentGroupDB.getCurrentGroup();
 
     public MemberFrame(ViewMyGroups viewG, Group group) {
         initComponents();
@@ -247,6 +250,10 @@ public class MemberFrame extends javax.swing.JFrame {
 
     private void LeaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeaveBtnActionPerformed
         // TODO add your handling code here:
+        groupmanage.leaveGroup(user.getUserId(), currentGroup.getGroupName());
+        JOptionPane.showMessageDialog(this, "You left group successfully." ,"Message",JOptionPane.PLAIN_MESSAGE);
+        new Newsfeed().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_LeaveBtnActionPerformed
 
 

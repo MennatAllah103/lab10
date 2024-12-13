@@ -256,5 +256,26 @@ public class GroupManagement {
         requests.remove(request);
         requestDatabase.saveFile(requests);
     }
-
+public void leaveGroup(String userId, String groupName) {
+    Group group = groupDB.getGroupByname(groupName);
+    if (group == null) {
+        System.out.println("Group not found");
+        return;
+    }
+    
+    ArrayList<String> membersIDs = group.getMembersIDs();
+    ArrayList<String> adminsIDs = group.getAdminsIDs();
+    
+    if (adminsIDs.contains(userId)) {
+        adminsIDs.remove(userId);
+    }
+    
+    if (membersIDs.contains(userId)) {
+        membersIDs.remove(userId);
+        groupDB.saveGroupToFile(groups);
+        System.out.println("User has successfully left the group.");
+    } else {
+        System.out.println("User is not a member of this group.");
+    }
+}
 }
