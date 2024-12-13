@@ -44,7 +44,7 @@
         "description": "No description provided.",
         "photo": "defaultgroupphoto.png",
         "posts": [],
-        "admins": []
+        "admins": ["b85ef99e-c0be-42d2-8ae0-3fa519f00e37"]
     },
     {
         "PrimaryAdminId": "0bf86395-e1c3-44a0-aa15-106694f3d5ee",

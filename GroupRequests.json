@@ -1,0 +1,14 @@
+[
+    {
+    "requestId": "REQ12345",
+    "memberId": "e874bd03-3cc7-461f-8409-d374d22e077d",
+    "groupId": "726dcec0-c33b-4d31-87a9-0497c03af66c"
+    
+  },
+  {
+    "requestId": "REQ12346",
+    "memberId": "8d7b0a45-a057-43d2-b789-d01a9d9998ab",
+    "groupId": "726dcec0-c33b-4d31-87a9-0497c03af66c"
+  
+  }
+]
