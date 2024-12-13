@@ -32,15 +32,17 @@ public class ViewGroupFrame extends javax.swing.JFrame {
      * Creates new form ViewGroupFrame
      */
     //SearchFrame frame ;
+    Newsfeed n;
     Group group;
       UserDataBase userDB = UserDataBase.getDatabase();
     GroupManagement groupmanage = new GroupManagement();
     User user = userDB.getCurrentUser();
  
-    public ViewGroupFrame(Group group) {
+    public ViewGroupFrame(Group group,Newsfeed n) {
         initComponents();
         //this.frame=frame;
         this.group=group;
+        this.n=n;
         
           String groupName = group.getGroupName();
         Font font1 = new Font("Arial", Font.BOLD, 20); 
@@ -141,6 +143,11 @@ public class ViewGroupFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setText("Posts");
 
@@ -223,7 +230,15 @@ public class ViewGroupFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         groupmanage.leaveGroup(user.getUserId(), group.getGroupName());
         JOptionPane.showMessageDialog(this, "You left group successfully.", "Message", JOptionPane.PLAIN_MESSAGE);
+          this.setVisible(false);
+        n.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+          this.setVisible(false);
+        n.setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
 
   
     // Variables declaration - do not modify//GEN-BEGIN:variables

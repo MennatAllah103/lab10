@@ -187,15 +187,15 @@ public class SearchFrame extends javax.swing.JFrame {
                                 GroupProxy groupProxy = new GroupProxy(group, currentuser);
 
                                 if (groupProxy.isPrimaryAdmin()) {
-                                  ViewGroupFrame viewGroup = new ViewGroupFrame(group);
+                                  ViewGroupFrame viewGroup = new ViewGroupFrame(group,newsfeed);
                                     setVisible(false);
                                  viewGroup.setVisible(true);
                                 } else if (groupProxy.isAdmin()) {
-                                   ViewGroupFrame viewGroup = new ViewGroupFrame(group);
+                                   ViewGroupFrame viewGroup = new ViewGroupFrame(group,newsfeed);
                                     setVisible(false);
                                  viewGroup.setVisible(true);;
                                 } else if (groupProxy.isMember()) {
-                              ViewGroupFrame viewGroup = new ViewGroupFrame(group);
+                              ViewGroupFrame viewGroup = new ViewGroupFrame(group,newsfeed);
                                     setVisible(false);
                                  viewGroup.setVisible(true);
                                 } 
