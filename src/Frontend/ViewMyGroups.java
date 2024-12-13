@@ -164,7 +164,7 @@ public class ViewMyGroups extends javax.swing.JFrame {
     }
      else if(group.getMembersIDs().contains(user.getUserId()))
     {
-          MemberFrame  memberFrame = new MemberFrame();
+          MemberFrame  memberFrame = new MemberFrame(this,group);
          setVisible(false);
         memberFrame.setVisible(true);
         

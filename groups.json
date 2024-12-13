@@ -73,5 +73,25 @@
         "photo": "defaultgroupphoto.png",
         "posts": [],
         "admins": []
+    },
+    {
+        "PrimaryAdminId": "0bf86395-e1c3-44a0-aa15-106694f3d5ee",
+        "groupId": "efe9837a-4fcb-42a4-86d1-1bf9f1df4606",
+        "members": [],
+        "name": "new name",
+        "description": "No description provided.",
+        "photo": "defaultgroupphoto.png",
+        "posts": [],
+        "admins": []
+    },
+    {
+        "PrimaryAdminId": "0bf86395-e1c3-44a0-aa15-106694f3d5ee",
+        "groupId": "11c49699-e42c-459d-afb5-22cd432950a0",
+        "members": [],
+        "name": "my first group",
+        "description": "agmad group",
+        "photo": "defaultgroupphoto.png",
+        "posts": [],
+        "admins": []
     }
 ]

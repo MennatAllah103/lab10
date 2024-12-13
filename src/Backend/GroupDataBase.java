@@ -24,7 +24,14 @@ public class GroupDataBase {
     public static GroupDataBase groupDB = null;
     UserDataBase userDB = UserDataBase.getDatabase();
     PostDataBase postDB = PostDataBase.getInstance();
-  
+      private static Group currentGroup;
+public static GroupDataBase getDatabase()
+     {
+       if(groupDB==null)
+           groupDB=new GroupDataBase();
+          
+           return groupDB;
+     }
 
     private GroupDataBase() {
         groups = ReadGroupsfromFile();
@@ -169,5 +176,14 @@ public class GroupDataBase {
         }
         return null;
     }
-       
+
+    public static Group getCurrentGroup() {
+        return currentGroup;
+    }
+
+    public static void setCurrentGroup(Group currentGroup) {
+        GroupDataBase.currentGroup = currentGroup;
+    }
+ 
+      
 }
