@@ -4,6 +4,8 @@
  */
 package Frontend;
 
+import Backend.Group;
+import Backend.GroupDataBase;
 import Backend.Management;
 import Backend.Notification;
 import Backend.NotificationManager;
@@ -18,19 +20,20 @@ import Backend.UserLog;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -156,12 +159,66 @@ public class Newsfeed extends javax.swing.JFrame {
 
                         notificationItemPanel.add(messagePanel);
                     }
-                }
+                } else if (notification.getType().equalsIgnoreCase("New Post In Group")) {
+                    String message = notification.getMessage();
+                    String senderUsername = null;
+                    String groupName = null;
+                    Pattern pattern = Pattern.compile("^(.*?) added a new post in (.*?)$");
+                    Matcher matcher = pattern.matcher(message);
+                    if (matcher.matches()) {
+                        senderUsername = matcher.group(1);
+                        groupName = matcher.group(2);
+                    }
 
+                    String profilePicPath = database.getUserByUsername(senderUsername).getProfilePhoto();
+                    ImageIcon icon = new ImageIcon(profilePicPath);
+                    BufferedImage image;
+                    try {
+                        image = ImageIO.read(new File(profilePicPath));
+                        BufferedImage circleImage = makeCircularImage(image);
+                        profilePicLabel = new JLabel(new ImageIcon(circleImage));
+                        profilePicLabel.setPreferredSize(new Dimension(50, 50));
+                        profilePicLabel.setMaximumSize(new Dimension(50, 50));
+                        profilePicLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
+                        notificationItemPanel.add(profilePicLabel);
+                    } catch (IOException ex) {
+                        Logger.getLogger(Newsfeed.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    JPanel messagePanel = new JPanel();
+                    messagePanel.setOpaque(false);
+                    messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.Y_AXIS));
+                    messagePanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
+
+                    JLabel notificationLabel = new JLabel(notification.getMessage());
+                    messagePanel.add(notificationLabel);
+
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
+                    String formattedTimestamp = notification.getTimeStamp().format(formatter);
+                    JLabel timestampLabel = new JLabel("Received at: " + formattedTimestamp);
+                    messagePanel.add(timestampLabel);
+
+                    JPanel buttonPanel = new JPanel();
+                    buttonPanel.setOpaque(false);
+                    JButton viewButton = new JButton("View");
+                    GroupDataBase groupDB = GroupDataBase.getInstance();
+                    Group g = groupDB.getGroupByname(groupName);
+                    viewButton.addActionListener(e -> {
+                        ViewPostFromNotification viewPost = new ViewPostFromNotification(this, g);
+                        viewPost.setVisible(true);
+                        notifManager.deleteNotification(notification);
+                        notificationPanel1.remove(notificationItemPanel);
+                        notificationPanel1.revalidate();
+                        notificationPanel1.repaint();
+                    });
+
+                    buttonPanel.add(viewButton);
+                    messagePanel.add(buttonPanel);
+                    notificationItemPanel.add(messagePanel);
+                }
                 notificationPanel1.add(notificationItemPanel);
             }
-        }
-            else {
+        } else {
             JLabel noNotificationsLabel = new JLabel("No notifications available.");
             notificationPanel1.add(noNotificationsLabel);
         }

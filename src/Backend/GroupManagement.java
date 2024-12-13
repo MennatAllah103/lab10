@@ -145,6 +145,10 @@ public class GroupManagement {
         groupDB.saveGroupToFile(groups);
         ArrayList<Post> posts = postDB.getPosts();
         Post post = postDB.GetPostById(postId);
+        NotificationManager manager = new NotificationManager();
+        UserDataBase userDB = UserDataBase.getDatabase();
+        User u = userDB.getUserById(post.getAuthorID());
+        manager.createNotification(post.getAuthorID(),"New Post in Group" , u.getUsername() + " added a new post in " + groupName);
         postDB.addPost(post);
 
     }
