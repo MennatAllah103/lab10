@@ -54,16 +54,6 @@ public class EditProfile extends javax.swing.JFrame {
             coverPhotoLabel.setIcon(new ImageIcon(new ImageIcon(u.getCoverPhoto())
                     .getImage().getScaledInstance(coverPhotoLabel.getWidth(), coverPhotoLabel.getHeight(), java.awt.Image.SCALE_SMOOTH)));
         }
-//        String profilePhotoPath = UserDataBase.getCurrentUser().getProfilePhoto();
-//        String defaultProfilePhoto = "defaultProfilePhoto.jpeg";
-//        if (profilePhotoPath != null && !profilePhotoPath.equals(defaultProfilePhoto)) {
-//            profilePhotoLabel.setIcon(new ImageIcon(new ImageIcon(profilePhotoPath).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
-//        } 
-//        String coverPhotoPath = UserDataBase.getCurrentUser().getCoverPhoto();
-//        String defaultCoverPhoto = "defaultCoverPhoto.jpg";
-//        if (coverPhotoPath != null && !coverPhotoPath.equals(defaultCoverPhoto)) {
-//            coverPhotoLabel.setIcon(new ImageIcon(new ImageIcon(coverPhotoPath).getImage().getScaledInstance(712, 136, Image.SCALE_SMOOTH)));
-//        } 
     }
 
     /**

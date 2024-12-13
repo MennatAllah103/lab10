@@ -196,6 +196,11 @@ public class ViewProfile extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("View Profile");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         btnEditProfile.setBackground(new java.awt.Color(255, 204, 255));
         btnEditProfile.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -340,6 +345,10 @@ public class ViewProfile extends javax.swing.JFrame {
         this.setVisible(false);
         n.setVisible(true);
     }//GEN-LAST:event_btnBack1ActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        n.setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
