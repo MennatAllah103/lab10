@@ -5,6 +5,7 @@
 package Frontend;
 
 import Backend.*;
+import java.awt.Frame;
 import java.util.*;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -22,11 +23,15 @@ public class SearchFrame extends javax.swing.JFrame {
     Newsfeed newsfeed;
     User currentuser;
     Management manage;
+    Frame currentFrame;
+    GroupManagement groupmanage = new GroupManagement();
+    GroupDataBase GDB= GroupDataBase.getInstance();
     public SearchFrame(Newsfeed newsfeed, User currentuser, Management manage) {
         initComponents();
          this.newsfeed = newsfeed;
         this.currentuser = currentuser;
         this.manage = manage;
+        currentFrame = this;
 
     }
 
@@ -108,84 +113,122 @@ public class SearchFrame extends javax.swing.JFrame {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-          
-        
-        ArrayList<String> allblockedIds= manage.getAllUsersBlockedForaUser(currentuser.getUserId());
-        String searchField=searchBar.getText();
-        
-        if (searchField == null)
-        {
-          return;
-        }
-      
-      else  if (searchField.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "You write in the Search Bar", "Message", JOptionPane.PLAIN_MESSAGE);
-         
-        }
-        
-        else
-      {
-     ArrayList<User> searchResults=Search.search(searchField);
-      ArrayList<User> searchResultswithoutBlocked= new ArrayList<>();
-          for(User u : searchResults)   
-   {
-      if(!(allblockedIds.contains(u.getUserId())))
-          searchResultswithoutBlocked.add(u);
-   }
-     
-       DefaultListModel<String> model=new DefaultListModel();
-      
-       for(User u : searchResultswithoutBlocked)
-       {
-           String username =u.getUsername();
-           model.addElement(username);
- 
-       }
-      
-       list.setModel(model);
-       jScrollPane1.setViewportView(list);
-      }
-    
-        //hst5dm listener lel jlist , 3shan y detect ay ta8ayor fy  selectstate
-        
-        //add listener lel list obj 
-        // m=bdhla instance mn ListSelectionListener class
-        // al class dah fe method valueChanged 
-        // lama y7sr ay t9yr fy selection fy list , method de is called
- list.addListSelectionListener(new ListSelectionListener()
-       {
-            @Override
-            public void valueChanged(ListSelectionEvent e)
-           {
-                if (!e.getValueIsAdjusting()) 
-               {
-                    int index = list.getSelectedIndex();
-                    if (index >= -1)
-                    {
-                        String selectedUsername = list.getSelectedValue();
-                        User u = userDB.getUserByUsername(selectedUsername);
-                        String selectedUserId = u.getUserId();
-                        ArrayList<String> currentUserFriendsIds = manage.getUserFriendsIDs(currentuser.getUserId());
+                                        
+    ArrayList<String> allblockedIds = manage.getAllUsersBlockedForaUser(currentuser.getUserId());
+    String searchField = searchBar.getText();
 
-                        if (currentUserFriendsIds.contains(selectedUserId)) 
-                         {
-                            viewFriendSearch viewFriendProfile = new viewFriendSearch(newsfeed,currentuser,manage,u);
-                            setVisible(false);
-                            viewFriendProfile.setVisible(true);
-                        } else
-                        {
-                            viewUserSearch viewUserProfile = new viewUserSearch(newsfeed,currentuser,manage,u);
-                            setVisible(false);
-                            viewUserProfile.setVisible(true);
-                        }
+    if (searchField == null) {
+        return;
+    } else if (searchField.trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "You must write something in the Search Bar", "Message", JOptionPane.PLAIN_MESSAGE);
+    } else {
+        ArrayList<User> searchResults = Search.searchUser(searchField);
+        ArrayList<User> searchResultswithoutBlocked = new ArrayList<>();
+
+        for (User u : searchResults) {
+            if (!allblockedIds.contains(u.getUserId())) {
+                searchResultswithoutBlocked.add(u);
+            }
+        }
+
+        ArrayList<Group> searchResultsGroups = Search.searchGroup(searchField);
+        DefaultListModel<String> model = new DefaultListModel<>();
+
+        for (User u : searchResultswithoutBlocked) {
+            String username = u.getUsername();
+            model.addElement("User:" + username);
+        }
+
+        for (Group g : searchResultsGroups) {
+            String groupName = g.getGroupName();
+            model.addElement("Group:" + groupName);
+        }
+
+        list.setModel(model);
+        jScrollPane1.setViewportView(list);
+
+        // Adding listener to detect selection changes in the JList
+        list.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int index = list.getSelectedIndex();
+                    if (index >= 0) {
+                        String selectedValue = list.getSelectedValue();
+
+                        if (selectedValue.startsWith("User:")) {
+                            String username = selectedValue.substring(5);
+                            User u = userDB.getUserByUsername(username);
+                            if (u != null) {
+                                String selectedUserId = u.getUserId();
+                                ArrayList<String> currentUserFriendsIds = manage.getUserFriendsIDs(currentuser.getUserId());
+
+                                if (currentUserFriendsIds.contains(selectedUserId)) {
+                                    viewFriendSearch viewFriendProfile = new viewFriendSearch(newsfeed, currentuser, manage, u);
+                                    setVisible(false);
+                                    viewFriendProfile.setVisible(true);
+                                } else {
+                                    viewUserSearch viewUserProfile = new viewUserSearch(newsfeed, currentuser, manage, u);
+                                    setVisible(false);
+                                    viewUserProfile.setVisible(true);
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(null, "User not found!", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        } else if (selectedValue.startsWith("Group:")) {
+                            String groupName = selectedValue.substring(6);
+                            Group group = GDB.getGroupByname(groupName);
+                            if (group != null) {
+                                GDB.setCurrentGroup(group);
+                                GroupProxy groupProxy = new GroupProxy(group, currentuser);
+
+                                if (groupProxy.isPrimaryAdmin()) {
+                                  ViewGroupFrame viewGroup = new ViewGroupFrame(group);
+                                    setVisible(false);
+                                  //  primaryFrame.setVisible(true);
+                                } else if (groupProxy.isAdmin()) {
+                                   // AdminFrame adminFrame = new AdminFrame (currentFrame,group);
+                                    setVisible(false);
+                                   // adminFrame.setVisible(true);
+                                } else if (groupProxy.isMember()) {
+                                   // MemberFrame memberFrame = new MemberFrame(currentFrame, group);
+                                    setVisible(false);
+                                  //  memberFrame.setVisible(true);
+                                } 
+                                 else {
+            // Show a dialog to ask if the user wants to join the group
+            int choice = JOptionPane.showConfirmDialog(
+                currentFrame,
+                "You are not a part of this group. Would you like to request to join?",
+                "Join Group",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+            );
+
+            if (choice == JOptionPane.YES_OPTION)
+            {
+               groupmanage.sendrequest(currentuser.getUserId(), group.getGroupId());
+          
+                 JOptionPane.showMessageDialog( currentFrame,"Your request to join the group has been sent.","Request Sent",JOptionPane.INFORMATION_MESSAGE);
+            } 
+            else 
+               {
+                    JOptionPane.showMessageDialog(currentFrame,"Request not sent","Error",JOptionPane.ERROR_MESSAGE );
+               }
+            }
+        }
+    }
+        } else {
+                        JOptionPane.showMessageDialog(currentFrame, "You should select an item from the list.", "No Selection", JOptionPane.WARNING_MESSAGE);
                     }
                 }
             }
         });
-   
-  
-    }//GEN-LAST:event_btnSearchActionPerformed
+    }
 
+    }//GEN-LAST:event_btnSearchActionPerformed
+    
+    
     private void searchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_searchBarActionPerformed

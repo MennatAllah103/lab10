@@ -14,22 +14,38 @@ public class Search {
     
     UserDataBase userDB=UserDataBase.getDatabase();
     ArrayList<User> AllUsers =userDB.getAllUsers();
+     GroupDataBase groupDB=GroupDataBase.getInstance();
+    ArrayList<Group> AllGroups = groupDB.getGroups();
     
     
     
-    public  ArrayList<User> search (String searchString)
+    public  ArrayList<User> searchUser (String searchString)
     {
-        ArrayList<User> searchResults= new ArrayList<>();
+        ArrayList<User> searchResultsUser= new ArrayList<>();
         for(User u : AllUsers)
         {
             if(u.getUsername().contains(searchString))
             {
-                searchResults.add(u);
+                searchResultsUser.add(u);
             }
         }
-        
-        return searchResults;
-        
+        return searchResultsUser;
     }
     
+    public ArrayList<Group> searchGroup (String searchString)
+    {
+        ArrayList<Group> searchResultsGroup= new ArrayList<>();
+       for(Group g : AllGroups)
+        {
+           
+             if(g.getGroupName().contains(searchString))
+            {
+                searchResultsGroup.add(g);
+            }
+            
+        }
+       return searchResultsGroup;
+          
+    }
+
 }

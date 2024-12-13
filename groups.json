@@ -78,5 +78,15 @@
         "photo": "defaultgroupphoto.png",
         "posts": ["5eb9761c-6022-45ae-b0a5-9de7722caa51"],
         "admins": ["47d5973d-d4c6-4605-bcd5-694eb2339b6e"]
+    },
+    {
+        "PrimaryAdminId": "2c2d8783-cfba-42fe-b330-954c047f1753",
+        "groupId": "49ba3d14-89df-4ea5-86bc-8aea86785ed6",
+        "members": [],
+        "name": "dareengroup",
+        "description": "gajsgdsgsdgi",
+        "photo": "C:\\Users\\daree\\Documents\\coverPhoto.jpg",
+        "posts": [],
+        "admins": []
     }
 ]
