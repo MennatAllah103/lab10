@@ -200,7 +200,7 @@ public class SearchFrame extends javax.swing.JFrame {
                                  viewGroup.setVisible(true);
                                 } 
                                  else {
-            // Show a dialog to ask if the user wants to join the group
+           
             int choice = JOptionPane.showConfirmDialog(
                 currentFrame,
                 "You are not a part of this group. Would you like to request to join?",
