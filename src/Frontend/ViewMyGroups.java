@@ -163,9 +163,9 @@ public class ViewMyGroups extends javax.swing.JFrame {
             setVisible(false);
             primaryFrame.setVisible(true);
         } else if (groupProxy.isAdmin()) {
-           // AdminFrame adminFrame = new AdminFrame(this, group);
-           // setVisible(false);
-           // adminFrame.setVisible(true);
+           AdminFrame adminFrame = new AdminFrame(this, group);
+           setVisible(false);
+           adminFrame.setVisible(true);
         } else if (groupProxy.isMember()) {
             MemberFrame memberFrame = new MemberFrame(this,group);
             setVisible(false);
