@@ -138,13 +138,17 @@ public class GroupManagement {
 
 //hageb group mn group name , w ha7ot postid fy array of postsids aly fy group
 //hzwd al post fy fileposts
-    public void addPosttoGroup(String postId, String groupName) {
+   public void addPosttoGroup(String postId, String groupName) {
         Group group = groupDB.getGroupByname(groupName);
         ArrayList<String> PostsIds = group.getPostIDs();
         PostsIds.add(postId);
         groupDB.saveGroupToFile(groups);
         ArrayList<Post> posts = postDB.getPosts();
         Post post = postDB.GetPostById(postId);
+        NotificationManager manager = new NotificationManager();
+        UserDataBase userDB = UserDataBase.getDatabase();
+        User u = userDB.getUserById(post.getAuthorID());
+        manager.createNotification(post.getAuthorID(),"New Post in Group" , u.getUsername() + " added a new post in " + groupName);
         postDB.addPost(post);
 
     }
