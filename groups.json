@@ -63,5 +63,15 @@
         "description": "123",
         "posts": [],
         "admins": []
+    },
+    {
+        "PrimaryAdminId": "1fd7d48f-5798-4a85-b113-7dbcc64fcbc5",
+        "groupId": "726dcec0-c33b-4d31-87a9-0497c03af66c",
+        "members": [],
+        "name": "group4",
+        "description": "No description provided.",
+        "photo": "defaultgroupphoto.png",
+        "posts": [],
+        "admins": []
     }
 ]
