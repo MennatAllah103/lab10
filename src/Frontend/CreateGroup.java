@@ -17,7 +17,9 @@ import javax.swing.JFileChooser;
  */
 public class CreateGroup extends javax.swing.JFrame {
 User user = UserDataBase.getCurrentUser();
+ GroupDataBase GDB = GroupDataBase.getInstance();
  private String selectedImagePath;
+ GroupManagement groupmanage =new GroupManagement(GDB);
     /**
      * Creates new form CreateGroup
      */
@@ -148,26 +150,29 @@ User user = UserDataBase.getCurrentUser();
 
     private void CreateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateBtnActionPerformed
         // TODO add your handling code here:
+        System.out.println(user.getUsername());
         String name = nameTXT.getText();
-       Group.GroupBuilder builder = new Group.GroupBuilder()
-                    .setName(name)
-                    .setGroupId(UUID.randomUUID().toString())
-                    .setPrimaryAdmin(user);
-       if (selectedImagePath != null && !selectedImagePath.isEmpty()) {
-            builder = new Group.GroupBuilder()
-                    .setPhoto(selectedImagePath);
+       Group.GroupBuilder builder = new Group.GroupBuilder().setGroupName(name)
+               .setGroupId(UUID.randomUUID().toString())
+               .setPrimaryAdminId(user.getUserId());
+                 
+
+       if (selectedImagePath != null && !selectedImagePath.isEmpty())
+       {
+           builder.setGroupPhoto(selectedImagePath);
+       
+       }
+        String description = descriptionTXT.getText();
+       if(description != null && !description.isEmpty())
+       {
+          builder.setDescription(description);
         }
-       if (descriptionTXT != null) {
-           String description = descriptionTXT.getText();
-          builder = new Group.GroupBuilder()
-                    .setDescription(description);
-        }
-       GroupDataBase GDB = GroupDataBase.getInstance();
        Group group = builder.build();
-       GDB.addGroup(group);
+       groupmanage.addGroup(group);
         ViewGroup v = new ViewGroup();
+        setVisible(false);
         v.setVisible(true);
-        this.dispose();
+    
     }//GEN-LAST:event_CreateBtnActionPerformed
 
     private void descriptionTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descriptionTXTActionPerformed
@@ -195,40 +200,7 @@ User user = UserDataBase.getCurrentUser();
         }
     }//GEN-LAST:event_IMGbtnActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CreateGroup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CreateGroup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CreateGroup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CreateGroup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CreateGroup().setVisible(true);
-            }
-        });
-    }
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CreateBtn;

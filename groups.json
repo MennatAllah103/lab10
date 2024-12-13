@@ -1,41 +1,48 @@
 [
     {
-        "name": "Tech Enthusiasts",
-        "description": "A group for technology lovers to share ideas and innovations.",
-        "photo": "images/tech.jpg",
-        "groupId": "123e4567-e89b-12d3-a456-426614174000",
         "PrimaryAdminId": "admin001",
+        "groupId": "123e4567-e89b-12d3-a456-426614174000",
         "members": [
             "user001",
             "user002",
             "user003"
         ],
-        "admins": [
-            "admin001",
-            "admin002"
-        ],
+        "name": "Tech Enthusiasts",
+        "description": "A group for technology lovers to share ideas and innovations.",
+        "photo": "123e4567-e89b-12d3-a456-426614174000",
         "posts": [
             "post001",
             "post002",
             "post003"
+        ],
+        "admins": [
+            "admin001",
+            "admin002"
         ]
     },
     {
-        "name": "Fitness Freaks",
-        "description": "A group for fitness enthusiasts to share tips and progress.",
-        "photo": "images/fitness.jpg",
-        "groupId": "123e4567-e89b-12d3-a456-426614174001",
         "PrimaryAdminId": "admin003",
+        "groupId": "123e4567-e89b-12d3-a456-426614174001",
         "members": [
             "user004",
             "user005"
         ],
-        "admins": [
-            "admin003"
-        ],
+        "name": "Fitness Freaks",
+        "description": "A group for fitness enthusiasts to share tips and progress.",
+        "photo": "123e4567-e89b-12d3-a456-426614174001",
         "posts": [
             "post004",
             "post005"
-        ]
+        ],
+        "admins": ["admin003"]
+    },
+    {
+        "PrimaryAdminId": "2c2d8783-cfba-42fe-b330-954c047f1753",
+        "groupId": "935cd641-86a3-4169-84f6-ea30ae4bf0e4",
+        "members": [],
+        "name": "group1",
+        "description": "nnn",
+        "posts": [],
+        "admins": []
     }
 ]

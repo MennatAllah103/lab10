@@ -4,6 +4,7 @@
  */
 package Backend;
 
+import Backend.Group;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,88 +20,81 @@ import org.json.JSONObject;
  */
 public class GroupDataBase {
 
-    private static ArrayList<Group> groups = new ArrayList<>();
-    public static GroupDataBase database = null;
-    UserDataBase userData = UserDataBase.getDatabase();
-    GroupManagement manager = null;
-    PostDataBase postData = PostDataBase.getInstance();
+    private ArrayList<Group> groups = new ArrayList<>();
+    public static GroupDataBase groupDB = null;
+    UserDataBase userDB = UserDataBase.getDatabase();
+    PostDataBase postDB = PostDataBase.getInstance();
+  
 
     private GroupDataBase() {
         groups = ReadGroupsfromFile();
     }
 
+    
     public static GroupDataBase getInstance() {
-        if (database == null) {
-            database = new GroupDataBase();
+        if (groupDB == null) {
+            groupDB = new GroupDataBase();
         }
-        return database;
+        return groupDB;
     }
 
-    public GroupManagement getManager() {
-        if (manager == null) {
-            manager = new GroupManagement(this);
-        }
-        return manager;
-    }
-
+    
     private ArrayList<Group> ReadGroupsfromFile() {
-    ArrayList<Group> groups = new ArrayList<>();
+   
     try {
+        
         String json = new String(Files.readAllBytes(Paths.get("groups.json")));
         JSONArray groupsArray = new JSONArray(json);
 
         for (int i = 0; i < groupsArray.length(); i++) {
             JSONObject groupJson = groupsArray.getJSONObject(i);
             String name = groupJson.getString("name");
-            String description = groupJson.getString("description");
-            String photo = groupJson.getString("photo");
             String groupId = groupJson.getString("groupId");
             String primaryAdminId = groupJson.getString("PrimaryAdminId");
-            User primaryAdmin = userData.getUserById(primaryAdminId);
 
-           
             Group.GroupBuilder builder = new Group.GroupBuilder()
-                    .setName(name)
-                    .setDescription(description)
-                    .setPhoto(photo)
+                    .setGroupName(name)
                     .setGroupId(groupId)
-                    .setPrimaryAdmin(primaryAdmin)
                     .setPrimaryAdminId(primaryAdminId);
+            
+        
+//description optionl
+              if (groupJson.has("description")) {
+                String description = groupJson.getString("description");
+                builder.setDescription(description);
+            }
+            if (groupJson.has("photo")) {
+                String photo = groupJson.getString("photo");
+                builder.setGroupPhoto(photo);
+            }
 
-            JSONArray membersArray = groupJson.optJSONArray("members");
-            if (membersArray != null) {
-                ArrayList<User> members = new ArrayList<>();
+         
+            if (groupJson.has("members")) {
+                JSONArray membersArray = groupJson.getJSONArray("members");
                 for (int j = 0; j < membersArray.length(); j++) {
-                    User member = userData.getUserById(membersArray.getString(j));
-                    members.add(member);
+                    builder.addMember(membersArray.getString(j));
                 }
-                builder.setMembers(members);
             }
-
-            JSONArray adminsArray = groupJson.optJSONArray("admins");
-            if (adminsArray != null) {
-                ArrayList<User> admins = new ArrayList<>();
+         if (groupJson.has("admins")) {
+                JSONArray adminsArray = groupJson.getJSONArray("admins");
                 for (int j = 0; j < adminsArray.length(); j++) {
-                    User admin = userData.getUserById(adminsArray.getString(j));
-                    admins.add(admin);
+                    builder.addAdmin(adminsArray.getString(j));
                 }
-                builder.setAdmins(admins);
             }
 
-            JSONArray postsArray = groupJson.optJSONArray("posts");
-            if (postsArray != null) {
-                ArrayList<Post> posts = new ArrayList<>();
+        
+            if (groupJson.has("posts")) {
+                JSONArray postsArray = groupJson.getJSONArray("posts");
                 for (int j = 0; j < postsArray.length(); j++) {
-                    Post post = postData.GetPostById(postsArray.getString(j));
-                    posts.add(post);
+                    builder.addPost(postsArray.getString(j));
                 }
-                builder.setPosts(posts);
-            }
+            
 
-           
+         
             Group group = builder.build();
-
             groups.add(group);
+
+        }
         }
     } catch (IOException e) {
         System.err.println("Error reading groups from file: " + e.getMessage());
@@ -109,138 +103,50 @@ public class GroupDataBase {
     }
     return groups;
 }
-    public static void saveGroupToFile(ArrayList<Group> groups) {
-        JSONArray groupsArray = new JSONArray();
-        for (Group g : groups) {
-            JSONObject j = new JSONObject();
-            j.put("name", g.getName());
-            j.put("description", g.getDescription());
-            j.put("photo", g.getPhoto());
-            j.put("groupId", g.getGroupId());
-            j.put("PrimaryAdminId", g.getPrimaryAdmin().getUserId());
+    
+    
+    
+    public  void saveGroupToFile(ArrayList<Group> groups) {
+           
+    JSONArray groupsArray = new JSONArray();
 
-            JSONArray membersArray = new JSONArray();
-            for (User member : g.getMembers()) {
-                membersArray.put(member.getUserId());
-            }
-            j.put("members", membersArray);
+  
+        for (Group group : groups) {
+            JSONObject groupJson = new JSONObject();
 
-            JSONArray adminsArray = new JSONArray();
-            for (User admin : g.getAdmins()) {
-                adminsArray.put(admin.getUserId());
-            }
-            j.put("admins", adminsArray);
+            groupJson.put("name", group.getGroupName());
+            groupJson.put("description", group.getDescription());
+            groupJson.put("photo", group.getGroupPhoto());
+            groupJson.put("groupId", group.getGroupId());
+            groupJson.put("PrimaryAdminId", group.getPrimaryAdminId());
 
-            JSONArray postsArray = new JSONArray();
-            for (Post post : g.getPosts()) {
-                postsArray.put(post.getContentID());
-            }
-            j.put("posts", postsArray);
+            JSONArray membersArray = new JSONArray(group.getMembersIDs());
+            groupJson.put("members", membersArray);
+            //lw mfesh h save []
 
-            groupsArray.put(j);
+            JSONArray adminsArray = new JSONArray(group.getAdminsIDs());
+            groupJson.put("admins", adminsArray);
 
+            JSONArray postsArray = new JSONArray(group.getPostIDs());
+            groupJson.put("posts", postsArray);
+
+        
+            groupsArray.put(groupJson);
         }
-        try {
+
+        try 
+        {
             FileWriter file = new FileWriter("groups.json");
             file.write(groupsArray.toString(4));
             file.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             System.out.println("Error saving groups to file");
         }
     }
 
-    public void addGroup(Group g) {
-        // Ensure the current groups are loaded from the file (if not already loaded)
-        if (groups.isEmpty()) {
-            groups = ReadGroupsfromFile();
-        }
-
-        // Check if the group already exists
-        for (Group existingGroup : groups) {
-            if (existingGroup.getName().equals(g.getName())) {
-                System.err.println("Group already exists.");
-                return ;
-            }
-        }
-
-        groups.add(g);
-        saveGroupToFile(groups);
-    }
-
-    public Group getGroupById(String groupId) {
-        for (Group g : groups) {
-            if (g.getGroupId().equals(groupId)) {
-                return g;
-            }
-        }
-        return null;
-    }
-
-    public Group getGroupByname(String name) {
-        for (Group g : groups) {
-            if (g.getName().equals(name)) {
-                return g;
-            }
-        }
-        return null;
-    }
-
-    public static ArrayList<Group> getGroups() {
+    public ArrayList<Group> getGroups() 
+    {
         return groups;
     }
-
-    public ArrayList<Group> viewUserGroups(String userId) {
-        User user = userData.getUserById(userId);
-        ArrayList<Group> userGroups = new ArrayList<>();
-
-        if (user != null) {
-            for (Group group : groups) {
-                for (User member : group.getMembers()) {
-                    if (userId.equals(member.getUserId())) {
-                        userGroups.add(group);
-                        break;
-                    }
-                }
-            }
-        }
-
-        return userGroups;
-    }
-
-    public ArrayList<String> viewUserGroupNames(String userId) {
-        User user = userData.getUserById(userId);
-        ArrayList<String> userGroupNames = new ArrayList<>();
-
-        if (user != null) {
-            for (Group group : groups) {
-                for (User member : group.getMembers()) {
-                    if (userId.equals(member.getUserId())) {
-                        userGroupNames.add(group.getName());
-                        break;
-                    }
-                }
-            }
-        }
-
-        return userGroupNames;
-    }
-
-    public ArrayList<String> UserGroupIDs(String userId) {
-        User user = userData.getUserById(userId);
-        ArrayList<String> userGroupIDs = new ArrayList<>();
-
-        if (user != null) {
-            for (Group group : groups) {
-                for (User member : group.getMembers()) {
-                    if (userId.equals(member.getUserId())) {
-                        userGroupIDs.add(group.getGroupId());
-                        break;
-                    }
-                }
-            }
-        }
-
-        return userGroupIDs;
-    }
-
 }

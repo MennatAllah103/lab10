@@ -13,54 +13,95 @@ import java.util.UUID;
  */
 public class Group {
     
-    private String name;
+    private String groupName;
     private String description;
-    private String photo;
-    private ArrayList<User>members;
+    private String groupPhoto;
     private String groupId;
     private String primaryAdminId;
-    private String adminId;
-    private User primaryAdmin;
-    private ArrayList<User> admins;
-    private ArrayList<Post> posts;
-     
-     
-     
-     private Group( GroupBuilder builder ) {
-         this.name = builder.name;
+    private ArrayList<String>membersIDs;
+    private ArrayList<String> adminsIDs;
+    private ArrayList<String> postIDs;
+   
+        private Group( GroupBuilder builder ) {
+         this.groupName = builder.groupName;
         this.description = builder.description;
-        this.photo = builder.photo;
-        this.groupId = builder.groupId != null ? builder.groupId : UUID.randomUUID().toString();
-        this.primaryAdmin = builder.primaryAdmin;
+        this.groupPhoto = builder.groupPhoto;
+        this.groupId = builder.groupId ;
         this.primaryAdminId = builder.primaryAdminId;
-        this.adminId = builder.adminId;
-        this.members = builder.members != null ? builder.members : new ArrayList<>();
-        this.admins = builder.admins != null ? builder.admins : new ArrayList<>();
-        this.posts = builder.posts != null ? builder.posts : new ArrayList<>();
+        this.membersIDs = builder.membersIDs ;
+        this.adminsIDs = builder.adminsIDs;
+        this.postIDs = builder.postIDs ;
         
-         if (this.primaryAdmin != null) {
-            if (!this.members.contains(this.primaryAdmin)) {
-                this.members.add(this.primaryAdmin);
-            }
-            if (!this.admins.contains(this.primaryAdmin)) {
-                this.admins.add(this.primaryAdmin);
-            }
-        }
+     
 }
- public String getName() {
-        return name;
+
+
+
+    public static class GroupBuilder {
+        private String groupName;
+        private String description;
+        private String groupPhoto;
+        private String groupId;
+        private String primaryAdminId;
+        private ArrayList<String> membersIDs = new ArrayList<>();
+        private ArrayList<String> adminsIDs = new ArrayList<>();
+        private ArrayList<String> postIDs = new ArrayList<>();
+
+        public GroupBuilder setGroupName(String groupName) {
+            this.groupName = groupName;
+            return this;
+        }
+
+        public GroupBuilder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public GroupBuilder setGroupPhoto(String groupPhoto) {
+            this.groupPhoto = groupPhoto;
+            return this;
+        }
+
+        public GroupBuilder setGroupId(String groupId) {
+            this.groupId = groupId;
+            return this;
+        }
+
+        public GroupBuilder setPrimaryAdminId(String primaryAdminId) {
+            this.primaryAdminId = primaryAdminId;
+            return this;
+        }
+
+        public GroupBuilder addMember(String memberId) {
+            this.membersIDs.add(memberId);
+            return this;
+        }
+
+        public GroupBuilder addAdmin(String adminId) {
+            this.adminsIDs.add(adminId);
+            return this;
+        }
+
+        public GroupBuilder addPost(String postId) {
+            this.postIDs.add(postId);
+            return this;
+        }
+        
+      public Group build() {
+            return new Group(this);
+
+    }
+    }
+    public String getGroupName() {
+        return groupName;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public String getPhoto() {
-        return photo;
-    }
-
-    public ArrayList<User> getMembers() {
-        return members;
+    public String getGroupPhoto() {
+        return groupPhoto;
     }
 
     public String getGroupId() {
@@ -71,88 +112,20 @@ public class Group {
         return primaryAdminId;
     }
 
-    public String getAdminId() {
-        return adminId;
+    public ArrayList<String> getMembersIDs() {
+        return membersIDs;
     }
 
-    public User getPrimaryAdmin() {
-        return primaryAdmin;
+    public ArrayList<String> getAdminsIDs() {
+        return adminsIDs;
     }
 
-    public ArrayList<User> getAdmins() {
-        return admins;
+    public ArrayList<String> getPostIDs() {
+        return postIDs;
     }
 
-    public ArrayList<Post> getPosts() {
-        return posts;
-    }
-
-   public static class GroupBuilder {
-        private String name;
-        private String description;
-        private String photo;
-        private ArrayList<User> members = new ArrayList<>();
-        private String groupId;
-        private String primaryAdminId;
-        private String adminId;
-        private User primaryAdmin;
-        private ArrayList<User> admins = new ArrayList<>();
-        private ArrayList<Post> posts = new ArrayList<>();
-
-       
-        public GroupBuilder setName(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public GroupBuilder setDescription(String description) {
-            this.description = description;
-            return this;
-        }
-
-        public GroupBuilder setPhoto(String photo) {
-            this.photo = photo;
-            return this;
-        }
-
-        public GroupBuilder setGroupId(String groupId) {
-            this.groupId = groupId;
-            return this;
-        }
-
-        public GroupBuilder setPrimaryAdmin(User primaryAdmin) {
-            this.primaryAdmin = primaryAdmin;
-            return this;
-        }
-
-        public GroupBuilder setPrimaryAdminId(String primaryAdminId) {
-            this.primaryAdminId = primaryAdminId;
-            return this;
-        }
-
-        public GroupBuilder setAdminId(String adminId) {
-            this.adminId = adminId;
-            return this;
-        }
-
-        public GroupBuilder setMembers(ArrayList<User> members) {
-            this.members = members;
-            return this;
-        }
-
-        public GroupBuilder setAdmins(ArrayList<User> admins) {
-            this.admins = admins;
-            return this;
-        }
-
-        public GroupBuilder setPosts(ArrayList<Post> posts) {
-            this.posts = posts;
-            return this;
-        }
+  
+}
 
    
-        public Group build() {
-            return new Group(this);
-        }
-    }    
-}
+

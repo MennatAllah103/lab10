@@ -7,6 +7,7 @@ package Frontend;
 import java.util.ArrayList;
 import Backend.GroupDataBase;
 import Backend.Group;
+import Backend.GroupManagement;
 import Backend.UserDataBase;
 import Backend.User;
 import javax.swing.DefaultListModel;
@@ -18,41 +19,39 @@ import javax.swing.DefaultListModel;
 public class ViewMyGroups extends javax.swing.JFrame {
 
     User user = UserDataBase.getCurrentUser();
+    GroupDataBase GDB = GroupDataBase.getInstance();
+    GroupManagement groupmanage = new GroupManagement(GDB);
 
     /**
      * Creates new form ViewGroups
      */
     public ViewMyGroups() {
-        initComponents();
-        GroupDataBase GDB = GroupDataBase.getInstance();
-      //  ArrayList<String> groupIDs = GDB.UserGroupIDs(user.getUserId());
-        ArrayList<Group> groups = GDB.viewUserGroups(user.getUserId());
+      
+     initComponents();
+     filllist();
+       
+}
+
+ public void filllist()
+ {
+       ArrayList<Group> groups = groupmanage.viewUserGroups(user.getUserId());
         DefaultListModel<String> model = new DefaultListModel();
 
-//        for (String id : groupIDs) {
-//            Group g = GDB.getGroupById(id);
-//            String groupName = g.getName();
-//            model.addElement(groupName);
-//        }
-//        for (Group group : groups) {
-//            Group g = GDB.getGroupById(group.getGroupId());
-//            String groupName = g.getName();
-//            model.addElement(groupName);
-//        }
- for (Group group : groups) {
-            if (group != null) {
-                String groupName = group.getName();
+     for (Group group : groups)
+     {
+         
+                String groupName = group.getGroupName();
                 model.addElement(groupName);
-            } else {
-                System.err.println("Group is null for user: " + user.getUserId());
-            }
-        }
-
+     
         list.setModel(model);
         jScrollPane1.setViewportView(list);
 
-    }
+     }
 
+}
+
+   
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
