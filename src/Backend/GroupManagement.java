@@ -17,9 +17,12 @@ public class GroupManagement {
     ArrayList<Group> groups= groupDB.getGroups();
     GroupRequestDatabase requestDatabase = GroupRequestDatabase.getinstance();
     UserDataBase userDB = UserDataBase.getDatabase();
-    ArrayList<GroupRequests> requests = requestDatabase.getALLRequests();
+    ArrayList<GroupRequests> allrequests = requestDatabase.getALLRequests();
     PostDataBase postDB = PostDataBase.getInstance();
-
+    
+    //GroupRequestDatabase RequestDB=GroupRequestDatabase.getinstance();
+    // ArrayList<GroupRequests> allrequests =RequestDB.getALLRequests();
+     
     public GroupManagement() {
      
     }
@@ -232,17 +235,26 @@ public class GroupManagement {
  groupDB.saveGroupToFile(groups);
     }       
       
+    
+    public void sendrequest(String userId ,String groupId)
+    {
+        GroupRequests request = new GroupRequests(userId ,groupId);
+        allrequests.add(request);
+          requestDatabase.saveFile(allrequests);
+        
+      
+        
+    }
     public void acceptrequest(GroupRequests request) {
         String memberId = request.getMemberId();
         String groupId = request.getGroupId();
         User newMember = userDB.getUserById(memberId);
         Group group = groupDB.getGroupById(groupId);
-        addGroup(group);
         ArrayList<String> membersIDs = group.getMembersIDs();
         membersIDs.add(memberId);
         groupDB.saveGroupToFile(groups);
-        requests.remove(request);
-        requestDatabase.saveFile(requests);
+        allrequests.remove(request);
+        requestDatabase.saveFile(allrequests);
 
     }
 
@@ -253,8 +265,8 @@ public class GroupManagement {
     }
 
     public void deleterequest(GroupRequests request) {
-        requests.remove(request);
-        requestDatabase.saveFile(requests);
+        allrequests.remove(request);
+        requestDatabase.saveFile(allrequests);
     }
 
 }

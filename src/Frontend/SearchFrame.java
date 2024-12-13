@@ -24,6 +24,7 @@ public class SearchFrame extends javax.swing.JFrame {
     User currentuser;
     Management manage;
     Frame currentFrame;
+    GroupManagement groupmanage = new GroupManagement();
     GroupDataBase GDB= GroupDataBase.getInstance();
     public SearchFrame(Newsfeed newsfeed, User currentuser, Management manage) {
         initComponents();
@@ -193,16 +194,31 @@ public class SearchFrame extends javax.swing.JFrame {
                                    // MemberFrame memberFrame = new MemberFrame(currentFrame, group);
                                     setVisible(false);
                                   //  memberFrame.setVisible(true);
-                                } else {
-                                    JOptionPane.showMessageDialog(currentFrame, "You are not a part of this group.", "Access Denied", JOptionPane.WARNING_MESSAGE);
-                                }
-                            } else {
-                                JOptionPane.showMessageDialog(currentFrame, "Group not found!", "Error", JOptionPane.ERROR_MESSAGE);
-                            }
-                        } else {
-                            JOptionPane.showMessageDialog(currentFrame, "Please select a valid group.", "Invalid Selection", JOptionPane.WARNING_MESSAGE);
-                        }
-                    } else {
+                                } 
+                                 else {
+            // Show a dialog to ask if the user wants to join the group
+            int choice = JOptionPane.showConfirmDialog(
+                currentFrame,
+                "You are not a part of this group. Would you like to request to join?",
+                "Join Group",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+            );
+
+            if (choice == JOptionPane.YES_OPTION)
+            {
+               groupmanage.sendrequest(currentuser.getUserId(), group.getGroupId());
+          
+                 JOptionPane.showMessageDialog( currentFrame,"Your request to join the group has been sent.","Request Sent",JOptionPane.INFORMATION_MESSAGE);
+            } 
+            else 
+               {
+                    JOptionPane.showMessageDialog(currentFrame,"Request not sent","Error",JOptionPane.ERROR_MESSAGE );
+               }
+            }
+        }
+    }
+        } else {
                         JOptionPane.showMessageDialog(currentFrame, "You should select an item from the list.", "No Selection", JOptionPane.WARNING_MESSAGE);
                     }
                 }
