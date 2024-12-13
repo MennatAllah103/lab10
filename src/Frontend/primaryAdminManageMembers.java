@@ -45,12 +45,18 @@ public class primaryAdminManageMembers extends javax.swing.JFrame {
                 User Member = userDB.getUserById(ID);
                 String memberName = Member.getUsername();
                 model.addElement(memberName);
-     
-        list.setModel(model);
-        jScrollPane1.setViewportView(list);
-        
+   
 
      }
+     
+      if (model.isEmpty()) {
+        list.setModel(new DefaultListModel<>());
+        jScrollPane1.setViewportView(list);
+    } else {
+ 
+        list.setModel(model);
+        jScrollPane1.setViewportView(list);
+    }
 
 }
     /**
