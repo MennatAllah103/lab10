@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @author daree
  */
 public class Management {
-    
+   
     FriendDatabase FriendsDB =FriendDatabase.getinstance();
     ArrayList<Friend> friendsList=FriendsDB.getALLFriends();
     
@@ -20,7 +20,7 @@ public class Management {
   
    BlockDatabase BlocksDB= BlockDatabase.getinstance();
   ArrayList<Block> blocksList=BlocksDB.getALLBlockedUsers();
-  
+ 
   
    public void addfriend(Friend F)
     {
@@ -70,6 +70,11 @@ public class Management {
       public void sendRequest(Request R)
     { 
         requestsList.add(R);
+        NotificationManager manager = new NotificationManager();
+        String senderid = R.getSenderID();
+        UserDataBase userdatabase = UserDataBase.getDatabase();
+        User sender = userdatabase.getUserById(senderid);
+        manager.createNotification(R.receiverID, "Friend Request", sender.getUsername()+ " sent you a friend request!");
         RequestsDB.saveFile(requestsList);
     }
     
@@ -281,7 +286,7 @@ public class Management {
       
         for(Request R : requestsList)
         {
-            if(R.senderID.equals(senderID)&&R.receiverID.equals(receiverID))
+            if((R.senderID.equals(senderID)&&R.receiverID.equals(receiverID))||(R.senderID.equals(receiverID)&&R.receiverID.equals(senderID)))
                 return R;
         }
         

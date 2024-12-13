@@ -56,9 +56,24 @@
         "content": "My name is fai"
     },
     {
-        "timeStamp": "2024-12-12T21:16:07.442602600",
-        "contentID": "2c08d667-6744-4fd4-a3f8-04e3f0995b8c",
-        "authorID": "0bf86395-e1c3-44a0-aa15-106694f3d5ee",
-        "content": "post dlwaaty"
+        "timeStamp": "2024-12-12T12:43:03.954186400",
+        "imagePath": "C:\\Users\\daree\\Documents\\WhatsApp Image 2024-12-05 at 16.01.27_3bd1b165.jpg",
+        "contentID": "d078353c-378b-41ed-9783-b3b7569ccb6f",
+        "authorID": "2c2d8783-cfba-42fe-b330-954c047f1753",
+        "content": "my post"
+    },
+    {
+        "timeStamp": "2024-12-12T13:03:44.637739200",
+        "imagePath": "C:\\Users\\daree\\Documents\\coverPhoto.jpg",
+        "contentID": "7c55a77d-1e3b-4a7b-9ecd-0870ce7edfdb",
+        "authorID": "47d5973d-d4c6-4605-bcd5-694eb2339b6e",
+        "content": "my post"
+    },
+    {
+        "timeStamp": "2024-12-12T14:38:10.690920700",
+        "imagePath": "C:\\Users\\daree\\Documents\\WhatsApp Image 2024-12-05 at 16.01.27_3bd1b165.jpg",
+        "contentID": "8dd78727-e0fa-4cc4-a884-5e74c381ca74",
+        "authorID": "47d5973d-d4c6-4605-bcd5-694eb2339b6e",
+        "content": "lina is happy"
     }
 ]

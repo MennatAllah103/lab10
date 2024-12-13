@@ -5,26 +5,40 @@
 package Frontend;
 
 import Backend.Management;
+import Backend.Notification;
+import Backend.NotificationManager;
 import Backend.Post;
 import Backend.PostDataBase;
+import Backend.Request;
 import Backend.Story;
 import Backend.StoryDataBase;
 import Backend.User;
 import Backend.UserDataBase;
 import Backend.UserLog;
-import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
 
@@ -36,12 +50,14 @@ public class Newsfeed extends javax.swing.JFrame {
 
     ViewProfile profile;
     UserDataBase database = UserDataBase.getDatabase();
-     PostDataBase postDatabase = PostDataBase.getInstance();
-     StoryDataBase storyDatabase = StoryDataBase.getInstance();
+    PostDataBase postDatabase = PostDataBase.getInstance();
+    StoryDataBase storyDatabase = StoryDataBase.getInstance();
     User user = UserDataBase.getCurrentUser();
     UserLog log = new UserLog(UserDataBase.getDatabase());
     Home home = Home.getInstance();
     Management manage = new Management();
+    NotificationManager notifManager = new NotificationManager();
+    Management friendManager = new Management();
 
     public Newsfeed() {
         initComponents();
@@ -51,14 +67,134 @@ public class Newsfeed extends javax.swing.JFrame {
         progressBar.setString("Refreshing...");
         progressBar.setStringPainted(true);
         progressBar.setVisible(false);
+        notificationScrollPane.setVisible(false);
+    }
 
+    public void populateNotificationPanel() {
+        notificationPanel1.removeAll();
+
+        ArrayList<Notification> notifications = notifManager.getNotificationsForUser(user.getUserId());
+
+        for (Notification notification : notifications) {
+
+            JPanel notificationItemPanel = new JPanel();
+            notificationItemPanel.setLayout(new BoxLayout(notificationItemPanel, BoxLayout.X_AXIS));
+
+           notificationItemPanel.setPreferredSize(new Dimension(33, 78));
+           notificationItemPanel.setOpaque(false);
+
+            JLabel profilePicLabel = new JLabel();
+
+            if (notification.getType().equalsIgnoreCase("Friend Request")) {
+                ArrayList<Request> requests = friendManager.getUserReceivedRequests(user.getUserId());
+                final Request[] currentRequest = new Request[1];
+
+                for (Request request : requests) {
+                    if (request.getReceiverID().equals(user.getUserId())) {
+                        currentRequest[0] = request;
+                        break;
+                    }
+                }
+
+                if (currentRequest[0] != null) {
+                    try {
+                        String senderId = currentRequest[0].getSenderID();
+                        User sender = database.getUserById(senderId);
+                        String profilePicPath = sender.getProfilePhoto();
+                        ImageIcon icon = new ImageIcon(profilePicPath);
+
+                        BufferedImage image = ImageIO.read(new File(profilePicPath));
+                        BufferedImage circleImage = makeCircularImage(image);
+                        profilePicLabel = new JLabel(new ImageIcon(circleImage));
+                        profilePicLabel.setPreferredSize(new Dimension(50, 50));
+                        profilePicLabel.setMaximumSize(new Dimension(50, 50));
+                        profilePicLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
+                    } catch (Exception e) {
+                        profilePicLabel = new JLabel("No Image");
+                    }
+
+                    notificationItemPanel.add(profilePicLabel);
+
+                    JPanel messagePanel = new JPanel();
+                    messagePanel.setOpaque(false);
+                    messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.Y_AXIS));
+                    messagePanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
+
+                    JLabel notificationLabel = new JLabel(notification.getMessage());
+                    messagePanel.add(notificationLabel);
+
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
+                    String formattedTimestamp = notification.getTimeStamp().format(formatter);
+                    JLabel timestampLabel = new JLabel("Received at: " + formattedTimestamp);
+                    messagePanel.add(timestampLabel);
+
+                    JPanel buttonPanel = new JPanel();
+                    buttonPanel.setOpaque(false);
+                    JButton acceptButton = new JButton("Accept");
+                    JButton declineButton = new JButton("Decline");
+
+                    acceptButton.addActionListener(e -> {
+                        friendManager.acceptrequest(currentRequest[0]);
+                        notifManager.deleteNotification(notification);
+                        notificationPanel1.remove(notificationItemPanel);
+                        notificationPanel1.revalidate();
+                        notificationPanel1.repaint();
+                        JOptionPane.showMessageDialog(null, "Friend Request Accepted.");
+                    });
+
+                    declineButton.addActionListener(e -> {
+                        friendManager.declinerequest(currentRequest[0]);
+                        notifManager.deleteNotification(notification);
+                        notificationPanel1.remove(notificationItemPanel);
+                        notificationPanel1.revalidate();
+                        notificationPanel1.repaint();
+                        JOptionPane.showMessageDialog(null, "Friend Request Declined.");
+                    });
+
+                    buttonPanel.add(acceptButton);
+                    buttonPanel.add(declineButton);
+                    messagePanel.add(buttonPanel);
+
+                    notificationItemPanel.add(messagePanel);
+                }
+            }
+
+            notificationPanel1.add(notificationItemPanel);
+        }
+
+        notificationPanel1.setLayout(new BoxLayout(notificationPanel1, BoxLayout.Y_AXIS));
+        notificationPanel1.revalidate();
+        notificationPanel1.repaint();
+    }
+
+    private BufferedImage makeCircularImage(BufferedImage source) {
+        int diameter = Math.min(source.getWidth(), source.getHeight());
+
+      
+        int targetDiameter = 50; 
+        BufferedImage resizedImage = new BufferedImage(targetDiameter, targetDiameter, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2dResize = resizedImage.createGraphics();
+        g2dResize.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2dResize.drawImage(source, 0, 0, targetDiameter, targetDiameter, null);
+        g2dResize.dispose();
+
+   
+        BufferedImage circleImage = new BufferedImage(targetDiameter, targetDiameter, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = circleImage.createGraphics();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        g2.setClip(new Ellipse2D.Double(0, 0, targetDiameter, targetDiameter));
+        g2.drawImage(resizedImage, 0, 0, null);
+        g2.dispose();
+
+        return circleImage;
     }
 
     private void loadFriendsPosts() {
         friendsPostsPanel.removeAll();
 
         friendsPostsPanel.setLayout(new BoxLayout(friendsPostsPanel, BoxLayout.Y_AXIS));
-       
+
         ArrayList<Post> friendPosts = postDatabase.ViewFriendsPosts(user.getUserId());
         friendsPostsScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         friendsPostsScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -152,6 +288,9 @@ public class Newsfeed extends javax.swing.JFrame {
         postsLabel = new javax.swing.JLabel();
         btnRefresh = new javax.swing.JButton();
         progressBar = new javax.swing.JProgressBar();
+        btnNotifications = new javax.swing.JButton();
+        notificationScrollPane = new javax.swing.JScrollPane();
+        notificationPanel1 = new javax.swing.JPanel();
         GrpBtn = new javax.swing.JButton();
         CreateGrpBtn = new javax.swing.JButton();
         friendsPostsScrollPane = new javax.swing.JScrollPane();
@@ -239,6 +378,19 @@ public class Newsfeed extends javax.swing.JFrame {
             }
         });
 
+        btnNotifications.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Frontend/pinknotif.png"))); // NOI18N
+        btnNotifications.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNotificationsActionPerformed(evt);
+            }
+        });
+
+        notificationScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        notificationPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        notificationPanel1.setForeground(new java.awt.Color(255, 255, 255));
+        notificationPanel1.setLayout(new javax.swing.BoxLayout(notificationPanel1, javax.swing.BoxLayout.LINE_AXIS));
+        notificationScrollPane.setViewportView(notificationPanel1);
         GrpBtn.setText("My Groups");
         GrpBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -272,6 +424,11 @@ public class Newsfeed extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(17, 17, 17)
+
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -297,6 +454,12 @@ public class Newsfeed extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(storiesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
+
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnRefresh)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 300, Short.MAX_VALUE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(137, 137, 137))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(manageFriends)
                                 .addGap(18, 18, 18)
@@ -307,9 +470,32 @@ public class Newsfeed extends javax.swing.JFrame {
                                 .addComponent(btnAddPost)
                                 .addGap(29, 29, 29)
                                 .addComponent(btnAddStory)
+
+                                .addGap(35, 35, 35)
+                                .addComponent(btnNotifications, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(6, 6, 6)
+                        .addComponent(logout)
+                        .addGap(15, 15, 15))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(friendsPostsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(postsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(friendsStoriesScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(storiesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(269, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(notificationScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26))))))
+
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(GrpBtn)))
                         .addGap(23, 23, 23))))
+
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -322,6 +508,25 @@ public class Newsfeed extends javax.swing.JFrame {
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(logout)
+
+                            .addComponent(btnRefresh))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(manageFriends)
+                        .addComponent(searchButton)
+                        .addComponent(btnVisitProfile)
+                        .addComponent(btnAddPost)
+                        .addComponent(btnAddStory))
+                    .addComponent(btnNotifications, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(notificationScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(btnRefresh)
                                 .addComponent(CreateGrpBtn)))))
@@ -338,8 +543,17 @@ public class Newsfeed extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(friendsStoriesScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+
+                        .addComponent(friendsStoriesScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(postsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(friendsPostsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
+
                         .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(34, 34, 34)
@@ -347,6 +561,7 @@ public class Newsfeed extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(friendsPostsScrollPane)))
                 .addContainerGap())
+
         );
 
         pack();
@@ -428,7 +643,7 @@ public class Newsfeed extends javax.swing.JFrame {
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
 
         progressBar.setVisible(true);
-        
+
         SwingWorker<Void, Void> worker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() throws Exception {
@@ -447,6 +662,19 @@ public class Newsfeed extends javax.swing.JFrame {
         worker.execute();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
+
+    private void btnNotificationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificationsActionPerformed
+        if (notificationScrollPane.isVisible()) {
+            notificationScrollPane.setVisible(false);
+        } else {
+            notificationScrollPane.setVisible(true);
+            populateNotificationPanel();
+        }
+        this.revalidate(); // Ensure layout is recalculated
+        this.repaint();
+
+    }//GEN-LAST:event_btnNotificationsActionPerformed
+
     private void GrpBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GrpBtnActionPerformed
         // TODO add your handling code here:
         ViewMyGroups v = new ViewMyGroups();
@@ -461,11 +689,13 @@ public class Newsfeed extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_CreateGrpBtnActionPerformed
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CreateGrpBtn;
     private javax.swing.JButton GrpBtn;
     private javax.swing.JButton btnAddPost;
     private javax.swing.JButton btnAddStory;
+    private javax.swing.JButton btnNotifications;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnVisitProfile;
     private javax.swing.JPanel friendsPostsPanel;
@@ -475,6 +705,8 @@ public class Newsfeed extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton logout;
     private javax.swing.JButton manageFriends;
+    private javax.swing.JPanel notificationPanel1;
+    private javax.swing.JScrollPane notificationScrollPane;
     private javax.swing.JLabel postsLabel;
     private javax.swing.JProgressBar progressBar;
     private javax.swing.JButton searchButton;
