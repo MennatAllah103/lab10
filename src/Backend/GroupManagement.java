@@ -18,24 +18,22 @@ public class GroupManagement {
     GroupRequestDatabase requestDatabase = GroupRequestDatabase.getinstance();
     UserDataBase userDB = UserDataBase.getDatabase();
     ArrayList<GroupRequests> requests = requestDatabase.getALLRequests();
-    PostDataBase postData = PostDataBase.getInstance();
+    PostDataBase postDB = PostDataBase.getInstance();
 
     public GroupManagement(GroupDataBase database) {
         this.groupDB = database;
     }
 
       public void addGroup(Group g) {
-  
-        for (Group existingGroup : groups) {
-            if (existingGroup.getGroupName().equals(g.getGroupName())) {
-                System.err.println("Group already exists.");
-                return ;
-            }
-        }
-
        groups.add(g);
        groupDB.saveGroupToFile(groups);
     }
+     
+    public void deleteGroup(Group g) {
+       groups.remove(g);
+       groupDB.saveGroupToFile(groups);
+    }
+      
           
       public ArrayList<Group> viewUserGroups(String userId) {
       
@@ -163,39 +161,31 @@ public class GroupManagement {
     
     }
     
+//hageb group mn group name , w ha7ot postid fy array of postsids aly fy group
+//hzwd al post fy fileposts
+    public void addPosttoGroup(String postId, String groupName) {
+      Group group = groupDB.getGroupByname(groupName);
+      ArrayList<String> PostsIds=group.getPostIDs();
+      PostsIds.add(postId);
+     ArrayList<Post> posts = postDB.getPosts();
+     Post post = postDB.GetPostById(postId);
+        postDB.addPost(post);
+
+    }
+    
+      public void deletePostFromGroup(String postId, String groupName) {
+      Group group = groupDB.getGroupByname(groupName);
+      ArrayList<String> PostsIds=group.getPostIDs();
+      PostsIds.remove(postId);
+     ArrayList<Post> posts = postDB.getPosts();
+     Post post = postDB.GetPostById(postId);
+        postDB.deletePost(post);
+               
+
+    }
+    
+    //u can use GetPostById() aly fy postDB
 /*
-    public void acceptrequest(GroupRequests request) {
-        String memberId = request.getMemberId();
-        String groupId = request.getGroupId();
-        User newMember = userData.getUserById(memberId);
-        Group group = groupDB.getGroupById(groupId);
-        addGroup(group);
-        ArrayList<User> members = group.getMembers();
-        members.add(newMember);
-        requests.remove(request);
-        requestDatabase.saveFile(requests);
-
-    }
-
-    public void Declinerequest(GroupRequests request) {
-
-        deleterequest(request);
-
-    }
-
-    public void deleterequest(GroupRequests request) {
-        requests.remove(request);
-
-        requestDatabase.saveFile(requests);
-    }
-
-    public void addPosttoGroup(Post p, String groupName) {
-        User currentUser = UserDataBase.getCurrentUser();
-        ArrayList<Post> posts = postData.getPosts();
-        posts.add(p);
-
-    }
-
     //PrimaryAdmin
     public void promoteToAdmin(User member, String groupName) {
         User currentuser = UserDataBase.getCurrentUser();
@@ -249,4 +239,32 @@ public class GroupManagement {
         //}  
     }    
     */ 
+        
+        
+        /*
+    public void acceptrequest(GroupRequests request) {
+        String memberId = request.getMemberId();
+        String groupId = request.getGroupId();
+        User newMember = userData.getUserById(memberId);
+        Group group = groupDB.getGroupById(groupId);
+        addGroup(group);
+        ArrayList<User> members = group.getMembers();
+        members.add(newMember);
+        requests.remove(request);
+        requestDatabase.saveFile(requests);
+
+    }
+
+    public void Declinerequest(GroupRequests request) {
+
+        deleterequest(request);
+
+    }
+
+    public void deleterequest(GroupRequests request) {
+        requests.remove(request);
+
+        requestDatabase.saveFile(requests);
+    }
+*/
 }
