@@ -43,6 +43,7 @@ public class primaryAdminFrame extends javax.swing.JFrame {
         descriptionLabel.setText(description);
         
         loadGroupPhoto();
+        loadPosts() ;
         
     }
     
@@ -53,6 +54,53 @@ public class primaryAdminFrame extends javax.swing.JFrame {
                     .getImage().getScaledInstance(groupPhoto.getWidth(), groupPhoto.getHeight(), java.awt.Image.SCALE_SMOOTH)));
         
     }
+      private void loadPosts() {
+    jPanel1.removeAll(); 
+
+  
+    jPanel1.setLayout(new BoxLayout(jPanel1, BoxLayout.Y_AXIS));
+    PostDataBase postDatabase = PostDataBase.getInstance();
+    ArrayList<String> groupPostId = group.getPostIDs();
+    ArrayList<Post> groupPosts = new ArrayList<>();
+
+    
+    for (String postId : groupPostId) {
+        Post post = postDatabase.GetPostById(postId);
+        if (post != null) {
+            groupPosts.add(post); 
+        }
+    }
+
+    jScrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+   
+    for (Post post : groupPosts) {
+        JPanel postPanel = new JPanel();
+        postPanel.setLayout(new BoxLayout(postPanel, BoxLayout.Y_AXIS)); 
+        postPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+
+        JLabel contentLabel = new JLabel(post.getContent());
+        postPanel.add(contentLabel);
+
+    
+        if (post.getImagePath() != null && !post.getImagePath().isEmpty()) {
+            JLabel imageLabel = new JLabel(new ImageIcon(post.getImagePath()));
+            postPanel.add(imageLabel);
+        }
+
+      
+        jPanel1.add(postPanel);
+    }
+
+    
+    jScrollPane1.setViewportView(jPanel1);
+    jPanel1.setPreferredSize(new Dimension(400, 800)); 
+
+    
+    jPanel1.revalidate();
+    jPanel1.repaint();
+}
 
   
     /**
