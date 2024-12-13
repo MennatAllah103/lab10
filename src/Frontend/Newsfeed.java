@@ -5,6 +5,7 @@
 package Frontend;
 
 import Backend.Management;
+import Backend.Notification;
 import Backend.NotificationManager;
 import Backend.Post;
 import Backend.PostDataBase;
@@ -44,6 +45,7 @@ public class Newsfeed extends javax.swing.JFrame {
     Home home = Home.getInstance();
     Management manage = new Management();
     NotificationManager notifManager = new NotificationManager();
+    ArrayList<Notification> notifications;
 
     public Newsfeed() {
         initComponents();
@@ -110,28 +112,21 @@ public class Newsfeed extends javax.swing.JFrame {
             JPanel postPanel = new JPanel();
             postPanel.setLayout(new BoxLayout(postPanel, BoxLayout.Y_AXIS));
             postPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-
             User friend = database.getUserById(story.getAuthorID());
             String friendUsername = friend.getUsername();
-
             LocalDateTime timestamp = story.getTimestamp();
             String formattedTimestamp = timestamp.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
-
             JLabel usernameLabel = new JLabel("Posted by: " + friendUsername + " on " + formattedTimestamp);
             usernameLabel.setFont(new Font("Arial", Font.BOLD, 12));
             postPanel.add(usernameLabel);
-
             JLabel contentLabel = new JLabel(story.getContent());
             postPanel.add(contentLabel);
-
             if (story.getImagePath() != null && !story.getImagePath().isEmpty()) {
                 JLabel imageLabel = new JLabel(new ImageIcon(story.getImagePath()));
                 postPanel.add(imageLabel);
             }
-
             friendsStoriesPanel.add(postPanel);
         }
-
         friendsStoriesPanel.revalidate();
         friendsStoriesPanel.repaint();
 
@@ -444,6 +439,7 @@ public class Newsfeed extends javax.swing.JFrame {
 
                 loadFriendsPosts();
                 loadFriendsStories();
+                 notifications = notifManager.getNotificationsForUser(user.getUserId());
                 return null;
             }
 
@@ -461,6 +457,7 @@ public class Newsfeed extends javax.swing.JFrame {
             notificationScrollPane.setVisible(false);
         } else {
             notificationScrollPane.setVisible(true);
+           // populateNotificationPanel();
         }
         
     }//GEN-LAST:event_btnNotificationsActionPerformed
