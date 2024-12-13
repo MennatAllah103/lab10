@@ -166,6 +166,7 @@ public class GroupManagement {
       Group group = groupDB.getGroupByname(groupName);
       ArrayList<String> PostsIds=group.getPostIDs();
       PostsIds.add(postId);
+ groupDB.saveGroupToFile(groups);
      ArrayList<Post> posts = postDB.getPosts();
      Post post = postDB.GetPostById(postId);
         postDB.addPost(post);
@@ -176,6 +177,7 @@ public class GroupManagement {
       Group group = groupDB.getGroupByname(groupName);
       ArrayList<String> PostsIds=group.getPostIDs();
       PostsIds.remove(postId);
+      groupDB.saveGroupToFile(groups);
      ArrayList<Post> posts = postDB.getPosts();
      Post post = postDB.GetPostById(postId);
         postDB.deletePost(post);
