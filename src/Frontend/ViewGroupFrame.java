@@ -55,14 +55,6 @@ public class ViewGroupFrame extends javax.swing.JFrame {
         loadGroupPhoto();
         loadPosts();
     }
-   /*  private void loadGroupPhoto()
-    {
-        
-            groupPhoto.setIcon(new ImageIcon(new ImageIcon(group.getGroupPhoto())
-                    .getImage().getScaledInstance(groupPhoto.getWidth(), groupPhoto.getHeight(), java.awt.Image.SCALE_SMOOTH)));
-        
-    }
-     */
     
     private void loadGroupPhoto() {
     // Add a ComponentListener to ensure the component is ready before using its dimensions

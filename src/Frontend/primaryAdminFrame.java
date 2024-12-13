@@ -54,7 +54,7 @@ public class primaryAdminFrame extends javax.swing.JFrame {
                     .getImage().getScaledInstance(groupPhoto.getWidth(), groupPhoto.getHeight(), java.awt.Image.SCALE_SMOOTH)));
         
     }
-      private void loadPosts() {
+        private void loadPosts() {
     jPanel1.removeAll(); 
 
   
