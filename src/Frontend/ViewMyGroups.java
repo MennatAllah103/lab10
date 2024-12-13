@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import Backend.GroupDataBase;
 import Backend.Group;
 import Backend.GroupManagement;
+import Backend.GroupProxy;
 import Backend.Request;
 import Backend.UserDataBase;
 import Backend.User;
@@ -149,42 +150,34 @@ public class ViewMyGroups extends javax.swing.JFrame {
     private void viewGroupbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewGroupbtnActionPerformed
         // TODO add your handling code here:
            int index= list.getSelectedIndex();
-     if(index>-1)
-     {
-       String groupName=list.getSelectedValue();
-       Group group = GDB.getGroupByname(groupName);
-      GDB.setCurrentGroup(group);
-     
-    if(group.getPrimaryAdminId().equals(user.getUserId()))
-    {
-        primaryAdminFrame primaryFrame = new primaryAdminFrame(this,group);
-        setVisible(false);
-        primaryFrame.setVisible(true);
-    
-     }
-    else if(group.getAdminsIDs().contains(user.getUserId()))
-    {
-        AdminFrame  adminFrame = new AdminFrame();
-         setVisible(false);
-        adminFrame.setVisible(true);
+  
+     if (index > -1) {
+        String groupName = list.getSelectedValue();
+        Group group = GDB.getGroupByname(groupName);
+
+        GroupProxy groupProxy = new GroupProxy(group, user);
         
-    }
-     else if(group.getMembersIDs().contains(user.getUserId()))
-    {
-          MemberFrame  memberFrame = new MemberFrame(this,group);
-         setVisible(false);
-        memberFrame.setVisible(true);
-        
-        
-    }
-    
-    
+        if (groupProxy.isPrimaryAdmin()) {
+            primaryAdminFrame primaryFrame = new primaryAdminFrame(this, group);
+            setVisible(false);
+            primaryFrame.setVisible(true);
+        } else if (groupProxy.isAdmin()) {
+           // AdminFrame adminFrame = new AdminFrame(this, group);
+           // setVisible(false);
+           // adminFrame.setVisible(true);
+        } else if (groupProxy.isMember()) {
+            MemberFrame memberFrame = new MemberFrame(this,group);
+            setVisible(false);
+            memberFrame.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "You do not have permission to view this group.", "Access Denied", JOptionPane.WARNING_MESSAGE);
+        }
+    } 
+     else {
+        JOptionPane.showMessageDialog(this, "You should select a group to view.", "Message", JOptionPane.PLAIN_MESSAGE);
+
      }
-     else
-     {
-          JOptionPane.showMessageDialog(this, "You Should Select a Group to view", "  Message ", JOptionPane.PLAIN_MESSAGE);
-     }
-       
+
     }//GEN-LAST:event_viewGroupbtnActionPerformed
 
     /**
