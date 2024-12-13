@@ -35,7 +35,6 @@ import javax.swing.SwingWorker;
  * @author daree
  */
 public class Newsfeed extends javax.swing.JFrame {
-
     ViewProfile profile;
     UserDataBase database = UserDataBase.getDatabase();
     PostDataBase postDatabase = PostDataBase.getInstance();
@@ -408,7 +407,6 @@ public class Newsfeed extends javax.swing.JFrame {
         SearchFrame searchframe = new SearchFrame(this, user, manage);
         setVisible(false);
         searchframe.setVisible(true);
-
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void btnVisitProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVisitProfileActionPerformed
@@ -432,7 +430,6 @@ public class Newsfeed extends javax.swing.JFrame {
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
 
         progressBar.setVisible(true);
-
         SwingWorker<Void, Void> worker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() throws Exception {
@@ -442,7 +439,6 @@ public class Newsfeed extends javax.swing.JFrame {
                  notifications = notifManager.getNotificationsForUser(user.getUserId());
                 return null;
             }
-
             @Override
             protected void done() {
 
