@@ -140,50 +140,30 @@ public class GroupManagement {
         
     
          
-     /* public void addMember(User member, String groupName) {
-        User currentuser = UserDataBase.getCurrentUser();
+    public void addMember(String UserId, String groupName) {
         Group group = groupDB.getGroupByname(groupName);
-        // (group == null) {
-        //System.out.println("Group not found");
-        // return false;
-        //}
-        ArrayList<User> members = group.getMembers();
-        // if(members.contains(member))   
-        //return false;
-        //else{
-        members.add(member);
+        ArrayList<String> membersIDs = group.getMembersIDs();
+        membersIDs.add(UserId);
         groupDB.saveGroupToFile(groups);
-        //return true;
-        //}
+        
     }
-    */
+    
+
+    public void removeMember(String UserId, String groupName) {
+      
+        Group group = groupDB.getGroupByname(groupName);
+  
+        ArrayList<String> membersIDs = group.getMembersIDs();
+      
+    if(membersIDs.contains(UserId))
+    {
+        membersIDs.remove(UserId);
+        groupDB.saveGroupToFile(groups);
+    }
+    
+    }
+    
 /*
-    public void removeMember(User member, String groupName) {
-        User currentuser = UserDataBase.getCurrentUser();
-        Group group = groupDB.getGroupByname(groupName);
-        /*if (group == null) {
-     System.out.println("Group not found");
-     return false;
-     }
-        ArrayList<User> members = group.getMembers();
-        ArrayList<User> admins = group.getAdmins();
-          if(!members.contains(member))
-       return false;
-    else if(!admins.contains(currentuser))
-    {  System.out.println("current user not admin , can not edit memebers");
-       return false;}
-else if(member.getUserId().equals(group.getPrimaryAdminId())){
-         System.out.println("can't remove primary admin");
-         return false;
-   
-}
-       else 
-        members.remove(member);
-        groupDB.saveGroupToFile(groups);
-        // return true;
-
-    }
-
     public void acceptrequest(GroupRequests request) {
         String memberId = request.getMemberId();
         String groupId = request.getGroupId();

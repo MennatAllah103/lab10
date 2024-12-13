@@ -5,8 +5,16 @@
 package Frontend;
 
 import Backend.*;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.util.ArrayList;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
  *
@@ -25,8 +33,8 @@ public class primaryAdminFrame extends javax.swing.JFrame {
         
         String groupName = group.getGroupName();
         Font font1 = new Font("Arial", Font.BOLD, 20); 
-        groupNameLabel.setFont(font1);
-        groupNameLabel.setText(groupName);
+        groupnameLabel.setFont(font1);
+        groupnameLabel.setText(groupName);
         
         String description=group.getDescription();
         Font font2 = new Font("Arial", Font.BOLD, 14); 
@@ -37,7 +45,7 @@ public class primaryAdminFrame extends javax.swing.JFrame {
         
     }
     
-    public void loadGroupPhoto()
+    private void loadGroupPhoto()
     {
         
             groupPhoto.setIcon(new ImageIcon(new ImageIcon(group.getGroupPhoto())
@@ -45,6 +53,42 @@ public class primaryAdminFrame extends javax.swing.JFrame {
         
     }
 
+    
+   /*  private void loadPosts() {
+        jPanel1.removeAll();
+
+        jPanel1.setLayout(new BoxLayout(jPanel1, BoxLayout.Y_AXIS));
+        PostDataBase postDatabase = PostDataBase.getInstance();
+        ArrayList<Post> userPosts = postDatabase.ViewUserPosts(u.getUserId());
+        jScrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        for (Post post : userPosts) {
+            JPanel postPanel = new JPanel();
+            postPanel.setLayout(new BoxLayout(postPanel, BoxLayout.Y_AXIS));
+            postPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+
+            JLabel contentLabel = new JLabel(post.getContent());
+            postPanel.add(contentLabel);
+
+            if (post.getImagePath() != null && !post.getImagePath().isEmpty()) {
+                JLabel imageLabel = new JLabel(new ImageIcon(post.getImagePath()));
+                    postPanel.add(imageLabel);
+            }
+
+            postsPanel.add(postPanel);
+           
+        }
+        
+        jScrollPane1.setViewportView(postsPanel);
+        postsPanel.setPreferredSize(new Dimension(400, 800));
+
+        postsPanel.revalidate();
+        postsPanel.repaint();
+        
+
+    }
+    */
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -67,6 +111,7 @@ public class primaryAdminFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        groupnameLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -152,8 +197,9 @@ public class primaryAdminFrame extends javax.swing.JFrame {
                             .addComponent(descriptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(groupPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(groupnameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -183,7 +229,8 @@ public class primaryAdminFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(groupNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(groupNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(groupnameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -198,7 +245,7 @@ public class primaryAdminFrame extends javax.swing.JFrame {
                     .addComponent(backbtn)
                     .addComponent(jButton2)
                     .addComponent(jButton1))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         pack();
@@ -214,6 +261,7 @@ public class primaryAdminFrame extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void backbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backbtnActionPerformed
@@ -238,6 +286,7 @@ public class primaryAdminFrame extends javax.swing.JFrame {
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JLabel groupNameLabel;
     private javax.swing.JLabel groupPhoto;
+    private javax.swing.JLabel groupnameLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
