@@ -18,9 +18,6 @@ import javax.swing.JOptionPane;
  */
 public class AddPostGroup extends javax.swing.JFrame {
 
-    /**
-     * Creates new form AddPostGroup
-     */
     private String selectedImagePath;
     MemberFrame m;
     Group group;
@@ -48,7 +45,7 @@ public class AddPostGroup extends javax.swing.JFrame {
         ShareBtn = new javax.swing.JButton();
         CancelBtn = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -165,7 +162,7 @@ public class AddPostGroup extends javax.swing.JFrame {
         FactoryContent F = new FactoryContent();
         UserDataBase currentUserDb = UserDataBase.getDatabase();
         User currentUser = currentUserDb.getCurrentUser();
-        GroupDataBase currentGroupDB =GroupDataBase.getDatabase();
+        GroupDataBase currentGroupDB =GroupDataBase.getInstance();
         Group currentGroup = currentGroupDB.getCurrentGroup();
         if (currentUser == null) {
             JOptionPane.showMessageDialog(this, "No user is currently logged in.", "Message", JOptionPane.ERROR_MESSAGE);
@@ -191,50 +188,17 @@ public class AddPostGroup extends javax.swing.JFrame {
 
     private void CancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelBtnActionPerformed
 
-        this.dispose();
         m.setVisible(true);
+          setVisible(false);
     }//GEN-LAST:event_CancelBtnActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         // TODO add your handling code here:
         m.setVisible(true);
+        setVisible(false);
     }//GEN-LAST:event_formWindowClosed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddPostGroup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddPostGroup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddPostGroup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddPostGroup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AddPostGroup().setVisible(true);
-            }
-        });
-    }
-
+  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CancelBtn;
     private javax.swing.JTextArea EnteredText;
