@@ -76,7 +76,10 @@
         "name": "group1",
         "description": "xxx",
         "photo": "defaultgroupphoto.png",
-        "posts": ["5eb9761c-6022-45ae-b0a5-9de7722caa51"],
+        "posts": [
+            "5eb9761c-6022-45ae-b0a5-9de7722caa51",
+            "d90a37d4-66cb-4adc-80d2-b777aa69e02e"
+        ],
         "admins": ["47d5973d-d4c6-4605-bcd5-694eb2339b6e"]
     },
     {
