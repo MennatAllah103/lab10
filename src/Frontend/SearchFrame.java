@@ -88,11 +88,15 @@ public class SearchFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
                     .addComponent(searchBar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(backbutton)
-                    .addComponent(btnSearch))
-                .addGap(20, 20, 20))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 15, Short.MAX_VALUE)
+                        .addComponent(backbutton)
+                        .addGap(20, 20, 20))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,15 +189,15 @@ public class SearchFrame extends javax.swing.JFrame {
                                 if (groupProxy.isPrimaryAdmin()) {
                                   ViewGroupFrame viewGroup = new ViewGroupFrame(group);
                                     setVisible(false);
-                                  //  primaryFrame.setVisible(true);
+                                 viewGroup.setVisible(true);
                                 } else if (groupProxy.isAdmin()) {
-                                   // AdminFrame adminFrame = new AdminFrame (currentFrame,group);
+                                   ViewGroupFrame viewGroup = new ViewGroupFrame(group);
                                     setVisible(false);
-                                   // adminFrame.setVisible(true);
+                                 viewGroup.setVisible(true);;
                                 } else if (groupProxy.isMember()) {
-                                   // MemberFrame memberFrame = new MemberFrame(currentFrame, group);
+                              ViewGroupFrame viewGroup = new ViewGroupFrame(group);
                                     setVisible(false);
-                                  //  memberFrame.setVisible(true);
+                                 viewGroup.setVisible(true);
                                 } 
                                  else {
             // Show a dialog to ask if the user wants to join the group
