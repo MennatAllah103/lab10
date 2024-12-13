@@ -71,7 +71,6 @@ public class Newsfeed extends javax.swing.JFrame {
     }
 
     public void populateNotificationPanel() {
-        notificationScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         notificationPanel1.removeAll();
 
         ArrayList<Notification> notifications = notifManager.getNotificationsForUser(user.getUserId());
@@ -81,7 +80,8 @@ public class Newsfeed extends javax.swing.JFrame {
             JPanel notificationItemPanel = new JPanel();
             notificationItemPanel.setLayout(new BoxLayout(notificationItemPanel, BoxLayout.X_AXIS));
 
-            notificationItemPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
+           notificationItemPanel.setPreferredSize(new Dimension(33, 78));
+           notificationItemPanel.setOpaque(false);
 
             JLabel profilePicLabel = new JLabel();
 
@@ -116,6 +116,7 @@ public class Newsfeed extends javax.swing.JFrame {
                     notificationItemPanel.add(profilePicLabel);
 
                     JPanel messagePanel = new JPanel();
+                    messagePanel.setOpaque(false);
                     messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.Y_AXIS));
                     messagePanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
 
@@ -128,6 +129,7 @@ public class Newsfeed extends javax.swing.JFrame {
                     messagePanel.add(timestampLabel);
 
                     JPanel buttonPanel = new JPanel();
+                    buttonPanel.setOpaque(false);
                     JButton acceptButton = new JButton("Accept");
                     JButton declineButton = new JButton("Decline");
 
@@ -165,29 +167,22 @@ public class Newsfeed extends javax.swing.JFrame {
         notificationPanel1.repaint();
     }
 
-    /**
-     * Converts a rectangular image to a circular image.
-     *
-     * @param source The original rectangular BufferedImage.
-     * @return A circular BufferedImage.
-     */
     private BufferedImage makeCircularImage(BufferedImage source) {
         int diameter = Math.min(source.getWidth(), source.getHeight());
 
-        // Resize to a desired diameter (e.g., 50 pixels)
-        int targetDiameter = 50; // Adjust this size as needed
+      
+        int targetDiameter = 50; 
         BufferedImage resizedImage = new BufferedImage(targetDiameter, targetDiameter, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2dResize = resizedImage.createGraphics();
         g2dResize.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         g2dResize.drawImage(source, 0, 0, targetDiameter, targetDiameter, null);
         g2dResize.dispose();
 
-        // Create circular image
+   
         BufferedImage circleImage = new BufferedImage(targetDiameter, targetDiameter, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = circleImage.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Draw a circular clip
         g2.setClip(new Ellipse2D.Double(0, 0, targetDiameter, targetDiameter));
         g2.drawImage(resizedImage, 0, 0, null);
         g2.dispose();
@@ -401,6 +396,10 @@ public class Newsfeed extends javax.swing.JFrame {
             }
         });
 
+        notificationScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        notificationPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        notificationPanel1.setForeground(new java.awt.Color(255, 255, 255));
         notificationPanel1.setLayout(new javax.swing.BoxLayout(notificationPanel1, javax.swing.BoxLayout.LINE_AXIS));
         notificationScrollPane.setViewportView(notificationPanel1);
 
@@ -446,7 +445,7 @@ public class Newsfeed extends javax.swing.JFrame {
                                 .addContainerGap(269, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(notificationScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(notificationScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(26, 26, 26))))))
         );
         layout.setVerticalGroup(
