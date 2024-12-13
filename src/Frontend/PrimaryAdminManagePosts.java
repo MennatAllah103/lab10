@@ -23,17 +23,19 @@ public class PrimaryAdminManagePosts extends javax.swing.JFrame {
     /**
      * Creates new form PrimaryAdminManagePosts
      */
-      ViewMyGroups viewG;
+ 
     Group group;
+    primaryAdminFrame frame;
     UserDataBase userDB = UserDataBase.getDatabase();
     GroupManagement groupmanage = new GroupManagement();
     User user = userDB.getCurrentUser();
     PostDataBase postDB=PostDataBase.getInstance();
-    public PrimaryAdminManagePosts(Group group,AdminFrame frame) {
+    public PrimaryAdminManagePosts(primaryAdminFrame frame,Group group) {
         initComponents();
-          this.group = group;
+         this.group = group;
+         this.frame=frame;
          loadPosts();
-         viewG=frame.viewG;
+        
     }
        public void loadPosts() {
    
@@ -82,7 +84,12 @@ public class PrimaryAdminManagePosts extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jScrollPane1.setViewportView(list);
 
@@ -198,7 +205,7 @@ public class PrimaryAdminManagePosts extends javax.swing.JFrame {
         // Get the content of the selected post from the list
         String selectedContent = list.getSelectedValue();
         
-        // Find the corresponding post ID for the selected content
+    
         Post postToEdit = null;
         for (String postID : group.getPostIDs()) {
             Post post = postDB.GetPostById(postID);
@@ -211,8 +218,9 @@ public class PrimaryAdminManagePosts extends javax.swing.JFrame {
         
         if (postToEdit != null) {
           
-            AdminEditPost edit = new AdminEditPost(this, postToEdit);
+           PrimaryEditpost edit = new PrimaryEditPost(this,postToEdit);
             edit.setVisible(true);
+            setVisible(false);
            
         } else {
             JOptionPane.showMessageDialog(this, "Post not found.");
@@ -224,7 +232,15 @@ public class PrimaryAdminManagePosts extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        setVisible(false);
+        frame.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+         // TODO add your handling code here:
+        setVisible(false);
+        frame.setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
 
  
     // Variables declaration - do not modify//GEN-BEGIN:variables

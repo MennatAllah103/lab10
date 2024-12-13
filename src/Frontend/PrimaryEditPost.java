@@ -15,9 +15,9 @@ public class PrimaryEditPost extends javax.swing.JFrame {
     /**
      * Creates new form PrimaryEditPost
      */
-     private AdminManagePosts manage;
+   private PrimaryAdminManagePosts frame;
    private Post post;
-    public PrimaryEditPost() {
+    public PrimaryEditPost(PrimaryAdminManagePosts frame,Post post) {
         initComponents();
     }
 
