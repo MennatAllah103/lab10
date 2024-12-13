@@ -47,11 +47,17 @@ public class ViewMyGroups extends javax.swing.JFrame {
          
                 String groupName = group.getGroupName();
                 model.addElement(groupName);
+   
+     }
      
+      if (model.isEmpty()) {
+        list.setModel(new DefaultListModel<>());
+        jScrollPane1.setViewportView(list);
+    } else {
+ 
         list.setModel(model);
         jScrollPane1.setViewportView(list);
-
-     }
+    }
 
 }
 

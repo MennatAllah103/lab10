@@ -64,7 +64,7 @@ public class primaryAdminFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        manageAdmins = new javax.swing.JButton();
         manageMembers = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         deletegroup = new javax.swing.JButton();
@@ -79,14 +79,19 @@ public class primaryAdminFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         groupnameLabel = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
             }
         });
 
-        jButton1.setText("Manage Admins");
+        manageAdmins.setText("Manage Admins");
+        manageAdmins.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                manageAdminsActionPerformed(evt);
+            }
+        });
 
         manageMembers.setText("Manage Members");
         manageMembers.addActionListener(new java.awt.event.ActionListener() {
@@ -154,7 +159,7 @@ public class primaryAdminFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(manageMembers)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(manageAdmins, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 323, Short.MAX_VALUE)
                         .addComponent(backbtn)
                         .addGap(21, 21, 21))
@@ -185,14 +190,13 @@ public class primaryAdminFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(27, 27, 27)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                        .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton3)
-                            .addComponent(deletegroup))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                            .addComponent(deletegroup))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(groupNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -210,7 +214,7 @@ public class primaryAdminFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(backbtn)
                     .addComponent(manageMembers)
-                    .addComponent(jButton1))
+                    .addComponent(manageAdmins))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
 
@@ -252,6 +256,14 @@ public class primaryAdminFrame extends javax.swing.JFrame {
         viewG.setVisible(true);
     }//GEN-LAST:event_formWindowClosed
 
+    private void manageAdminsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageAdminsActionPerformed
+        // TODO add your handling code here:
+        primaryAdminManageAdmins primaryManageAdmins=new primaryAdminManageAdmins(this);
+        setVisible(false);
+        primaryManageAdmins.setVisible(true);
+        
+    }//GEN-LAST:event_manageAdminsActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -264,13 +276,13 @@ public class primaryAdminFrame extends javax.swing.JFrame {
     private javax.swing.JLabel groupNameLabel;
     private javax.swing.JLabel groupPhoto;
     private javax.swing.JLabel groupnameLabel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton manageAdmins;
     private javax.swing.JButton manageMembers;
     // End of variables declaration//GEN-END:variables
 }

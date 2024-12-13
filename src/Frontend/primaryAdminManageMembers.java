@@ -203,7 +203,7 @@ public class primaryAdminManageMembers extends javax.swing.JFrame {
    
        else
      {
-          JOptionPane.showMessageDialog(this, "You Should Select a Group to view", "  Message ", JOptionPane.PLAIN_MESSAGE);
+          JOptionPane.showMessageDialog(this, "You Should Select a Member to promote", "  Message ", JOptionPane.PLAIN_MESSAGE);
      }
        
         
