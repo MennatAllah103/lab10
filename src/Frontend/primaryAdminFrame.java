@@ -281,7 +281,7 @@ public class primaryAdminFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         PrimaryAdminManagePosts managePosts = new PrimaryAdminManagePosts(this,group);
         setVisible(false);
-        this.setVisible(true);
+        managePosts.setVisible(true);
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
