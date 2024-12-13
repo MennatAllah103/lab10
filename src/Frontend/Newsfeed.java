@@ -43,7 +43,7 @@ public class Newsfeed extends javax.swing.JFrame {
     UserLog log = new UserLog(UserDataBase.getDatabase());
     Home home = Home.getInstance();
     Management manage = new Management();
-    NotificationManager notifManager = NotificationManager.getInstance();
+    NotificationManager notifManager = new NotificationManager();
 
     public Newsfeed() {
         initComponents();
@@ -406,7 +406,6 @@ public class Newsfeed extends javax.swing.JFrame {
             setVisible(true);
 
         }
-
     }//GEN-LAST:event_formWindowClosing
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
