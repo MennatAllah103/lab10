@@ -18,9 +18,8 @@ import org.json.JSONObject;
  * @author hp
  */
 public class NotificationDatabase {
-    private static NotificationDatabase instance; 
-
     
+    private static NotificationDatabase instance; 
     private final ArrayList<Notification> notifications = new ArrayList<>();
     private final String filePath = "notifications.json"; 
 
@@ -42,7 +41,13 @@ public class NotificationDatabase {
         notifications.add(notification);
         saveNotificationsToFile(); 
     }
-
+    
+    public void deleteNotification(Notification notification){
+        boolean removed = notifications.remove(notification);
+        if (removed) {
+            saveNotificationsToFile();
+        } 
+    }
     
     public ArrayList<Notification> getNotifications() {
         return new ArrayList<>(notifications); // return a copy for safety
@@ -56,7 +61,6 @@ public class NotificationDatabase {
             j.put("userId", n.getUserId());
             j.put("type", n.getType());
             j.put("message", n.getMessage());
-            j.put("status", n.getStatus());
             j.put("timeStamp", n.getTimeStamp().toString()); // convert LocalDateTime to String
 
             notificationsArray.put(j);
@@ -82,11 +86,9 @@ public class NotificationDatabase {
                 String userId = notificationJson.getString("userId");
                 String type = notificationJson.getString("type");
                 String message = notificationJson.getString("message");
-                String status = notificationJson.getString("status");
                 LocalDateTime timeStamp = LocalDateTime.parse(notificationJson.getString("timeStamp"));
 
                 Notification notification = new Notification.Builder(notificationId, userId, type, message)
-                        .status(status)
                         .timeStamp(timeStamp)
                         .build();
 

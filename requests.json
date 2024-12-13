@@ -1,1 +1,12 @@
-[]
+[
+    {
+        "senderID": "1ae2b8ae-22c4-4d94-9f39-6651242a1140",
+        "receiverID": "c6c8668a-84bc-4196-870d-2e988d9e0d45",
+        "requestStatus": "pending"
+    },
+    {
+        "senderID": "eb899a2e-9cd1-45da-8166-49d5a7d2b150",
+        "receiverID": "c6c8668a-84bc-4196-870d-2e988d9e0d45",
+        "requestStatus": "pending"
+    }
+]

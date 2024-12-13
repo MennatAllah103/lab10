@@ -4,6 +4,19 @@
  */
 package Frontend;
 
+import Backend.Management;
+import Backend.NotificationManager;
+import Backend.User;
+import Backend.UserDataBase;
+import java.util.ArrayList;
+import Backend.Notification;
+import Backend.Request;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.format.DateTimeFormatter;
+import javax.swing.*;
+
 /**
  *
  * @author hp
@@ -13,9 +26,77 @@ public class notificationPanel extends javax.swing.JPanel {
     /**
      * Creates new form notificationPanel
      */
+//    NotificationManager notifManager = new NotificationManager();
+//    User u = UserDataBase.getCurrentUser();
+//    Management friendManager = new Management();
+
     public notificationPanel() {
         initComponents();
     }
+
+//    public void populateNotificationPanel() {
+//        removeAll();
+//        ArrayList<Notification> notifications = notifManager.getNotificationsForUser(u.getUserId());
+//
+//        for (Notification notification : notifications) {
+//            JPanel notificationItemPanel = new JPanel();
+//            notificationItemPanel.setLayout(new BoxLayout(notificationItemPanel, BoxLayout.Y_AXIS));
+//
+//            JLabel notificationLabel = new JLabel(notification.getMessage());
+//
+//            if (notification.getStatus().equals("Read")) { //changes read notifications' color to gray
+//                notificationLabel.setForeground(Color.GRAY);
+//            }
+//            notificationItemPanel.add(notificationLabel);
+//           
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy"); 
+//            String formattedTimestamp = notification.getTimeStamp().format(formatter);
+//            JLabel timestampLabel = new JLabel("Received at: " + formattedTimestamp);  //time stamp
+//            notificationItemPanel.add(timestampLabel);
+//
+//            if (notification.getType().equalsIgnoreCase("Friend Request")) {
+//                ArrayList<Request> requests = friendManager.getUserReceivedRequests(u.getUserId());
+//                final Request[] currentRequest = new Request[1];
+//                for (Request request : requests) {
+//                    if (request.getReceiverID().equals(u.getUserId())) {
+//                        currentRequest[0] = request;
+//                        break;
+//                    }
+//                }
+//                if (currentRequest[0] != null) {
+//                    JPanel buttonPanel = new JPanel();
+//                    JButton acceptButton = new JButton("Accept");
+//                    JButton declineButton = new JButton("Decline");
+//
+//                    acceptButton.addActionListener(new ActionListener() {
+//                        @Override
+//                        public void actionPerformed(ActionEvent e) {
+//                            friendManager.acceptrequest(currentRequest[0]);
+//                            notifManager.markNotificationAsRead(notification.getNotificationId());
+//                            JOptionPane.showMessageDialog(null, "Friend Request Accepted.");
+//                        }
+//                    });
+//
+//                    declineButton.addActionListener(new ActionListener() {
+//                        @Override
+//                        public void actionPerformed(ActionEvent e) {
+//                            friendManager.declinerequest(currentRequest[0]);
+//                            notifManager.markNotificationAsRead(notification.getNotificationId());
+//                            JOptionPane.showMessageDialog(null, "Friend Request Declined.");
+//                        }
+//                    });
+//
+//                    buttonPanel.add(acceptButton);
+//                    buttonPanel.add(declineButton);
+//                    notificationItemPanel.add(buttonPanel);
+//
+//                }
+//               add(notificationItemPanel);
+//            }   
+//        }
+//         revalidate();
+//            repaint();
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -30,7 +111,7 @@ public class notificationPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 146, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
